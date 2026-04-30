@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../explore/presentation/screens/explore_screen.dart';
 import '../../home/presentation/screens/home_screen.dart';
+import '../../profile/presentation/screens/profile_screen.dart';
+import '../../activities/presentation/screens/activities_screen.dart';
+import '../../groups/presentation/screens/groups_screen.dart';
 import '../logic/navigation_provider.dart';
 
 class MainScaffold extends ConsumerWidget {
@@ -18,14 +21,14 @@ class MainScaffold extends ConsumerWidget {
         children: const [
           HomeScreen(),
           ExploreScreen(),
-          Center(child: Text('المجموعات Placeholder')),
-          Center(child: Text('الأنشطة Placeholder')),
-          Center(child: Text('ملفي Placeholder')),
+          GroupsScreen(),
+          ActivitiesScreen(),
+          ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        onTap: (index) => ref.read(navigationProvider.notifier).state = index,
+        onTap: (index) => ref.read(navigationProvider.notifier).setIndex(index),
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.textSecondary,
         type: BottomNavigationBarType.fixed,
