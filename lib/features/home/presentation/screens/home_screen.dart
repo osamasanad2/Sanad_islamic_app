@@ -9,18 +9,21 @@ import '../../../../core/common_widgets/islamic_icons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:ui';
 
-class HomeScreen extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../main/logic/navigation_provider.dart';
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentIndex = 0;
 
   void _openQuran(BuildContext context) {
-    context.push('/quran');
+    ref.read(navigationProvider.notifier).setIndex(1);
   }
 
   @override
