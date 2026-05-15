@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../data/models/surah_model.dart';
+import '../../data/providers/quran_provider.dart';
 
 // Theme presets for the Quran reader
 class _QuranTheme {
@@ -20,13 +23,13 @@ const _themes = [
   _QuranTheme(Color(0xFF1A1A2E), Color(0xFFD4AF37), Color(0xFFD4AF37), Color(0xFF3A3A5C), 'ليلي'),
 ];
 
-class QuranScreen extends StatefulWidget {
+class QuranScreen extends ConsumerStatefulWidget {
   const QuranScreen({super.key});
   @override
-  State<QuranScreen> createState() => _QuranScreenState();
+  ConsumerState<QuranScreen> createState() => _QuranScreenState();
 }
 
-class _QuranScreenState extends State<QuranScreen> {
+class _QuranScreenState extends ConsumerState<QuranScreen> {
   bool _isMushafMode = false;
   bool _isPlaying = false;
   bool _isMemorizationMode = false;
@@ -38,37 +41,46 @@ class _QuranScreenState extends State<QuranScreen> {
   _QuranTheme get _theme => _themes[_themeIndex];
   bool get _isDark => _themeIndex == 3;
 
-  final List<String> _ayahs = [
-    'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
-    'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
-    'الرَّحْمَٰنِ الرَّحِيمِ',
-    'مَالِكِ يَوْمِ الدِّينِ',
-    'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
-    'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
-    'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final quranDataAsync = ref.watch(quranDataProvider);
+    final selectedSurahIndex = ref.watch(selectedSurahIndexProvider);
+
     return Scaffold(
       backgroundColor: _theme.bg,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                _buildKhatmaProgress(),
-                _buildAppBar(),
-                _buildModeToggle(),
-                const SizedBox(height: 8),
-                Expanded(child: _isMushafMode ? _buildMushafMode() : _buildSeamlessMode()),
-                const SizedBox(height: 90),
-              ],
-            ),
-            Positioned(left: 0, right: 0, bottom: 0, child: _buildAudioPlayer()),
-          ],
+        child: quranDataAsync.when(
+          data: (surahs) {
+            final Surah currentSurah = surahs.firstWhere(
+              (s) => s.number == selectedSurahIndex,
+              orElse: () => surahs.first,
+            );
+            return _buildContent(currentSurah, surahs);
+          },
+          loading: () => Center(child: CircularProgressIndicator(color: _theme.accent)),
+          error: (err, stack) => Center(child: Text('خطأ في تحميل القرآن: $err')),
         ),
       ),
+    );
+  }
+
+  Widget _buildContent(Surah surah, List<Surah> allSurahs) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            _buildKhatmaProgress(),
+            _buildAppBar(surah, allSurahs),
+            _buildModeToggle(),
+            const SizedBox(height: 8),
+            Expanded(
+              child: _isMushafMode ? _buildMushafMode(surah) : _buildSeamlessMode(surah),
+            ),
+            const SizedBox(height: 90),
+          ],
+        ),
+        Positioned(left: 0, right: 0, bottom: 0, child: _buildAudioPlayer(surah)),
+      ],
     );
   }
 
@@ -80,7 +92,7 @@ class _QuranScreenState extends State<QuranScreen> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(2),
         child: LinearProgressIndicator(
-          value: 0.45,
+          value: 0.05,
           backgroundColor: _theme.accent.withValues(alpha: 0.15),
           valueColor: AlwaysStoppedAnimation<Color>(_theme.accent),
         ),
@@ -89,21 +101,38 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 
   // ─── AppBar ───
-  Widget _buildAppBar() {
+  Widget _buildAppBar(Surah surah, List<Surah> allSurahs) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: Row(
         children: [
           IconButton(icon: Icon(Icons.arrow_back, color: _theme.text), onPressed: () => context.pop()),
           const Spacer(),
-          Column(
-            children: [
-              Text('سُورَةُ الفَاتِحَة', style: TextStyle(color: _theme.text, fontWeight: FontWeight.bold, fontSize: 18)),
-              Text('مكية • ٧ آيات', style: TextStyle(color: _theme.text.withValues(alpha: 0.5), fontSize: 11)),
-            ],
+          GestureDetector(
+            onTap: () => _showSurahListBottomSheet(allSurahs),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: _theme.accent.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.keyboard_arrow_down, color: _theme.accent, size: 20),
+                  const SizedBox(width: 4),
+                  Column(
+                    children: [
+                      Text('سُورَةُ ${surah.name.ar}', style: TextStyle(color: _theme.text, fontWeight: FontWeight.bold, fontSize: 16)),
+                      Text('${surah.revelationPlace.ar} • ${surah.versesCount} آيات', style: TextStyle(color: _theme.text.withValues(alpha: 0.5), fontSize: 11)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
           const Spacer(),
-          IconButton(icon: Icon(Icons.search, color: _theme.text), onPressed: () {}),
+          IconButton(icon: Icon(Icons.search, color: _theme.text), onPressed: () => _showSurahListBottomSheet(allSurahs)),
           IconButton(icon: Icon(Icons.tune_rounded, color: _theme.text), onPressed: _showSettingsSheet),
         ],
       ),
@@ -150,7 +179,7 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 
   // ─── Surah Header (Tezhip) ───
-  Widget _buildSurahHeader() {
+  Widget _buildSurahHeader(Surah surah) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -171,10 +200,11 @@ class _QuranScreenState extends State<QuranScreen> {
           Positioned(right: 0, bottom: 0, child: Icon(Icons.star, size: 14, color: _theme.accent.withValues(alpha: 0.4))),
           Column(
             children: [
-              Text('﷽', style: TextStyle(fontSize: 32, color: _theme.accent, fontWeight: FontWeight.bold)),
+              if (surah.number != 1 && surah.number != 9) // Bismillah is not a verse in other Surahs except Fatihah, usually shown separately
+                Text('﷽', style: TextStyle(fontSize: 32, color: _theme.accent, fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text('سُورَةُ الفَاتِحَة', style: TextStyle(fontSize: 20, color: _theme.text, fontWeight: FontWeight.bold)),
-              Text('مكية ـ ٧ آيات', style: TextStyle(fontSize: 12, color: _theme.text.withValues(alpha: 0.5))),
+              Text('سُورَةُ ${surah.name.ar}', style: TextStyle(fontSize: 20, color: _theme.text, fontWeight: FontWeight.bold)),
+              Text('${surah.revelationPlace.ar} ـ ${surah.versesCount} آيات', style: TextStyle(fontSize: 12, color: _theme.text.withValues(alpha: 0.5))),
             ],
           ),
         ],
@@ -183,19 +213,21 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 
   // ─── Seamless Mode ───
-  Widget _buildSeamlessMode() {
+  Widget _buildSeamlessMode(Surah surah) {
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
       physics: const BouncingScrollPhysics(),
-      itemCount: _ayahs.length + 1,
+      itemCount: surah.verses.length + 1,
       itemBuilder: (context, index) {
-        if (index == 0) return _buildSurahHeader();
+        if (index == 0) return _buildSurahHeader(surah);
         final ayahIdx = index - 1;
+        final verse = surah.verses[ayahIdx];
         final isPlayingAyah = _isPlaying && _playingAyahIndex == ayahIdx;
         final isHidden = _isMemorizationMode && _hiddenAyahs.contains(ayahIdx);
 
+        // For Surah Al-Fatihah, Verse 1 is Bismillah. For others, it's just the verse text.
         return GestureDetector(
-          onLongPress: () => _showTafseerDialog(ayahIdx, _ayahs[ayahIdx]),
+          onLongPress: () => _showTafseerDialog(verse),
           onTap: isHidden ? () => setState(() => _hiddenAyahs.remove(ayahIdx)) : null,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -216,7 +248,7 @@ class _QuranScreenState extends State<QuranScreen> {
                   )
                 else
                   Text(
-                    _ayahs[ayahIdx],
+                    verse.text.ar,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: _fontSize, height: 1.8, color: _theme.text, fontWeight: FontWeight.bold),
                   ),
@@ -226,7 +258,7 @@ class _QuranScreenState extends State<QuranScreen> {
                   children: [
                     _buildAyahAction(Icons.bookmark_border, () {}),
                     const SizedBox(width: 20),
-                    _buildAyahNumber(ayahIdx + 1),
+                    _buildAyahNumber(verse.number),
                     const SizedBox(width: 20),
                     _buildAyahAction(Icons.share_outlined, () {}),
                     if (_isMemorizationMode && !isHidden) ...[
@@ -238,7 +270,7 @@ class _QuranScreenState extends State<QuranScreen> {
               ],
             ),
           ),
-        ).animate().fadeIn(delay: (100 * index).ms);
+        ).animate().fadeIn(delay: (20 * index > 200 ? 200 : 20 * index).ms);
       },
     );
   }
@@ -261,12 +293,12 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 
   // ─── Mushaf Mode ───
-  Widget _buildMushafMode() {
+  Widget _buildMushafMode(Surah surah) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          _buildSurahHeader(),
+          _buildSurahHeader(surah),
           // Ornamental Mushaf frame
           Container(
             margin: const EdgeInsets.fromLTRB(12, 0, 12, 40),
@@ -284,14 +316,14 @@ class _QuranScreenState extends State<QuranScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                   child: Column(
-                    children: List.generate(_ayahs.length, (i) {
+                    children: surah.verses.map((verse) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           children: [
                             Expanded(
                               child: Text(
-                                _ayahs[i],
+                                verse.text.ar,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: _fontSize, color: _theme.text, fontWeight: FontWeight.w600, height: 1.8),
                               ),
@@ -301,13 +333,13 @@ class _QuranScreenState extends State<QuranScreen> {
                               alignment: Alignment.center,
                               children: [
                                 Icon(Icons.brightness_5, color: _theme.accent, size: 36),
-                                Text('${i + 1}', style: TextStyle(fontSize: 10, color: _isDark ? Colors.black : Colors.black87, fontWeight: FontWeight.bold)),
+                                Text('${verse.number}', style: TextStyle(fontSize: 10, color: _isDark ? Colors.black : Colors.black87, fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ],
                         ),
                       );
-                    }),
+                    }).toList(),
                   ),
                 ),
               ],
@@ -319,7 +351,7 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 
   // ─── Audio Player ───
-  Widget _buildAudioPlayer() {
+  Widget _buildAudioPlayer(Surah surah) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -339,7 +371,7 @@ class _QuranScreenState extends State<QuranScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('مشاري العفاسي', style: TextStyle(fontWeight: FontWeight.bold, color: _isDark ? Colors.white : AppColors.textPrimary, fontSize: 13)),
-                    Text('الفاتحة', style: TextStyle(fontSize: 11, color: _isDark ? Colors.white54 : AppColors.textSecondary)),
+                    Text(surah.name.ar, style: TextStyle(fontSize: 11, color: _isDark ? Colors.white54 : AppColors.textSecondary)),
                   ],
                 ),
               ),
@@ -366,7 +398,7 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 
   // ─── Tafseer Bottom Sheet with Tabs ───
-  void _showTafseerDialog(int idx, String ayah) {
+  void _showTafseerDialog(Verse verse) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -386,7 +418,7 @@ class _QuranScreenState extends State<QuranScreen> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(color: _theme.accent.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(12)),
-                  child: Text(ayah, style: TextStyle(color: _theme.accent, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
+                  child: Text(verse.text.ar, style: TextStyle(color: _theme.accent, fontWeight: FontWeight.bold, fontSize: 16), textAlign: TextAlign.center),
                 ),
                 const SizedBox(height: 16),
                 TabBar(
@@ -394,13 +426,13 @@ class _QuranScreenState extends State<QuranScreen> {
                   unselectedLabelColor: Colors.grey,
                   indicatorColor: _theme.accent,
                   labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
-                  tabs: const [Tab(text: 'التفسير الميسر'), Tab(text: 'ابن كثير'), Tab(text: 'معاني الكلمات')],
+                  tabs: const [Tab(text: 'التفسير الميسر'), Tab(text: 'الترجمة الإنجليزية'), Tab(text: 'معاني الكلمات')],
                 ),
                 Expanded(
                   child: TabBarView(
                     children: [
                       _tafseerContent('التفسير الميسر: هنا يظهر تفسير مبسط للآية الكريمة ليعين المسلم على فهم كتاب الله وتدبر معانيه بسهولة دون تعقيد.'),
-                      _tafseerContent('تفسير ابن كثير: يعرض هنا التفسير المفصل مع ذكر الأسباب والمناسبات والأحاديث المرتبطة بالآية الكريمة.'),
+                      _tafseerContent('English Translation:\n\n${verse.text.en}'),
                       _tafseerContent('معاني الكلمات: يعرض هنا شرح مفردات الآية كلمة كلمة لتسهيل الفهم اللغوي.'),
                     ],
                   ),
@@ -510,6 +542,62 @@ class _QuranScreenState extends State<QuranScreen> {
           Text(t.name, style: TextStyle(fontSize: 11, color: isSelected ? _theme.accent : (_isDark ? Colors.white54 : AppColors.textSecondary), fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
         ],
       ),
+    );
+  }
+
+  // ─── Surah List Bottom Sheet ───
+  void _showSurahListBottomSheet(List<Surah> allSurahs) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.75,
+          padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
+          decoration: BoxDecoration(
+            color: _isDark ? const Color(0xFF252540) : AppColors.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
+            children: [
+              Center(child: Container(width: 40, height: 5, decoration: BoxDecoration(color: Colors.grey.shade400, borderRadius: BorderRadius.circular(10)))),
+              const SizedBox(height: 16),
+              Text('فهرس السور', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _isDark ? Colors.white : AppColors.textPrimary)),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: allSurahs.length,
+                  itemBuilder: (context, index) {
+                    final surah = allSurahs[index];
+                    final isSelected = ref.read(selectedSurahIndexProvider) == surah.number;
+                    return ListTile(
+                      onTap: () {
+                        ref.read(selectedSurahIndexProvider.notifier).setSurah(surah.number);
+                        Navigator.pop(context);
+                      },
+                      leading: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Icon(Icons.brightness_5, color: isSelected ? _theme.accent : _theme.accent.withValues(alpha: 0.3), size: 36),
+                          Text('${surah.number}', style: TextStyle(fontSize: 11, color: _isDark ? Colors.white : AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      title: Text(surah.name.ar, style: TextStyle(fontWeight: FontWeight.bold, color: isSelected ? _theme.accent : (_isDark ? Colors.white : AppColors.textPrimary))),
+                      subtitle: Text('${surah.revelationPlace.ar} • ${surah.versesCount} آيات', style: TextStyle(fontSize: 12, color: _isDark ? Colors.white54 : AppColors.textSecondary)),
+                      trailing: Text(surah.name.transliteration ?? '', style: TextStyle(color: _isDark ? Colors.white38 : AppColors.textSecondary, fontSize: 12)),
+                      selected: isSelected,
+                      selectedTileColor: _theme.accent.withValues(alpha: 0.05),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
