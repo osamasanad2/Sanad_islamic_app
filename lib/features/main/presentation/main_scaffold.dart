@@ -26,36 +26,35 @@ class MainScaffold extends ConsumerWidget {
           ProfileScreen(),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index) => ref.read(navigationProvider.notifier).setIndex(index),
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textSecondary,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: currentIndex,
+        onDestinationSelected: (index) => ref.read(navigationProvider.notifier).setIndex(index),
+        backgroundColor: AppColors.surface,
+        indicatorColor: AppColors.primary.withValues(alpha: 0.15),
+        destinations: const [
+          NavigationDestination(
             icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+            selectedIcon: Icon(Icons.home, color: AppColors.primaryDark),
             label: 'الرئيسة',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.explore_outlined),
-            activeIcon: Icon(Icons.explore),
+            selectedIcon: Icon(Icons.explore, color: AppColors.primaryDark),
             label: 'استكشف',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.group_outlined),
-            activeIcon: Icon(Icons.group),
+            selectedIcon: Icon(Icons.group, color: AppColors.primaryDark),
             label: 'المجموعات',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.local_activity_outlined),
-            activeIcon: Icon(Icons.local_activity),
+            selectedIcon: Icon(Icons.local_activity, color: AppColors.primaryDark),
             label: 'الأنشطة',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
+            selectedIcon: Icon(Icons.person, color: AppColors.primaryDark),
             label: 'ملفي',
           ),
         ],

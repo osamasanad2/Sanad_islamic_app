@@ -24,21 +24,29 @@ class PrayerTimeItem extends StatelessWidget {
     final timeColor = isActive ? Colors.white70 : AppColors.textSecondary;
 
     return Container(
-      width: 75.0, // Fixed width for horizontal scrolling
+      width: 78.0, // Slightly wider for better text fit
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       decoration: BoxDecoration(
         color: isActive ? AppColors.primary : AppColors.surface,
-        borderRadius: BorderRadius.circular(16.0),
+        borderRadius: BorderRadius.circular(20.0), // softer corners
         border: Border.all(
-          color: isActive ? AppColors.primary : AppColors.primary.withValues(alpha: 0.1),
+          color: isActive ? AppColors.primary : AppColors.primary.withValues(alpha: 0.08),
           width: 1.5,
         ),
         boxShadow: [
-          BoxShadow(
-            color: isActive ? AppColors.primary.withValues(alpha: 0.4) : Colors.black.withValues(alpha: 0.05),
-            offset: const Offset(0, 4),
-            blurRadius: 10.0,
-          ),
+          if (isActive) // Glow effect for active item
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.35),
+              offset: const Offset(0, 6),
+              blurRadius: 16.0,
+              spreadRadius: 2.0,
+            )
+          else
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              offset: const Offset(0, 4),
+              blurRadius: 8.0,
+            ),
         ],
       ),
       child: Column(
@@ -66,16 +74,17 @@ class PrayerTimeItem extends StatelessWidget {
             title,
             style: TextStyle(
               color: textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 14.0, // Smaller title
+              fontWeight: FontWeight.w800, // bolder
+              fontSize: 15.0, // slightly larger
             ),
           ),
-          const SizedBox(height: 2.0),
+          const SizedBox(height: 4.0),
           Text(
             time,
             style: TextStyle(
               color: timeColor,
-              fontSize: 12.0, // Smaller time
+              fontWeight: FontWeight.w600,
+              fontSize: 13.0, // slightly larger
             ),
           ),
         ],

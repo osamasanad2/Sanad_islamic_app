@@ -140,7 +140,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: _categories.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
         itemBuilder: (ctx, i) {
           final cat = _categories[i];
           final isSelected = i == _selectedCategory;

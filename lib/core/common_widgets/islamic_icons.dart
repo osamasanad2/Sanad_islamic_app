@@ -69,7 +69,6 @@ class _QuranPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final w = size.width;
     final h = size.height;
-    final fill = Paint()..color = color..style = PaintingStyle.fill;
     final stroke = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5..strokeCap = StrokeCap.round..strokeJoin = StrokeJoin.round;
     final goldPaint = Paint()..color = const Color(0xFFD4AF37)..style = PaintingStyle.fill;
 
@@ -130,7 +129,6 @@ class _AzkarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final c = Offset(size.width / 2, size.height / 2);
-    final fill = Paint()..color = color..style = PaintingStyle.fill;
     final stroke = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5;
     final goldPaint = Paint()..color = const Color(0xFFD4AF37)..style = PaintingStyle.fill;
 
@@ -141,7 +139,7 @@ class _AzkarPainter extends CustomPainter {
       final angle = (i * math.pi * 2 / 8) - math.pi / 8;
       final px = c.dx + outerR * math.cos(angle);
       final py = c.dy + outerR * math.sin(angle);
-      if (i == 0) outerPath.moveTo(px, py); else outerPath.lineTo(px, py);
+      if (i == 0) { outerPath.moveTo(px, py); } else { outerPath.lineTo(px, py); }
     }
     outerPath.close();
     canvas.drawPath(outerPath, Paint()..color = color.withValues(alpha: 0.1));
@@ -156,13 +154,13 @@ class _AzkarPainter extends CustomPainter {
       final r = i.isEven ? innerR : starR;
       final px = c.dx + r * math.cos(angle);
       final py = c.dy + r * math.sin(angle);
-      if (i == 0) starPath.moveTo(px, py); else starPath.lineTo(px, py);
+      if (i == 0) { starPath.moveTo(px, py); } else { starPath.lineTo(px, py); }
     }
     starPath.close();
     canvas.drawPath(starPath, goldPaint);
 
     // Center sun circle
-    canvas.drawCircle(c, size.width * 0.1, fill);
+    canvas.drawCircle(c, size.width * 0.1, Paint()..color = color..style = PaintingStyle.fill);
 
     // Sun rays (tiny lines poking out)
     final rayPaint = Paint()..color = color..strokeWidth = 1.2..strokeCap = StrokeCap.round;

@@ -6,10 +6,18 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/common_widgets/prayer_time_item.dart';
 import '../../../../core/common_widgets/quick_action_card.dart';
 import '../../../../core/common_widgets/islamic_icons.dart';
-import 'dart:math' as math;
+import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:ui';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
 
   void _openQuran(BuildContext context) {
     context.push('/quran');
@@ -124,134 +132,194 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  LinearGradient _getPrayerBackgroundGradient() {
-    // Dynamic background based on active prayer (Mocked to Asr/Sunset)
-    return const LinearGradient(
-      colors: [Color(0xFFFFB74D), Color(0xFFF57C00)], // Warm Sunset Orange
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
+
+  Widget _buildHeaderCarousel() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    return Column(
+      children: [
+        SizedBox(
+          height: 230.0,
+          child: CarouselSlider.builder(
+            itemCount: 5,
+            itemBuilder: (context, index, realIndex) {
+              return _buildCarouselItem(index, isDarkMode);
+            },
+            options: CarouselOptions(
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 8),
+              enlargeCenterPage: true,
+              viewportFraction: 0.92,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 12.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(5, (index) {
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              width: _currentIndex == index ? 24.0 : 8.0,
+              height: 8.0,
+              decoration: BoxDecoration(
+                color: _currentIndex == index 
+                    ? AppColors.primary 
+                    : AppColors.primary.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+            );
+          }),
+        ),
+      ],
     );
   }
 
-  Widget _buildHeaderCarousel() {
-    return SizedBox(
-      height: 230.0,
-      child: PageView(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24.0),
-              gradient: _getPrayerBackgroundGradient(),
-              border: Border.all(color: AppColors.gold.withValues(alpha: 0.5), width: 2.0),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFF57C00).withValues(alpha: 0.3),
-                  blurRadius: 15.0,
-                  offset: const Offset(0, 8),
-                ),
-                BoxShadow(
-                  color: AppColors.gold.withValues(alpha: 0.15),
-                  blurRadius: 20.0,
-                  spreadRadius: 2,
-                ),
-              ],
+  Widget _buildCarouselItem(int index, bool isDarkMode) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32.0), // Softer corners
+        border: Border.all(color: Colors.white.withValues(alpha: 0.15), width: 1.0),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
+            blurRadius: 20.0,
+            spreadRadius: -2.0,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(32.0),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Layer 1: Background Image
+            Image.asset(
+              'assets/images/${index + 1}.png',
+              fit: BoxFit.cover,
             ),
-            child: Stack(
-              children: [
-                // Mashrabiya geometric overlay
-                Positioned.fill(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24.0),
-                    child: CustomPaint(painter: _MashrabiyaPainter()),
-                  ),
+            
+            // Layer 2: Glassmorphism Blur (very subtle)
+            if (isDarkMode)
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+                child: Container(color: Colors.black.withValues(alpha: 0.3)),
+              )
+            else
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+                child: Container(color: Colors.black.withValues(alpha: 0.1)),
+              ),
+            
+            // Layer 3: Theme-Aware Gradient Scrim (Smoother transition)
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+                    Theme.of(context).colorScheme.primary.withValues(alpha: 0.85),
+                  ],
+                  stops: const [0.4, 0.7, 1.0],
                 ),
-                // Mosque Background Watermark (deeper)
-                Positioned(
-                  right: -20,
-                  bottom: -20,
-                  child: Icon(
-                    Icons.mosque,
-                    size: 180,
-                    color: Colors.white.withValues(alpha: 0.12),
-                  ),
-                ),
-                Positioned(
-                  left: 24.0,
-                  right: 24.0,
-                  bottom: 24.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text(
-                              'صلاة العصر',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8.0),
-                            const Text(
-                              'باقي 1 ساعة و 20 دقيقة',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 12.0),
-                            // Glowing Gold Progress Bar
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.gold.withValues(alpha: 0.6),
-                                    blurRadius: 8.0,
-                                    spreadRadius: 1,
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(4.0),
-                                child: LinearProgressIndicator(
-                                  value: 0.4,
-                                  minHeight: 5.0,
-                                  backgroundColor: Colors.white.withValues(alpha: 0.2),
-                                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.gold),
-                                ),
-                              ),
-                            ),
-                          ],
+              ),
+            ),
+
+            // Layer 4: Content
+            Positioned(
+              left: 24.0,
+              right: 24.0,
+              bottom: 24.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'صلاة العصر',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.5,
+                            shadows: [
+                              Shadow(color: Colors.black54, blurRadius: 8, offset: Offset(0, 3))
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 24.0),
-                      Container(
+                        const SizedBox(height: 6.0),
+                        const Text(
+                          'باقي 1 ساعة و 20 دقيقة',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w600,
+                            shadows: [
+                              Shadow(color: Colors.black45, blurRadius: 4, offset: Offset(0, 2))
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16.0),
+                        // Glowing Smooth Progress Bar
+                        Container(
+                          height: 6.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6.0),
+                            boxShadow: [
+                              BoxShadow(color: AppColors.gold.withValues(alpha: 0.5), blurRadius: 10.0, spreadRadius: 0.5),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6.0),
+                            child: LinearProgressIndicator(
+                              value: 0.4,
+                              backgroundColor: Colors.white.withValues(alpha: 0.25),
+                              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.gold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 24.0),
+                  // Play Button with Glass effect
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(40.0),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+                      child: Container(
                         padding: const EdgeInsets.all(12.0),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.25),
+                          color: Colors.white.withValues(alpha: 0.2),
                           shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1),
                         ),
                         child: const Icon(
                           Icons.play_arrow_rounded,
                           color: Colors.white,
                           size: 32.0,
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -541,36 +609,6 @@ class _IslamicTexturePainter extends CustomPainter {
 
   double _cos(double a) => math.cos(a);
   double _sin(double a) => math.sin(a);
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-// Mashrabiya geometric overlay for prayer card
-class _MashrabiyaPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.06)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    const spacing = 30.0;
-    for (double x = 0; x < size.width + spacing; x += spacing) {
-      for (double y = 0; y < size.height + spacing; y += spacing) {
-        canvas.drawCircle(Offset(x, y), 10, paint);
-        // Diamond connectors
-        final dPaint = Paint()
-          ..color = Colors.white.withValues(alpha: 0.04)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 0.5;
-        canvas.drawLine(Offset(x, y - 10), Offset(x + 10, y), dPaint);
-        canvas.drawLine(Offset(x + 10, y), Offset(x, y + 10), dPaint);
-        canvas.drawLine(Offset(x, y + 10), Offset(x - 10, y), dPaint);
-        canvas.drawLine(Offset(x - 10, y), Offset(x, y - 10), dPaint);
-      }
-    }
-  }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;

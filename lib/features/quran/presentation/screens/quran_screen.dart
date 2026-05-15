@@ -30,7 +30,7 @@ class _QuranScreenState extends State<QuranScreen> {
   bool _isMushafMode = false;
   bool _isPlaying = false;
   bool _isMemorizationMode = false;
-  int _playingAyahIndex = 1;
+  final int _playingAyahIndex = 1;
   double _fontSize = 26.0;
   int _themeIndex = 0;
   final Set<int> _hiddenAyahs = {};
@@ -478,7 +478,7 @@ class _QuranScreenState extends State<QuranScreen> {
                 SwitchListTile(
                   value: _isMemorizationMode,
                   onChanged: (v) { setModal(() => _isMemorizationMode = v); setState(() { _isMemorizationMode = v; _hiddenAyahs.clear(); }); },
-                  activeColor: _theme.accent,
+                  activeThumbColor: _theme.accent,
                   title: Text('وضع التحفيظ', style: TextStyle(fontWeight: FontWeight.bold, color: _isDark ? Colors.white : AppColors.textPrimary)),
                   subtitle: Text('إخفاء الآيات للتسميع الذاتي', style: TextStyle(fontSize: 12, color: _isDark ? Colors.white54 : AppColors.textSecondary)),
                 ),

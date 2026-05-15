@@ -28,10 +28,10 @@ class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProv
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 150), // slightly longer for smoothness
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.92).animate( // more pronounced press
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
     );
   }
 
@@ -65,18 +65,19 @@ class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProv
         child: Container(
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.1), width: 1.5),
+            borderRadius: BorderRadius.circular(24.0), // softer corners
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.08), width: 1.5),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                offset: const Offset(0, 4),
-                blurRadius: 10.0,
+                color: AppColors.primary.withValues(alpha: 0.04), // slightly tinted shadow
+                offset: const Offset(0, 6),
+                blurRadius: 16.0,
+                spreadRadius: 2.0,
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,

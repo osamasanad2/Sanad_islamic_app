@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class TasbeehScreen extends StatefulWidget {
   const TasbeehScreen({super.key});
@@ -25,6 +24,21 @@ class _TasbeehScreenState extends State<TasbeehScreen> with SingleTickerProvider
     {'text': 'لا إلهَ إلاّ الله', 'target': 100, 'color': Colors.purple},
     {'text': 'أَسْتَغْفِرُ اللّه', 'target': 100, 'color': Colors.red.shade300},
     {'text': 'اللّهُمَّ صَلِّ عَلَى مُحَمَّد', 'target': 100, 'color': const Color(0xFFD4AF37)},
+    {'text': 'لا حول ولا قوة إلا بالله', 'target': 100, 'color': Colors.cyan},
+    {'text': 'سبحان الله وبحمده', 'target': 100, 'color': Colors.green},
+    {'text': 'سبحان الله العظيم', 'target': 100, 'color': Colors.teal.shade400},
+    {'text': 'أستغفر الله', 'target': 100, 'color': Colors.redAccent},
+    {'text': 'أستغفر الله العظيم وأتوب إليه', 'target': 100, 'color': Colors.deepOrange},
+    {'text': 'اللهم صل وسلم على نبينا محمد', 'target': 10, 'color': Colors.amber},
+    {'text': 'حسبي الله ونعم الوكيل', 'target': 100, 'color': Colors.indigo},
+    {'text': 'لا إله إلا أنت سبحانك إني كنت من الظالمين', 'target': 100, 'color': Colors.deepPurple},
+    {'text': 'سبحان الله والحمد لله ولا إله إلا الله والله أكبر', 'target': 100, 'color': Colors.brown},
+    {'text': 'لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير', 'target': 10, 'color': Colors.blueGrey},
+    {'text': 'يا حي يا قيوم برحمتك أستغيث', 'target': 100, 'color': Colors.pink},
+    {'text': 'اللهم اغفر لي ولوالدي', 'target': 100, 'color': Colors.lightGreen},
+    {'text': 'رب اغفر وارحم وأنت خير الراحمين', 'target': 100, 'color': Colors.lightBlue},
+    {'text': 'اللهم إنك عفو تحب العفو فاعف عني', 'target': 100, 'color': Colors.lime},
+    {'text': 'رضيت بالله ربًا وبالإسلام دينًا وبمحمد ﷺ نبيًا ورسولًا', 'target': 3, 'color': Colors.blueAccent},
   ];
 
   // Mock weekly data
@@ -234,7 +248,7 @@ class _TasbeehScreenState extends State<TasbeehScreen> with SingleTickerProvider
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: _dhikrList.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (ctx, i) {
           final d = _dhikrList[i];
           final isSelected = i == _selectedDhikrIndex;
