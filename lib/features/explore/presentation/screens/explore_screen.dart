@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -237,12 +238,12 @@ class ExploreScreen extends StatelessWidget {
 
   Widget _buildCategoriesGrid() {
     final categories = [
-      {'title': 'القرآن الكريم', 'desc': 'تلاوة وحفظ', 'icon': Icons.menu_book, 'color': const Color(0xFFD4AF37)}, // Gold
-      {'title': 'الحديث الشريف', 'desc': 'الكتب الستة', 'icon': Icons.auto_stories, 'color': Colors.teal}, // Greenish
-      {'title': 'حصن المسلم', 'desc': 'أكثر من 100 دعاء', 'icon': Icons.shield, 'color': Colors.purple.shade300}, // Soft Purple
-      {'title': 'السيرة النبوية', 'desc': 'حياة الرسول', 'icon': Icons.history_edu, 'color': Colors.brown.shade400}, // Brown
-      {'title': 'الفتاوى', 'desc': 'سؤال وجواب', 'icon': Icons.question_answer, 'color': Colors.blue.shade400}, // Blue
-      {'title': 'المقالات', 'desc': 'قراءات متنوعة', 'icon': Icons.article, 'color': Colors.deepOrange.shade300}, // Orange
+      {'title': 'القرآن الكريم', 'desc': 'تلاوة وحفظ', 'icon': Icons.menu_book, 'color': const Color(0xFFD4AF37), 'route': '/quran'}, // Gold
+      {'title': 'الحديث الشريف', 'desc': 'الكتب الستة', 'icon': Icons.auto_stories, 'color': Colors.teal, 'route': null}, // Greenish
+      {'title': 'حصن المسلم', 'desc': 'أكثر من 100 دعاء', 'icon': Icons.shield, 'color': Colors.purple.shade300, 'route': null}, // Soft Purple
+      {'title': 'السيرة النبوية', 'desc': 'حياة الرسول', 'icon': Icons.history_edu, 'color': Colors.brown.shade400, 'route': null}, // Brown
+      {'title': 'الفتاوى', 'desc': 'سؤال وجواب', 'icon': Icons.question_answer, 'color': Colors.blue.shade400, 'route': null}, // Blue
+      {'title': 'المقالات', 'desc': 'قراءات متنوعة', 'icon': Icons.article, 'color': Colors.deepOrange.shade300, 'route': null}, // Orange
     ];
 
     return GridView.builder(
@@ -258,22 +259,29 @@ class ExploreScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         final category = categories[index];
         final Color catColor = category['color'] as Color;
+        final String? route = category['route'] as String?;
         return _buildCategoryCard(
+          context: context,
           title: category['title'] as String,
           desc: category['desc'] as String,
           icon: category['icon'] as IconData,
           color: catColor,
           delay: 400 + (index * 100),
+          route: route,
         );
       },
     );
   }
 
-  Widget _buildCategoryCard({required String title, required String desc, required IconData icon, required Color color, required int delay}) {
+  Widget _buildCategoryCard({required BuildContext context, required String title, required String desc, required IconData icon, required Color color, required int delay, String? route}) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          if (route != null) {
+            context.push(route);
+          }
+        },
         borderRadius: BorderRadius.circular(20.0),
         highlightColor: color.withValues(alpha: 0.1),
         splashColor: color.withValues(alpha: 0.2),
