@@ -10,7 +10,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../main/logic/navigation_provider.dart';
+import '../../../main/logic/navigation_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

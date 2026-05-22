@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../home/presentation/screens/home_screen.dart';
-import '../../quran/presentation/screens/quran_screen.dart';
+import '../../explore/presentation/screens/explore_screen.dart';
 import '../../profile/presentation/screens/profile_screen.dart';
 import '../../activities/presentation/screens/activities_screen.dart';
 import '../../groups/presentation/screens/groups_screen.dart';
@@ -20,7 +20,7 @@ class MainScaffold extends ConsumerWidget {
         index: currentIndex,
         children: const [
           HomeScreen(),
-          QuranScreen(),
+          ExploreScreen(),
           GroupsScreen(),
           ActivitiesScreen(),
           ProfileScreen(),
@@ -38,9 +38,9 @@ class MainScaffold extends ConsumerWidget {
             label: 'الرئيسة',
           ),
           NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book, color: AppColors.primaryDark),
-            label: 'القرآن',
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore, color: AppColors.primaryDark),
+            label: 'الاستكشاف',
           ),
           NavigationDestination(
             icon: Icon(Icons.group_outlined),
