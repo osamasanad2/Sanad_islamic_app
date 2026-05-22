@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../data/azkar_data.dart';
 
 class AzkarScreen extends StatefulWidget {
   const AzkarScreen({super.key});
@@ -27,39 +28,11 @@ class _AzkarScreenState extends State<AzkarScreen> {
   @override
   void initState() {
     super.initState();
-    _azkarData = [
-      // أذكار الصباح
-      [
-        {'text': 'آية الكرسي', 'total': 1, 'remaining': 1, 'fadl': 'من قرأها حين يصبح أجير من الجن حتى يمسي'},
-        {'text': 'سُبْحَانَ اللّهِ وَبِحَمْدِهِ', 'total': 100, 'remaining': 100, 'fadl': 'من قالها مئة مرة حطت خطاياه وإن كانت مثل زبد البحر'},
-        {'text': 'لا إلهَ إلاّ اللهُ وَحْدَهُ لا شَرِيكَ لَه', 'total': 10, 'remaining': 10, 'fadl': 'كانت له عدل عشر رقاب وكتب له مئة حسنة'},
-        {'text': 'اللّهُمَّ إنّي أسألُكَ العافِيَةَ في الدُّنْيا وَالآخِرَة', 'total': 3, 'remaining': 3, 'fadl': 'ما سأل العبد العافية أحب إلى الله من ذلك'},
-        {'text': 'بِسمِ اللهِ الذي لا يَضُرُّ مَعَ اسمِهِ شَيءٌ', 'total': 3, 'remaining': 3, 'fadl': 'لم يضره شيء حتى يمسي'},
-        {'text': 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ', 'total': 1, 'remaining': 1, 'fadl': 'من قالها أول النهار فقد أدى شكر يومه'},
-      ],
-      // أذكار المساء
-      [
-        {'text': 'آية الكرسي', 'total': 1, 'remaining': 1, 'fadl': 'من قرأها حين يمسي أجير من الجن حتى يصبح'},
-        {'text': 'سورة الإخلاص والمعوذتين', 'total': 3, 'remaining': 3, 'fadl': 'تكفيك من كل شيء'},
-        {'text': 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ', 'total': 1, 'remaining': 1, 'fadl': 'من قالها أول الليل فقد أدى شكر ليلته'},
-        {'text': 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ', 'total': 3, 'remaining': 3, 'fadl': 'لم يضره شيء حتى يصبح'},
-      ],
-      // أذكار النوم
-      [
-        {'text': 'آية الكرسي', 'total': 1, 'remaining': 1, 'fadl': 'لا يزال عليك من الله حافظ حتى تصبح'},
-        {'text': 'سبحان الله', 'total': 33, 'remaining': 33, 'fadl': 'خير لكما من خادم'},
-        {'text': 'الحمد لله', 'total': 33, 'remaining': 33, 'fadl': 'خير لكما من خادم'},
-        {'text': 'الله أكبر', 'total': 34, 'remaining': 34, 'fadl': 'خير لكما من خادم'},
-      ],
-      // أذكار بعد الصلاة
-      [
-        {'text': 'أستغفر الله', 'total': 3, 'remaining': 3, 'fadl': 'من استغفر الله دبر كل صلاة ثلاثاً غفر له'},
-        {'text': 'اللّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلام', 'total': 1, 'remaining': 1, 'fadl': 'كان النبي ﷺ يقولها بعد كل صلاة'},
-        {'text': 'سبحان الله', 'total': 33, 'remaining': 33, 'fadl': 'من سبّح دبر كل صلاة ثلاثاً وثلاثين'},
-        {'text': 'الحمد لله', 'total': 33, 'remaining': 33, 'fadl': 'من حمد دبر كل صلاة ثلاثاً وثلاثين'},
-        {'text': 'الله أكبر', 'total': 34, 'remaining': 34, 'fadl': 'من كبّر دبر كل صلاة أربعاً وثلاثين'},
-      ],
-    ];
+    // Create a deep copy of the static data so modifications to 'remaining' 
+    // don't affect the original template data when reopening the screen.
+    _azkarData = AzkarData.azkarData.map((category) {
+      return category.map((zikr) => Map<String, dynamic>.from(zikr)).toList();
+    }).toList();
   }
 
   List<Map<String, dynamic>> get _currentAzkar => _azkarData[_selectedCategory];
