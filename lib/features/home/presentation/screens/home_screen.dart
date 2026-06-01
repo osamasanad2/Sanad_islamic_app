@@ -10,7 +10,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:adhan/adhan.dart';
 import '../../../main/logic/navigation_provider.dart';
+import '../../prayer_times/data/prayer_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -89,7 +91,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '١٥ رمضان ١٤٤٧ هـ',
+                    ref.watch(prayerProvider).hijriDate.isNotEmpty 
+                        ? ref.watch(prayerProvider).hijriDate 
+                        : 'جاري الحساب...',
                     style: TextStyle(
                       fontSize: 14.0,
                       color: AppColors.textSecondary,
@@ -251,9 +255,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          'صلاة العصر',
-                          style: TextStyle(
+                        Text(
+                          ref.watch(prayerProvider).nextPrayer != null 
+                              ? 'صلاة ${ref.read(prayerProvider.notifier).getPrayerName(ref.watch(prayerProvider).nextPrayer!)}' 
+                              : 'جاري الحساب...',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 30.0,
                             fontWeight: FontWeight.w800,
@@ -264,9 +270,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 6.0),
-                        const Text(
-                          'باقي 1 ساعة و 20 دقيقة',
-                          style: TextStyle(
+                        Text(
+                          ref.read(prayerProvider.notifier).getCountdownString(),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15.0,
                             fontWeight: FontWeight.w600,
@@ -334,30 +340,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         physics: const BouncingScrollPhysics(),
-        children: const [
-          PrayerTimeItem(date: 'اليوم', title: 'الفجر', time: '4:30', icon: Icons.nights_stay_outlined, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'اليوم', title: 'الظهر', time: '12:05', icon: Icons.wb_sunny_outlined, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'اليوم', title: 'العصر', time: '3:30', icon: Icons.wb_twilight_outlined, isActive: true),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'اليوم', title: 'المغرب', time: '6:15', icon: Icons.nights_stay, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'اليوم', title: 'العشاء', time: '7:45', icon: Icons.mode_night_outlined, isActive: false),
-          SizedBox(width: 16.0),
-          // Tomorrow's times
-          PrayerTimeItem(date: 'غداً', title: 'الفجر', time: '4:29', icon: Icons.nights_stay_outlined, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'غداً', title: 'الظهر', time: '12:05', icon: Icons.wb_sunny_outlined, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'غداً', title: 'العصر', time: '3:30', icon: Icons.wb_twilight_outlined, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'غداً', title: 'المغرب', time: '6:16', icon: Icons.nights_stay, isActive: false),
-          SizedBox(width: 8.0),
-          PrayerTimeItem(date: 'غداً', title: 'العشاء', time: '7:46', icon: Icons.mode_night_outlined, isActive: false),
-        ],
+        children: _buildDynamicPrayerItems(),
       ),
     );
+  }
+
+  List<Widget> _buildDynamicPrayerItems() {
+    final state = ref.watch(prayerProvider);
+    if (state.prayerTimes == null) {
+      return [const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Center(child: CircularProgressIndicator()),
+      )];
+    }
+    
+    final times = state.prayerTimes!;
+    final notifier = ref.read(prayerProvider.notifier);
+    final active = state.nextPrayer;
+    
+    return [
+      PrayerTimeItem(date: 'اليوم', title: 'الفجر', time: notifier.getFormattedTime(times.fajr), icon: Icons.nights_stay_outlined, isActive: active == Prayer.fajr),
+      const SizedBox(width: 8.0),
+      PrayerTimeItem(date: 'اليوم', title: 'الظهر', time: notifier.getFormattedTime(times.dhuhr), icon: Icons.wb_sunny_outlined, isActive: active == Prayer.dhuhr),
+      const SizedBox(width: 8.0),
+      PrayerTimeItem(date: 'اليوم', title: 'العصر', time: notifier.getFormattedTime(times.asr), icon: Icons.wb_twilight_outlined, isActive: active == Prayer.asr),
+      const SizedBox(width: 8.0),
+      PrayerTimeItem(date: 'اليوم', title: 'المغرب', time: notifier.getFormattedTime(times.maghrib), icon: Icons.nights_stay, isActive: active == Prayer.maghrib),
+      const SizedBox(width: 8.0),
+      PrayerTimeItem(date: 'اليوم', title: 'العشاء', time: notifier.getFormattedTime(times.isha), icon: Icons.mode_night_outlined, isActive: active == Prayer.isha),
+    ];
   }
 
   Widget _buildSectionTitle(String title) {
