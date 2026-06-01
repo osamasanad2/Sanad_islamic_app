@@ -240,7 +240,7 @@ class ExploreScreen extends StatelessWidget {
     final categories = [
       {'title': 'القرآن الكريم', 'desc': 'تلاوة وحفظ', 'icon': Icons.menu_book, 'color': const Color(0xFFD4AF37), 'route': '/quran'}, // Gold
       {'title': 'الحديث الشريف', 'desc': 'الكتب الستة', 'icon': Icons.auto_stories, 'color': Colors.teal, 'route': null}, // Greenish
-      {'title': 'حصن المسلم', 'desc': 'أكثر من 100 دعاء', 'icon': Icons.shield, 'color': Colors.purple.shade300, 'route': null}, // Soft Purple
+      {'title': 'حصن المسلم', 'desc': 'أكثر من 100 دعاء', 'icon': Icons.shield, 'color': Colors.purple.shade300, 'route': '/hisn'}, // Soft Purple
       {'title': 'السيرة النبوية', 'desc': 'حياة الرسول', 'icon': Icons.history_edu, 'color': Colors.brown.shade400, 'route': null}, // Brown
       {'title': 'الفتاوى', 'desc': 'سؤال وجواب', 'icon': Icons.question_answer, 'color': Colors.blue.shade400, 'route': null}, // Blue
       {'title': 'المقالات', 'desc': 'قراءات متنوعة', 'icon': Icons.article, 'color': Colors.deepOrange.shade300, 'route': null}, // Orange
