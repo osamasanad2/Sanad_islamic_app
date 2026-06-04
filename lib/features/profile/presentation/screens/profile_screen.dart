@@ -474,21 +474,28 @@ class ProfileScreen extends ConsumerWidget {
               title: 'المظهر',
               subtitle: 'الوضع النهاري',
               icon: Icons.dark_mode_outlined,
-              onTap: () {},
+              onTap: () => _showThemeDialog(context),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
               title: 'الإشعارات',
               subtitle: 'مفعلة',
               icon: Icons.notifications_active_outlined,
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('تم الانتقال لإعدادات الإشعارات'),
+                    backgroundColor: AppColors.primary,
+                  ),
+                );
+              },
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
               title: 'اللغة',
               subtitle: 'العربية',
               icon: Icons.language,
-              onTap: () {},
+              onTap: () => _showLanguageDialog(context),
             ),
           ],
         ),
@@ -606,6 +613,60 @@ class ProfileScreen extends ConsumerWidget {
           : null,
       trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.textSecondary),
       onTap: onTap,
+    );
+  }
+
+  void _showThemeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('اختيار المظهر', style: TextStyle(color: AppColors.textPrimary)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.wb_sunny_outlined, color: Colors.orange),
+              title: const Text('الوضع النهاري'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.nights_stay_outlined, color: Colors.indigo),
+              title: const Text('الوضع الليلي'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_suggest_outlined, color: Colors.grey),
+              title: const Text('حسب النظام'),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showLanguageDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('اختيار اللغة', style: TextStyle(color: AppColors.textPrimary)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: const Text('العربية'),
+              trailing: const Icon(Icons.check, color: AppColors.primary),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+              title: const Text('English'),
+              onTap: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
