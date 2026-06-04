@@ -544,14 +544,14 @@ class ProfileScreen extends ConsumerWidget {
               title: 'تسجيل الخروج',
               icon: Icons.logout,
               color: AppColors.error,
-              onTap: () {},
+              onTap: () => _showLogoutDialog(context),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
               title: 'حذف الحساب',
               icon: Icons.delete_forever,
               color: Colors.red.shade700,
-              onTap: () {},
+              onTap: () => _showDeleteAccountDialog(context),
             ),
           ],
         ),
@@ -706,6 +706,69 @@ class ProfileScreen extends ConsumerWidget {
           style: TextStyle(height: 1.5),
         ),
       ],
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('تسجيل الخروج', style: TextStyle(color: AppColors.textPrimary)),
+        content: const Text('هل أنت متأكد من رغبتك في تسجيل الخروج من التطبيق؟'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        actions: [
+          TextButton(
+            onTap: () => Navigator.pop(context),
+            child: const Text('إلغاء', style: TextStyle(color: AppColors.textSecondary)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.error,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('تم تسجيل الخروج بنجاح')),
+              );
+            },
+            child: const Text('تسجيل الخروج', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteAccountDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('حذف الحساب', style: TextStyle(color: AppColors.error)),
+        content: const Text(
+          'تحذير: سيتم حذف جميع بياناتك وإحصائياتك بشكل نهائي ولا يمكن التراجع عن هذا الإجراء. هل أنت متأكد؟',
+          style: TextStyle(height: 1.5),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        actions: [
+          TextButton(
+            onTap: () => Navigator.pop(context),
+            child: const Text('إلغاء', style: TextStyle(color: AppColors.textSecondary)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red.shade700,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('تم إرسال طلب حذف الحساب')),
+              );
+            },
+            child: const Text('تأكيد الحذف', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
     );
   }
 }
