@@ -506,19 +506,33 @@ class ProfileScreen extends ConsumerWidget {
             _buildSettingsTile(
               title: 'عن تطبيق سند',
               icon: Icons.info_outline,
-              onTap: () {},
+              onTap: () => _showAboutAppDialog(context),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
               title: 'مشاركة التطبيق',
               icon: Icons.share_outlined,
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('جاري فتح قائمة المشاركة...'),
+                    backgroundColor: AppColors.primary,
+                  ),
+                );
+              },
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
               title: 'قيّمنا',
               icon: Icons.star_border_outlined,
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('تم الانتقال إلى صفحة التقييم في المتجر'),
+                    backgroundColor: AppColors.primary,
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -667,6 +681,31 @@ class ProfileScreen extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showAboutAppDialog(BuildContext context) {
+    showAboutDialog(
+      context: context,
+      applicationName: 'تطبيق سند',
+      applicationVersion: '1.0.0',
+      applicationIcon: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.primaryLight.withValues(alpha: 0.2),
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.mosque, size: 40, color: AppColors.primary),
+      ),
+      applicationLegalese: '© 2026 جميع الحقوق محفوظة',
+      children: [
+        const SizedBox(height: 16),
+        const Text(
+          'تطبيق إسلامي شامل يهدف إلى تقديم محتوى ديني موثوق وأدوات يومية للمسلم كالأذكار والقرآن ومواقيت الصلاة.',
+          textAlign: TextAlign.center,
+          style: TextStyle(height: 1.5),
+        ),
+      ],
     );
   }
 }
