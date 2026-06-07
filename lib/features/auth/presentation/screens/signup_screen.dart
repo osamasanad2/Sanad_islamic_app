@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/services/database_service.dart';
+import '../../data/models/user_model.dart';
 
 final _bgImages = [
   'assets/images/login_bg_1.jpg',
@@ -13,47 +14,70 @@ final _bgImages = [
   'assets/images/login_bg_4.jpg',
 ];
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends ConsumerStatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _SignupScreenState extends ConsumerState<SignupScreen> {
   int _currentBgIndex = 0;
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isLoading = false;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  Future<void> _login() async {
+  Future<void> _signup() async {
+    final name = _nameController.text.trim();
     final email = _emailController.text.trim();
+    final phone = _phoneController.text.trim();
     final password = _passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || phone.isEmpty || password.isEmpty) {
       _showSnackbar('يرجى ملء جميع الحقول');
+      return;
+    }
+
+    if (password.length < 6) {
+      _showSnackbar('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
       return;
     }
 
     setState(() => _isLoading = true);
 
     try {
-      final user = await DatabaseService().login(email, password);
-      if (!mounted) return;
-
-      if (user != null) {
-        context.go('/');
-      } else {
-        _showSnackbar('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+      final existing = await DatabaseService().getUserByEmail(email);
+      if (existing != null) {
+        if (!mounted) return;
+        _showSnackbar('البريد الإلكتروني مسجل بالفعل');
+        setState(() => _isLoading = false);
+        return;
       }
+
+      final user = UserModel(
+        name: name,
+        email: email,
+        phone: phone,
+        password: password,
+      );
+
+      await DatabaseService().insertUser(user);
+
+      if (!mounted) return;
+      _showSnackbar('تم إنشاء الحساب بنجاح');
+      context.pop();
     } catch (e) {
       if (!mounted) return;
       _showSnackbar('حدث خطأ، يرجى المحاولة مرة أخرى');
@@ -120,18 +144,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 80),
-                    _buildHeader(),
                     const SizedBox(height: 60),
-                    _buildDotsIndicator(),
-                    const SizedBox(height: 50),
-                    _buildLoginForm(),
-                    const SizedBox(height: 24),
-                    _buildLoginButton(),
-                    const SizedBox(height: 16),
-                    _buildForgotPassword(),
+                    _buildHeader(),
                     const SizedBox(height: 40),
-                    _buildSignupPrompt(),
+                    _buildDotsIndicator(),
+                    const SizedBox(height: 30),
+                    _buildSignupForm(),
+                    const SizedBox(height: 24),
+                    _buildSignupButton(),
+                    const SizedBox(height: 16),
+                    _buildLoginPrompt(),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -146,34 +169,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Column(
       children: [
         Container(
-          width: 80,
-          height: 80,
+          width: 70,
+          height: 70,
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.15),
             shape: BoxShape.circle,
             border: Border.all(color: AppColors.goldLight.withValues(alpha: 0.5), width: 2),
           ),
-          child: Icon(Icons.mosque, size: 40, color: AppColors.goldLight),
+          child: Icon(Icons.person_add_alt_1, size: 34, color: AppColors.goldLight),
         ).animate().fadeIn(duration: 600.ms).scale(begin: const Offset(0, 0), curve: Curves.elasticOut),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
         Text(
-          'سند',
+          'إنشاء حساب جديد',
           style: TextStyle(
-            fontSize: 42,
+            fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Colors.white,
-            letterSpacing: 4,
           ),
         ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.3),
-        const SizedBox(height: 8),
-        Text(
-          'تطبيقك الإسلامي الشامل',
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white.withValues(alpha: 0.85),
-            fontWeight: FontWeight.w300,
-          ),
-        ).animate().fadeIn(delay: 400.ms),
       ],
     );
   }
@@ -190,15 +203,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           color: _currentBgIndex == i ? AppColors.gold : Colors.white.withValues(alpha: 0.4),
         ),
       )),
-    ).animate().fadeIn(delay: 600.ms);
+    ).animate().fadeIn(delay: 400.ms);
   }
 
-  Widget _buildLoginForm() {
+  Widget _buildSignupForm() {
     return Column(
       children: [
         TextField(
+          controller: _nameController,
+          textDirection: TextDirection.rtl,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: 'الاسم الكامل',
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+            prefixIcon: Icon(Icons.person_outline, color: Colors.white.withValues(alpha: 0.7)),
+            filled: true,
+            fillColor: Colors.white.withValues(alpha: 0.1),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: AppColors.goldLight.withValues(alpha: 0.6)),
+            ),
+          ),
+        ).animate().fadeIn(delay: 600.ms).slideX(begin: 0.1),
+        const SizedBox(height: 14),
+        TextField(
           controller: _emailController,
           textDirection: TextDirection.rtl,
+          keyboardType: TextInputType.emailAddress,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'البريد الإلكتروني',
@@ -217,7 +253,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ).animate().fadeIn(delay: 800.ms).slideX(begin: 0.1),
-        const SizedBox(height: 16),
+        const SizedBox(height: 14),
+        TextField(
+          controller: _phoneController,
+          textDirection: TextDirection.rtl,
+          keyboardType: TextInputType.phone,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: 'رقم الهاتف',
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+            prefixIcon: Icon(Icons.phone_outlined, color: Colors.white.withValues(alpha: 0.7)),
+            filled: true,
+            fillColor: Colors.white.withValues(alpha: 0.1),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: AppColors.goldLight.withValues(alpha: 0.6)),
+            ),
+          ),
+        ).animate().fadeIn(delay: 1000.ms).slideX(begin: 0.1),
+        const SizedBox(height: 14),
         TextField(
           controller: _passwordController,
           textDirection: TextDirection.rtl,
@@ -246,12 +305,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               borderSide: BorderSide(color: AppColors.goldLight.withValues(alpha: 0.6)),
             ),
           ),
-        ).animate().fadeIn(delay: 1000.ms).slideX(begin: 0.1),
+        ).animate().fadeIn(delay: 1200.ms).slideX(begin: 0.1),
       ],
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildSignupButton() {
     return Container(
       height: 56,
       decoration: BoxDecoration(
@@ -271,7 +330,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: _isLoading ? null : _login,
+          onTap: _isLoading ? null : _signup,
           child: Center(
             child: _isLoading
                 ? const SizedBox(
@@ -282,7 +341,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   )
                 : const Text(
-                    'تسجيل الدخول',
+                    'إنشاء حساب',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -292,37 +351,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
       ),
-    ).animate().fadeIn(delay: 1200.ms).slideY(begin: 0.2);
+    ).animate().fadeIn(delay: 1400.ms).slideY(begin: 0.2);
   }
 
-  Widget _buildForgotPassword() {
-    return Center(
-      child: TextButton(
-        onPressed: () {},
-        child: Text(
-          'نسيت كلمة المرور؟',
-          style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.7),
-            fontSize: 14,
-          ),
-        ),
-      ),
-    ).animate().fadeIn(delay: 1400.ms);
-  }
-
-  Widget _buildSignupPrompt() {
+  Widget _buildLoginPrompt() {
     return Center(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'ليس لديك حساب؟ ',
+            'لديك حساب بالفعل؟ ',
             style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
           ),
           TextButton(
-            onPressed: () => context.push('/signup'),
+            onPressed: () => context.pop(),
             child: const Text(
-              'إنشاء حساب',
+              'تسجيل الدخول',
               style: TextStyle(
                 color: AppColors.goldLight,
                 fontWeight: FontWeight.bold,
