@@ -1,17 +1,13 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/common_widgets/quick_action_card.dart';
 import '../../../../core/common_widgets/islamic_icons.dart';
 import '../../../../core/services/quran_native_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:adhan/adhan.dart';
 import '../../../prayer_times/data/prayer_provider.dart';
-import 'package:share_plus/share_plus.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -22,10 +18,12 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
-  int _currentIndex = 0;
   late AnimationController _fadeController;
-  late List<Animation<double>> _fadeAnimations;
-  late List<Animation<Offset>> _slideAnimations;
+  late List<Animation<double>> _fadeAnims;
+  late List<Animation<Offset>> _slideAnims;
+
+  int _sliderIndex = 0;
+  final int _currentHadithIndex = 0;
 
   final List<String> _hadiths = [
     '« مَنْ صَلَّى الْبَرْدَيْنِ دَخَلَ الْجَنَّةَ »',
@@ -35,39 +33,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     '« تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ »',
   ];
 
-  int _currentHadithIndex = 0;
-
   @override
   void initState() {
     super.initState();
     _fadeController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 900),
     );
-
-    _fadeAnimations = List.generate(6, (i) {
+    const count = 8;
+    _fadeAnims = List.generate(count, (i) {
       return Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _fadeController,
-          curve: Interval(i * 0.12, 0.5 + i * 0.08,
-              curve: Curves.easeOutQuart),
+          curve: Interval(i * 0.08, 0.35 + i * 0.06, curve: Curves.easeOutCubic),
         ),
       );
     });
-
-    _slideAnimations = List.generate(6, (i) {
+    _slideAnims = List.generate(count, (i) {
       return Tween<Offset>(
-        begin: const Offset(0, 0.12),
+        begin: const Offset(0, 0.1),
         end: Offset.zero,
       ).animate(
         CurvedAnimation(
           parent: _fadeController,
-          curve: Interval(i * 0.12, 0.5 + i * 0.08,
-              curve: Curves.easeOutQuart),
+          curve: Interval(i * 0.08, 0.35 + i * 0.06, curve: Curves.easeOutCubic),
         ),
       );
     });
-
     _fadeController.forward();
   }
 
@@ -77,15 +69,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.dispose();
   }
 
-  void _openQuran(BuildContext context) {
-    QuranNativeService.openQuran();
-  }
-
   String _timeBasedGreeting() {
     final hour = DateTime.now().hour;
-    if (hour >= 5 && hour < 12) return 'صباح الخير ☀️';
-    if (hour >= 12 && hour < 18) return 'مساء الخير 🌤';
-    return 'مساء الخير 🌙';
+    if (hour >= 5 && hour < 12) return 'صباح الخير';
+    if (hour >= 12 && hour < 18) return 'مساء الخير';
+    return 'مساء الخير';
+  }
+
+  String _greetingEmoji() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) return '☀️';
+    if (hour >= 12 && hour < 18) return '🌤';
+    return '🌙';
+  }
+
+  void _openQuran(BuildContext context) {
+    QuranNativeService.openQuran();
   }
 
   void _copyHadith(String text) {
@@ -101,7 +100,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   void _shareHadith(String text) {
-    Share.share(text);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('تم نسخ الحديث للمشاركة'),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+    Clipboard.setData(ClipboardData(text: text));
   }
 
   void _saveHadith(String text) {
@@ -119,33 +126,117 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: CustomPaint(painter: _IslamicTexturePainter()),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              _buildSection(0, _buildGreetingHeader()),
+              const SizedBox(height: 20),
+              _buildSection(1, _buildPrayerHeroCard()),
+              const SizedBox(height: 20),
+              _buildSection(2, _buildReadingAndHadithGrid()),
+              const SizedBox(height: 20),
+              _buildSection(3, _buildDailyGoalCard()),
+              const SizedBox(height: 20),
+              _buildSection(4, _buildFeaturedSlider()),
+              const SizedBox(height: 20),
+              _buildSection(5, _buildAchievementCards()),
+              const SizedBox(height: 20),
+              _buildSection(6, _buildQuickAccessTitle()),
+              const SizedBox(height: 12),
+              _buildSection(7, _buildQuickAccessGrid()),
+              const SizedBox(height: 24),
+            ],
           ),
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 16),
-                  _buildGreeting(),
-                  const SizedBox(height: 16),
-                  _buildHadithCard(),
-                  const SizedBox(height: 16),
-                  _buildNextPrayerCard(),
-                  const SizedBox(height: 20),
-                  _buildHeaderCarousel(),
-                  const SizedBox(height: 20),
-                  _buildDailyActivityCards(),
-                  const SizedBox(height: 24),
-                  _buildQuickAccess(),
-                  const SizedBox(height: 24),
-                  _buildDailyJourneySection(),
-                  const SizedBox(height: 40),
-                ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSection(int index, Widget child) {
+    return FadeTransition(
+      opacity: _fadeAnims[index],
+      child: SlideTransition(position: _slideAnims[index], child: child),
+    );
+  }
+
+  // ─── Section 1: Greeting Header ───
+  Widget _buildGreetingHeader() {
+    return SizedBox(
+      height: 90,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${_greetingEmoji()} ${_timeBasedGreeting()}، أحمد',
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                    height: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                GestureDetector(
+                  onTap: () => context.push('/monthly-prayers'),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        ref.watch(prayerProvider).hijriDate.isNotEmpty
+                            ? ref.watch(prayerProvider).hijriDate
+                            : 'جاري الحساب...',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Icon(
+                        Icons.calendar_month,
+                        color: AppColors.textSecondary,
+                        size: 14,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {},
+                child: const Center(
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    color: AppColors.textPrimary,
+                    size: 22,
+                  ),
+                ),
               ),
             ),
           ),
@@ -154,52 +245,405 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  Widget _buildGreeting() {
-    return FadeTransition(
-      opacity: _fadeAnimations[0],
-      child: SlideTransition(
-        position: _slideAnimations[0],
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                _timeBasedGreeting(),
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                  height: 1.2,
-                ),
-              ),
-              const SizedBox(height: 4),
-              GestureDetector(
-                onTap: () => context.push('/monthly-prayers'),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
+  // ─── Section 2: Main Prayer Hero Card ───
+  Widget _buildPrayerHeroCard() {
+    return Container(
+      height: 220,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [AppColors.primaryDark, AppColors.primary],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(28),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.25),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: CustomPaint(painter: _MosqueSilhouettePainter()),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      ref.watch(prayerProvider).hijriDate.isNotEmpty
-                          ? ref.watch(prayerProvider).hijriDate
-                          : 'جاري الحساب...',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
-                        fontWeight: FontWeight.w500,
+                    _buildPrayerBadge(),
+                    const Spacer(),
+                    _buildCrescentGlass(),
+                  ],
+                ),
+                const SizedBox(height: 1),
+                _buildLocationRow(),
+                const SizedBox(height: 2),
+                _buildNextPrayerCenter(),
+                const SizedBox(height: 2),
+                _buildPrayerTimeline(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPrayerBadge() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 0.5),
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.schedule, color: Colors.white, size: 14),
+          SizedBox(width: 6),
+          Text(
+            'أوقات الصلاة',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCrescentGlass() {
+    return Container(
+      width: 56,
+      height: 56,
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 0.5),
+      ),
+      child: const Icon(
+        Icons.nightlight_round,
+        color: AppColors.goldLight,
+        size: 30,
+      ),
+    );
+  }
+
+  Widget _buildLocationRow() {
+    return Consumer(
+      builder: (context, ref, _) {
+        final location = ref.watch(prayerProvider).locationName;
+        return Row(
+          children: [
+            Icon(Icons.location_on_outlined, color: Colors.white.withValues(alpha: 0.6), size: 14),
+            const SizedBox(width: 4),
+            Text(
+              location,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.6),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildNextPrayerCenter() {
+    return Consumer(
+      builder: (context, ref, _) {
+        final state = ref.watch(prayerProvider);
+        final notifier = ref.read(prayerProvider.notifier);
+        final prayerName = state.nextPrayer != null
+            ? notifier.getPrayerName(state.nextPrayer!)
+            : 'جاري الحساب...';
+        final countdown = state.timeUntilNextPrayer != null
+            ? notifier.getCountdownString()
+            : 'حساب الوقت...';
+        final prayerTime = state.nextPrayer != null && state.nextPrayer != Prayer.none
+            ? notifier.getFormattedTime(state.prayerTimes!.timeForPrayer(state.nextPrayer!))
+            : null;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'الصلاة القادمة',
+              style: TextStyle(
+                color: Colors.white60,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  prayerName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (prayerTime != null) ...[
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      prayerTime,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.calendar_month,
-                      color: AppColors.textSecondary,
-                      size: 16,
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 2),
+            Text(
+              countdown,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+                height: 1.1,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildPrayerTimeline() {
+    return Consumer(
+      builder: (context, ref, _) {
+        final state = ref.watch(prayerProvider);
+        final times = state.prayerTimes;
+        if (times == null) return const SizedBox.shrink();
+        final notifier = ref.read(prayerProvider.notifier);
+        final nextPrayer = state.nextPrayer;
+        final prayers = [
+          ('الفجر', times.fajr, Prayer.fajr),
+          ('الشروق', times.sunrise, Prayer.sunrise),
+          ('الظهر', times.dhuhr, Prayer.dhuhr),
+          ('العصر', times.asr, Prayer.asr),
+          ('المغرب', times.maghrib, Prayer.maghrib),
+          ('العشاء', times.isha, Prayer.isha),
+        ];
+        return SizedBox(
+          height: 24,
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: prayers.map((p) {
+                    final isNext = nextPrayer == p.$3;
+                    return Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          p.$1,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: isNext ? FontWeight.bold : FontWeight.w500,
+                            color: isNext ? Colors.white : Colors.white60,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: prayers.map((p) {
+                    final time = notifier.getFormattedTime(p.$2);
+                    return Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          time,
+                          style: TextStyle(
+                            fontSize: 8,
+                            color: Colors.white.withValues(alpha: 0.45),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Container(
+                        height: 1.5,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(1),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: prayers.map((p) {
+                        final isNext = nextPrayer == p.$3;
+                        final passed = nextPrayer != null && _prayerPassed(p.$3, nextPrayer);
+                        final dotSize = isNext ? 8.0 : 5.0;
+                        final dotColor = isNext
+                            ? AppColors.goldLight
+                            : passed
+                                ? Colors.white.withValues(alpha: 0.5)
+                                : Colors.white.withValues(alpha: 0.25);
+                        return Expanded(
+                          child: Center(
+                            child: Container(
+                              width: dotSize,
+                              height: dotSize,
+                              decoration: BoxDecoration(
+                                color: dotColor,
+                                shape: BoxShape.circle,
+                                border: isNext
+                                    ? Border.all(color: Colors.white, width: 1.5)
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  bool _prayerPassed(Prayer prayer, Prayer next) {
+    const order = [
+      Prayer.fajr, Prayer.sunrise, Prayer.dhuhr,
+      Prayer.asr, Prayer.maghrib, Prayer.isha,
+    ];
+    final pIdx = order.indexOf(prayer);
+    final nIdx = order.indexOf(next);
+    if (pIdx == -1 || nIdx == -1) return false;
+    return pIdx < nIdx;
+  }
+
+  // ─── Section 3: Reading Continuation + Hadith ───
+  Widget _buildReadingAndHadithGrid() {
+    return SizedBox(
+      height: 170,
+      child: Row(
+        children: [
+          Expanded(child: _buildReadingCard()),
+          const SizedBox(width: 12),
+          Expanded(child: _buildHadithCard()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReadingCard() {
+    return _ScaleTap(
+      onTap: () => _openQuran(context),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Positioned(
+              right: -10,
+              top: -10,
+              child: IslamicIcons.quran(size: 90, color: AppColors.primaryLight.withValues(alpha: 0.25)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'أكمل قراءتك',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'سورة الكهف\nالآية 42',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'متابعة القراءة',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(width: 6),
+                        Icon(Icons.arrow_back_rounded, color: Colors.white, size: 14),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -207,602 +651,379 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   Widget _buildHadithCard() {
     final hadith = _hadiths[_currentHadithIndex];
-    return FadeTransition(
-      opacity: _fadeAnimations[1],
-      child: SlideTransition(
-        position: _slideAnimations[1],
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.12),
-              width: 1,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.06),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: AppColors.gold.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.format_quote_rounded,
-                      color: AppColors.gold,
-                      size: 18,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'حديث اليوم',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                hadith,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                  height: 1.6,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _HadithActionButton(
-                    icon: Icons.copy_rounded,
-                    tooltip: 'نسخ',
-                    onTap: () => _copyHadith(hadith),
-                  ),
-                  const SizedBox(width: 8),
-                  _HadithActionButton(
-                    icon: Icons.share_rounded,
-                    tooltip: 'مشاركة',
-                    onTap: () => _shareHadith(hadith),
-                  ),
-                  const SizedBox(width: 8),
-                  _HadithActionButton(
-                    icon: Icons.bookmark_border_rounded,
-                    tooltip: 'حفظ',
-                    onTap: () => _saveHadith(hadith),
-                  ),
-                  const SizedBox(width: 8),
-                  _HadithActionButton(
-                    icon: Icons.refresh_rounded,
-                    tooltip: 'تحديث',
-                    onTap: () {
-                      setState(() {
-                        _currentHadithIndex =
-                            (_currentHadithIndex + 1) % _hadiths.length;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNextPrayerCard() {
-    return FadeTransition(
-      opacity: _fadeAnimations[2],
-      child: SlideTransition(
-        position: _slideAnimations[2],
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.primary,
-                AppColors.primaryDark,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.3),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: const Icon(
-                  Icons.nightlight_round_rounded,
-                  color: Colors.white,
-                  size: 28,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'الصلاة القادمة',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Consumer(
-                      builder: (context, ref, _) {
-                        final state = ref.watch(prayerProvider);
-                        if (state.nextPrayer == null) {
-                          return const Text(
-                            'جاري التحميل...',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        }
-                        return Text(
-                          ref
-                              .read(prayerProvider.notifier)
-                              .getPrayerName(state.nextPrayer!),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 2),
-                    Consumer(
-                      builder: (context, ref, _) {
-                        final state = ref.watch(prayerProvider);
-                        return Text(
-                          state.timeUntilNextPrayer != null
-                              ? ref
-                                  .read(prayerProvider.notifier)
-                                  .getCountdownString()
-                              : 'حساب الوقت...',
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Consumer(
-                builder: (context, ref, _) {
-                  final state = ref.watch(prayerProvider);
-                  if (state.prayerTimes == null) return const SizedBox();
-                  final notifier = ref.read(prayerProvider.notifier);
-                  final next = state.nextPrayer;
-                  DateTime? nextTime;
-                  if (next != null && next != Prayer.none) {
-                    nextTime = state.prayerTimes!.timeForPrayer(next);
-                  }
-                  return Column(
-                    children: [
-                      Text(
-                        nextTime != null
-                            ? notifier.getFormattedTime(nextTime)
-                            : '--:--',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: AppColors.gold.withValues(alpha: 0.25),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppColors.gold.withValues(alpha: 0.4),
-                            width: 0.5,
-                          ),
-                        ),
-                        child: const Text(
-                          'متبقي',
-                          style: TextStyle(
-                            color: AppColors.goldLight,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeaderCarousel() {
-    return FadeTransition(
-      opacity: _fadeAnimations[3],
-      child: SlideTransition(
-        position: _slideAnimations[3],
-        child: Column(
-          children: [
-            SizedBox(
-              height: 180,
-              child: CarouselSlider.builder(
-                itemCount: 5,
-                itemBuilder: (context, index, realIndex) {
-                  return _buildCarouselItem(index);
-                },
-                options: CarouselOptions(
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 8),
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.92,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: _currentIndex == index ? 24.0 : 8.0,
-                  height: 8.0,
-                  decoration: BoxDecoration(
-                    color: _currentIndex == index
-                        ? AppColors.primary
-                        : AppColors.primary.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                );
-              }),
+    return _ScaleTap(
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildCarouselItem(int index) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.15),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color:
-                Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
-            blurRadius: 16,
-            spreadRadius: -2,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset('assets/images/${index + 1}.png', fit: BoxFit.cover),
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.15),
-                    Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.75),
-                  ],
-                  stops: const [0.3, 0.6, 1.0],
-                ),
-              ),
-            ),
-            Positioned(
-              left: 20,
-              right: 20,
-              bottom: 20,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Consumer(
-                          builder: (context, ref, _) {
-                            final state = ref.watch(prayerProvider);
-                            final notifier =
-                                ref.read(prayerProvider.notifier);
-                            return Text(
-                              state.nextPrayer != null
-                                  ? 'صلاة ${notifier.getPrayerName(state.nextPrayer!)}'
-                                  : 'جاري الحساب...',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 26,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: -0.5,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black38,
-                                    blurRadius: 6,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 4),
-                        Consumer(
-                          builder: (context, ref, _) {
-                            final notifier =
-                                ref.read(prayerProvider.notifier);
-                            return Text(
-                              notifier.getCountdownString(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black38,
-                                    blurRadius: 4,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => _openQuran(context),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          width: 1,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.play_arrow_rounded,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDailyActivityCards() {
-    return FadeTransition(
-      opacity: _fadeAnimations[4],
-      child: SlideTransition(
-        position: _slideAnimations[4],
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              Expanded(
-                child: _ActivityInfoCard(
-                  icon: Icons.local_fire_department_rounded,
-                  label: 'الأيام المتتالية',
-                  value: '5',
-                  color: Colors.orange,
-                  onTap: () => context.push('/activities'),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _ActivityInfoCard(
-                  icon: Icons.menu_book_rounded,
-                  label: 'تقدم الحفظ',
-                  value: '3 أجزاء',
-                  color: AppColors.primary,
-                  onTap: () => _openQuran(context),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: _ActivityInfoCard(
-                  icon: Icons.check_circle_outline_rounded,
-                  label: 'إنجاز الورد',
-                  value: '80%',
-                  color: AppColors.gold,
-                  onTap: () => context.push('/azkar'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuickAccess() {
-    return FadeTransition(
-      opacity: _fadeAnimations[5],
-      child: SlideTransition(
-        position: _slideAnimations[5],
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'وصول سريع',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: AppColors.gold.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  Icon(
-                    Icons.edit_outlined,
-                    color: AppColors.textSecondary,
-                    size: 20,
+                  child: const Icon(
+                    Icons.format_quote_rounded,
+                    color: AppColors.gold,
+                    size: 16,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'حديث اليوم',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Text(
+                hadith,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                  height: 1.5,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _CircleActionButton(
+                    icon: Icons.copy_rounded,
+                    size: 40,
+                    onTap: () => _copyHadith(hadith),
+                  ),
+                  const SizedBox(width: 6),
+                  _CircleActionButton(
+                    icon: Icons.share_rounded,
+                    size: 40,
+                    onTap: () => _shareHadith(hadith),
+                  ),
+                  const SizedBox(width: 6),
+                  _CircleActionButton(
+                    icon: Icons.bookmark_border_rounded,
+                    size: 40,
+                    onTap: () => _saveHadith(hadith),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 14),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ─── Section 4: Daily Goal Card ───
+  Widget _buildDailyGoalCard() {
+    return _ScaleTap(
+      onTap: () => context.push('/azkar'),
+      child: Container(
+        height: 90,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
+                  const Row(
                     children: [
-                      Expanded(
-                        child: Builder(
-                          builder: (ctx) => QuickActionCard(
-                            title: 'القرآن',
-                            icon: Icons.menu_book,
-                            customIcon:
-                                IslamicIcons.quran(color: AppColors.primary),
-                            onTap: () => _openQuran(ctx),
-                          ),
+                      Text(
+                        'وردك اليوم',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Builder(
-                          builder: (ctx) => QuickActionCard(
-                            title: 'المسبحة',
-                            icon: Icons.ads_click,
-                            customIcon:
-                                IslamicIcons.tasbeeh(color: AppColors.primary),
-                            onTap: () => ctx.push('/tasbeeh'),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Builder(
-                          builder: (ctx) => QuickActionCard(
-                            title: 'الأذكار',
-                            icon: Icons.wb_sunny_outlined,
-                            customIcon:
-                                IslamicIcons.azkar(color: AppColors.primary),
-                            onTap: () => ctx.push('/azkar'),
-                          ),
+                      SizedBox(width: 6),
+                      Text(
+                        '3 / 10 صفحات',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Row(
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: LinearProgressIndicator(
+                      value: 0.3,
+                      minHeight: 8,
+                      backgroundColor: AppColors.background,
+                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            IslamicIcons.quran(size: 48, color: AppColors.primaryLight.withValues(alpha: 0.6)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ─── Section 5: Featured Slider ───
+  Widget _buildFeaturedSlider() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 170,
+          child: CarouselSlider.builder(
+            itemCount: 5,
+            itemBuilder: (context, index, realIndex) {
+              return _buildSliderItem(index);
+            },
+            options: CarouselOptions(
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 8),
+              enlargeCenterPage: true,
+              viewportFraction: 0.92,
+              height: 170,
+              onPageChanged: (index, reason) {
+                setState(() => _sliderIndex = index);
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(5, (index) {
+            final isActive = _sliderIndex == index;
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOutCubic,
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              width: isActive ? 24.0 : 8.0,
+              height: 8.0,
+              decoration: BoxDecoration(
+                color: isActive ? AppColors.primary : const Color(0xFFD0D0D0),
+                borderRadius: BorderRadius.circular(999),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSliderItem(int index) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset('assets/images/${index + 1}.png', fit: BoxFit.cover),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.6),
+                ],
+                stops: const [0.4, 1.0],
+              ),
+            ),
+          ),
+          Positioned(
+            right: 20,
+            left: 20,
+            bottom: 16,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(
-                        child: Builder(
-                          builder: (ctx) => QuickActionCard(
-                            title: 'القبلة',
-                            icon: Icons.explore_rounded,
-                            onTap: () => ctx.push('/qibla'),
-                          ),
-                        ),
+                      Consumer(
+                        builder: (context, ref, _) {
+                          final state = ref.watch(prayerProvider);
+                          final notifier = ref.read(prayerProvider.notifier);
+                          final name = state.nextPrayer != null
+                              ? notifier.getPrayerName(state.nextPrayer!)
+                              : 'الفجر';
+                          return Text(
+                            'صلاة $name',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.3,
+                              shadows: [
+                                Shadow(color: Colors.black38, blurRadius: 6, offset: Offset(0, 2)),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Builder(
-                          builder: (ctx) => QuickActionCard(
-                            title: 'الدعاء',
-                            icon: Icons.favorite_rounded,
-                            onTap: () => ctx.push('/dua'),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Builder(
-                          builder: (ctx) => QuickActionCard(
-                            title: 'الحديث',
-                            icon: Icons.format_quote_rounded,
-                            onTap: () => ctx.push('/hisn'),
-                          ),
-                        ),
+                      const SizedBox(height: 4),
+                      Consumer(
+                        builder: (context, ref, _) {
+                          final notifier = ref.read(prayerProvider.notifier);
+                          final countdown = notifier.getCountdownString();
+                          return Text(
+                            'باقي $countdown',
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              shadows: [
+                                Shadow(color: Colors.black38, blurRadius: 4, offset: Offset(0, 2)),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
-                ],
+                ),
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ─── Section 6: Achievement Cards ───
+  Widget _buildAchievementCards() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(right: 4),
+          child: Text(
+            'إنجازاتك اليوم',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 120,
+          child: Row(
+            children: [
+              Expanded(child: _buildAchievementCard('🔥', '5 أيام\nمتتالية', Colors.orange)),
+              const SizedBox(width: 12),
+              Expanded(child: _buildAchievementCard('📖', '3 أجزاء\nمحفوظة', AppColors.primary)),
+              const SizedBox(width: 12),
+              Expanded(child: _buildAchievementCard('✅', '80%\nإنجاز الورد', AppColors.gold)),
+              const SizedBox(width: 12),
+              Expanded(child: _buildAchievementCard('🎯', '8/24\nمهمة', Colors.blue)),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAchievementCard(String emoji, String text, Color accent) {
+    return _ScaleTap(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 26)),
+            const SizedBox(height: 6),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+                height: 1.3,
               ),
             ),
           ],
@@ -811,182 +1032,232 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  Widget _buildDailyJourneySection() {
-    return FadeTransition(
-      opacity: _fadeAnimations[5],
-      child: SlideTransition(
-        position: _slideAnimations[5],
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => context.push('/activities'),
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  width: 1.5,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.04),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+  // ─── Section 7: Quick Access ───
+  Widget _buildQuickAccessTitle() {
+    return Row(
+      children: [
+        const Text(
+          '⚡ ',
+          style: TextStyle(fontSize: 18),
+        ),
+        const Text(
+          'الوصول السريع',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        const Spacer(),
+      ],
+    );
+  }
+
+  Widget _buildQuickAccessGrid() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: _buildQuickAccessCard(
+              title: 'القرآن',
+              icon: IslamicIcons.quran(size: 32, color: AppColors.primary),
+              isLarge: true,
+              onTap: () => _openQuran(context),
+            )),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                children: [
+                  _buildQuickAccessCard(
+                    title: 'المسبحة',
+                    icon: IslamicIcons.tasbeeh(size: 32, color: AppColors.primary),
+                    onTap: () => context.push('/tasbeeh'),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildQuickAccessCard(
+                    title: 'الأذكار',
+                    icon: IslamicIcons.azkar(size: 32, color: AppColors.primary),
+                    onTap: () => context.push('/azkar'),
                   ),
                 ],
               ),
-              child: Row(
-            children: [
-              SizedBox(
-                height: 88,
-                width: 88,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 88,
-                      width: 88,
-                      child: CircularProgressIndicator(
-                        value: 8 / 24,
-                        strokeWidth: 8,
-                        backgroundColor: Colors.grey.shade200,
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                          AppColors.primary,
-                        ),
-                        strokeCap: StrokeCap.round,
-                      ),
-                    ),
-                    const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '33%',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryDark,
-                          ),
-                        ),
-                        Text(
-                          'مكتمل',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'أداء متميز!',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'لقد أنهيت 8 من أصل 24 مهمة اليوم.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        _JourneyBadge(
-                          icon: Icons.local_fire_department,
-                          value: '5 أيام',
-                          label: 'تتابع',
-                          color: Colors.orange,
-                        ),
-                        const SizedBox(width: 16),
-                        _JourneyBadge(
-                          icon: Icons.diamond,
-                          value: '150',
-                          label: 'نقطة',
-                          color: Colors.blue,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(child: _buildQuickAccessCard(
+              title: 'الحديث',
+              icon: Icons.format_quote_rounded,
+              onTap: () => context.push('/hisn'),
+            )),
+            const SizedBox(width: 12),
+            Expanded(child: _buildQuickAccessCard(
+              title: 'السيرة النبوية',
+              icon: Icons.auto_stories_rounded,
+              onTap: () => context.push('/seerah'),
+            )),
+            const SizedBox(width: 12),
+            Expanded(child: _buildQuickAccessCard(
+              title: 'الدعاء',
+              icon: Icons.favorite_rounded,
+              onTap: () => context.push('/dua'),
+            )),
+          ],
         ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(child: _buildQuickAccessCard(
+              title: 'القبلة',
+              icon: Icons.explore_rounded,
+              onTap: () => context.push('/qibla'),
+            )),
+            const SizedBox(width: 12),
+            Expanded(child: _buildQuickAccessCard(
+              title: 'المزيد',
+              icon: Icons.grid_view_rounded,
+              onTap: () {},
+            )),
+            const SizedBox(width: 12),
+            const Spacer(),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuickAccessCard({
+    required String title,
+    required dynamic icon,
+    bool isLarge = false,
+    required VoidCallback onTap,
+  }) {
+    final height = isLarge ? 180.0 : 90.0;
+    return _ScaleTap(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(isLarge ? 24 : 22),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: isLarge
+            ? _buildLargeCardContent(title, icon)
+            : _buildSmallCardContent(title, icon),
       ),
-    ),
-  );
-}
+    );
+  }
 
-}
-
-class _HadithActionButton extends StatelessWidget {
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback onTap;
-
-  const _HadithActionButton({
-    required this.icon,
-    required this.tooltip,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltip,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              icon,
-              size: 18,
-              color: AppColors.textSecondary,
+  Widget _buildLargeCardContent(String title, dynamic icon) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon is Widget) icon else Icon(icon as IconData, size: 32, color: AppColors.primary),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textPrimary,
             ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSmallCardContent(String title, dynamic icon) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon is Widget) icon else Icon(icon as IconData, size: 32, color: AppColors.primary),
+          const SizedBox(height: 6),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _ActivityInfoCard extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color color;
-  final VoidCallback? onTap;
+// ─── Reusable Helpers ───
 
-  const _ActivityInfoCard({
+class _ScaleTap extends StatefulWidget {
+  final Widget child;
+  final VoidCallback? onTap;
+  const _ScaleTap({required this.child, this.onTap});
+
+  @override
+  State<_ScaleTap> createState() => _ScaleTapState();
+}
+
+class _ScaleTapState extends State<_ScaleTap>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    _scale = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: widget.onTap != null ? (_) => _controller.forward() : null,
+      onTapUp: widget.onTap != null
+          ? (_) {
+              _controller.reverse();
+              widget.onTap!();
+            }
+          : null,
+      onTapCancel: widget.onTap != null ? () => _controller.reverse() : null,
+      child: ScaleTransition(scale: _scale, child: widget.child),
+    );
+  }
+}
+
+class _CircleActionButton extends StatelessWidget {
+  final IconData icon;
+  final double size;
+  final VoidCallback onTap;
+
+  const _CircleActionButton({
     required this.icon,
-    required this.label,
-    required this.value,
-    required this.color,
-    this.onTap,
+    required this.size,
+    required this.onTap,
   });
 
   @override
@@ -995,144 +1266,79 @@ class _ActivityInfoCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(size / 2),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+          width: size,
+          height: size,
           decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.08),
-              width: 1,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.03),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            color: AppColors.primary.withValues(alpha: 0.06),
+            shape: BoxShape.circle,
           ),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: color, size: 18),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          child: Icon(icon, size: size * 0.45, color: AppColors.textSecondary),
         ),
       ),
     );
   }
 }
 
-class _JourneyBadge extends StatelessWidget {
-  final IconData icon;
-  final String value;
-  final String label;
-  final Color color;
+// ─── Mosque Silhouette ───
 
-  const _JourneyBadge({
-    required this.icon,
-    required this.value,
-    required this.label,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.12),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: color, size: 14),
-        ),
-        const SizedBox(width: 6),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              value,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 10,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _IslamicTexturePainter extends CustomPainter {
+class _MosqueSilhouettePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColors.primary.withValues(alpha: 0.02)
+      ..color = Colors.white.withValues(alpha: 0.08)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.6;
+      ..strokeWidth = 1.2;
+    final fillPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.04)
+      ..style = PaintingStyle.fill;
 
-    const spacing = 60.0;
-    for (double x = 0; x < size.width + spacing; x += spacing) {
-      for (double y = 0; y < size.height + spacing; y += spacing) {
-        final path = Path();
-        const r = 18.0;
-        for (int i = 0; i < 8; i++) {
-          final angle = (i * 3.14159 * 2 / 8) - 3.14159 / 8;
-          final px = x + r * _cos(angle);
-          final py = y + r * _sin(angle);
-          if (i == 0) {
-            path.moveTo(px, py);
-          } else {
-            path.lineTo(px, py);
-          }
-        }
-        path.close();
-        canvas.drawPath(path, paint);
-      }
-    }
+    final cx = size.width * 0.7;
+    final baseY = size.height * 0.9;
+    final scale = size.width * 0.004;
+
+    // Main dome
+    final domePath = Path()
+      ..moveTo(cx - 40 * scale, baseY)
+      ..quadraticBezierTo(cx - 50 * scale, baseY - 10 * scale, cx - 35 * scale, baseY - 40 * scale)
+      ..quadraticBezierTo(cx - 5 * scale, baseY - 80 * scale, cx, baseY - 85 * scale)
+      ..quadraticBezierTo(cx + 5 * scale, baseY - 80 * scale, cx + 35 * scale, baseY - 40 * scale)
+      ..quadraticBezierTo(cx + 50 * scale, baseY - 10 * scale, cx + 40 * scale, baseY)
+      ..close();
+    canvas.drawPath(domePath, fillPaint);
+    canvas.drawPath(domePath, paint);
+
+    // Crescent on top
+    canvas.drawCircle(Offset(cx, baseY - 90 * scale), 6 * scale, paint);
+    canvas.drawCircle(Offset(cx + 2 * scale, baseY - 92 * scale), 5 * scale, fillPaint);
+
+    // Left minaret
+    _drawMinaret(canvas, cx - 50 * scale, baseY, scale, paint, fillPaint);
+    // Right minaret
+    _drawMinaret(canvas, cx + 50 * scale, baseY, scale, paint, fillPaint);
   }
 
-  double _cos(double a) => math.cos(a);
-  double _sin(double a) => math.sin(a);
+  void _drawMinaret(Canvas canvas, double cx, double baseY, double scale, Paint stroke, Paint fill) {
+    final w = 6 * scale;
+    final h = 60 * scale;
+    final path = Path()
+      ..moveTo(cx - w, baseY)
+      ..lineTo(cx - w, baseY - h)
+      ..lineTo(cx + w, baseY - h)
+      ..lineTo(cx + w, baseY)
+      ..close();
+    canvas.drawPath(path, fill);
+    canvas.drawPath(path, stroke);
+
+    // Spire
+    canvas.drawLine(
+      Offset(cx, baseY - h),
+      Offset(cx, baseY - h - 12 * scale),
+      stroke,
+    );
+    canvas.drawCircle(Offset(cx, baseY - h - 14 * scale), 2 * scale, stroke);
+  }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;

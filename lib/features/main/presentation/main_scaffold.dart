@@ -27,54 +27,123 @@ class MainScaffold extends ConsumerWidget {
           ProfileScreen(),
         ],
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        onDestinationSelected: (index) {
-          if (index == 1) {
-            QuranNativeService.openQuran();
-          } else {
-            ref.read(navigationProvider.notifier).setIndex(index);
-          }
-        },
-        backgroundColor: AppColors.surface,
-        indicatorColor: AppColors.primary.withValues(alpha: 0.15),
-        height: 68,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home, color: AppColors.primaryDark),
-            label: 'الرئيسة',
+      bottomNavigationBar: Container(
+        height: 72,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(color: Color(0xFFEAEAEA), width: 0.5),
           ),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book, color: AppColors.primaryDark),
-            label: 'القرآن',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore, color: AppColors.primaryDark),
-            label: 'الاستكشاف',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.group_outlined),
-            selectedIcon: Icon(Icons.group, color: AppColors.primaryDark),
-            label: 'المجموعات',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.local_activity_outlined),
-            selectedIcon: Icon(
-              Icons.local_activity,
-              color: AppColors.primaryDark,
+        ),
+        child: Row(
+          children: [
+            _NavItem(
+              icon: Icons.home_outlined,
+              activeIcon: Icons.home_rounded,
+              label: 'الرئيسية',
+              index: 0,
+              currentIndex: currentIndex,
+              onTap: () => ref.read(navigationProvider.notifier).setIndex(0),
             ),
-            label: 'الأنشطة',
+            _NavItem(
+              icon: Icons.menu_book_outlined,
+              activeIcon: Icons.menu_book_rounded,
+              label: 'القرآن',
+              index: 1,
+              currentIndex: currentIndex,
+              onTap: () => QuranNativeService.openQuran(),
+            ),
+            _NavItem(
+              icon: Icons.explore_outlined,
+              activeIcon: Icons.explore_rounded,
+              label: 'استكشاف',
+              index: 2,
+              currentIndex: currentIndex,
+              onTap: () => ref.read(navigationProvider.notifier).setIndex(2),
+            ),
+            _NavItem(
+              icon: Icons.group_outlined,
+              activeIcon: Icons.group_rounded,
+              label: 'المجتمع',
+              index: 3,
+              currentIndex: currentIndex,
+              onTap: () => ref.read(navigationProvider.notifier).setIndex(3),
+            ),
+            _NavItem(
+              icon: Icons.local_activity_outlined,
+              activeIcon: Icons.local_activity_rounded,
+              label: 'الأنشطة',
+              index: 4,
+              currentIndex: currentIndex,
+              onTap: () => ref.read(navigationProvider.notifier).setIndex(4),
+            ),
+            _NavItem(
+              icon: Icons.person_outline,
+              activeIcon: Icons.person_rounded,
+              label: 'ملفي',
+              index: 5,
+              currentIndex: currentIndex,
+              onTap: () => ref.read(navigationProvider.notifier).setIndex(5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NavItem extends StatelessWidget {
+  final IconData icon;
+  final IconData activeIcon;
+  final String label;
+  final int index;
+  final int currentIndex;
+  final VoidCallback onTap;
+
+  const _NavItem({
+    required this.icon,
+    required this.activeIcon,
+    required this.label,
+    required this.index,
+    required this.currentIndex,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isActive = index == currentIndex;
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: isActive ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  isActive ? activeIcon : icon,
+                  size: 24,
+                  color: isActive ? AppColors.primaryDark : const Color(0xFF9E9E9E),
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: isActive ? AppColors.primaryDark : const Color(0xFF9E9E9E),
+                ),
+              ),
+            ],
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person, color: AppColors.primaryDark),
-            label: 'ملفي',
-          ),
-        ],
+        ),
       ),
     );
   }

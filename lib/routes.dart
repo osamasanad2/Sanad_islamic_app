@@ -11,6 +11,7 @@ import 'features/hisn/presentation/screens/hisn_details_screen.dart';
 import 'features/hisn/data/models/hisn_model.dart';
 import 'features/qibla/presentation/screens/qibla_screen.dart';
 import 'features/dua/presentation/screens/dua_screen.dart';
+import 'features/seerah/presentation/screens/seerah_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/login',
@@ -22,6 +23,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/azkar', builder: (context, state) => const AzkarScreen()),
     GoRoute(path: '/qibla', builder: (context, state) => const QiblaScreen()),
     GoRoute(path: '/dua', builder: (context, state) => const DuaScreen()),
+    GoRoute(path: '/seerah', builder: (context, state) => const SeerahScreen()),
     GoRoute(path: '/hisn', builder: (context, state) => const HisnScreen()),
     GoRoute(
       path: '/monthly-prayers',
