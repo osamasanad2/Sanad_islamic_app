@@ -22,8 +22,8 @@ class FiqhItem {
   factory FiqhItem.fromJson(Map<String, dynamic> json) {
     return FiqhItem(
       type: json['type'] as String,
-      title: json['title'] as String,
-      content: json['content'] as String? ?? json['text'] as String,
+      title: (json['title'] ?? json['source'] ?? '') as String,
+      content: (json['content'] ?? json['text'] ?? '') as String,
       text: json['text'] as String?,
       source: json['source'] as String,
       reference: json['reference'] as String?,
