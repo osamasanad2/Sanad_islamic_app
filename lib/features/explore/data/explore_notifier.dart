@@ -12,6 +12,7 @@ class ExploreState {
   final int factIndex;
   final HadithItem? featuredHadith;
   final bool isLoading;
+  final String searchQuery;
 
   const ExploreState({
     this.currentContent,
@@ -19,6 +20,7 @@ class ExploreState {
     this.factIndex = 0,
     this.featuredHadith,
     this.isLoading = true,
+    this.searchQuery = '',
   });
 
   ExploreState copyWith({
@@ -27,6 +29,7 @@ class ExploreState {
     int? factIndex,
     HadithItem? featuredHadith,
     bool? isLoading,
+    String? searchQuery,
   }) {
     return ExploreState(
       currentContent: currentContent ?? this.currentContent,
@@ -34,6 +37,7 @@ class ExploreState {
       factIndex: factIndex ?? this.factIndex,
       featuredHadith: featuredHadith ?? this.featuredHadith,
       isLoading: isLoading ?? this.isLoading,
+      searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 }
@@ -158,5 +162,9 @@ class ExploreNotifier extends Notifier<ExploreState> {
       currentContentType: content.type,
       factIndex: factIdx,
     );
+  }
+
+  void setSearchQuery(String query) {
+    state = state.copyWith(searchQuery: query);
   }
 }

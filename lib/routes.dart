@@ -17,7 +17,14 @@ import 'features/profile/presentation/screens/notifications_screen.dart';
 import 'features/explore/presentation/screens/library_screen.dart';
 import 'features/explore/presentation/screens/book_detail_screen.dart';
 import 'features/explore/presentation/screens/zakat_screen.dart';
+import 'features/explore/presentation/screens/asma_al_husna_screen.dart';
+import 'features/explore/presentation/screens/islamic_event_detail_screen.dart';
+import 'features/explore/presentation/screens/ruqyah_screen.dart';
+import 'features/explore/presentation/screens/tajweed_screen.dart';
+import 'features/explore/presentation/screens/muslim_woman_screen.dart';
+import 'features/explore/presentation/screens/fiqh_screen.dart';
 import 'features/explore/data/book_model.dart';
+import 'features/explore/data/islamic_event_model.dart';
 import 'features/profile/presentation/screens/font_settings_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -39,6 +46,23 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final book = state.extra as Book;
         return BookDetailScreen(book: book);
+      },
+    ),
+    GoRoute(path: '/asma-al-husna',
+        builder: (context, state) => const AsmaAlHusnaScreen()),
+    GoRoute(path: '/ruqyah',
+        builder: (context, state) => const RuqyahScreen()),
+    GoRoute(path: '/tajweed',
+        builder: (context, state) => const TajweedScreen()),
+    GoRoute(path: '/muslim-woman',
+        builder: (context, state) => const MuslimWomanScreen()),
+    GoRoute(path: '/fiqh',
+        builder: (context, state) => const FiqhScreen()),
+    GoRoute(
+      path: '/islamic-event',
+      builder: (context, state) {
+        final event = state.extra as IslamicEvent;
+        return IslamicEventDetailScreen(event: event);
       },
     ),
     GoRoute(path: '/fonts', builder: (context, state) => const FontSettingsScreen()),
