@@ -4,9 +4,9 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/services/quran_native_service.dart';
 import '../../home/presentation/screens/home_screen.dart';
 import '../../explore/presentation/screens/explore_screen.dart';
-import '../../profile/presentation/screens/profile_screen.dart';
-import '../../activities/presentation/screens/activities_screen.dart';
 import '../../groups/presentation/screens/groups_screen.dart';
+import '../../activities/presentation/screens/activities_screen.dart';
+import '../../profile/presentation/screens/profile_screen.dart';
 import '../logic/navigation_provider.dart';
 
 class MainScaffold extends ConsumerWidget {
@@ -20,19 +20,20 @@ class MainScaffold extends ConsumerWidget {
       body: IndexedStack(
         index: currentIndex,
         children: const [
-          HomeScreen(),
-          ExploreScreen(),
-          GroupsScreen(),
-          ActivitiesScreen(),
-          ProfileScreen(),
+          HomeScreen(),          // 0 = الرئيسية
+          SizedBox.shrink(),     // 1 = القرآن (external app)
+          ExploreScreen(),       // 2 = الاستكشاف
+          GroupsScreen(),        // 3 = المجتمع
+          ActivitiesScreen(),    // 4 = الأنشطة
+          ProfileScreen(),       // 5 = الملف الشخصي
         ],
       ),
       bottomNavigationBar: Container(
         height: 72,
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: context.appColors.surface,
           border: Border(
-            top: BorderSide(color: Color(0xFFEAEAEA), width: 0.5),
+            top: BorderSide(color: context.appColors.textSecondary.withValues(alpha: 0.2), width: 0.5),
           ),
         ),
         child: Row(
@@ -123,13 +124,13 @@ class _NavItem extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: isActive ? AppColors.primary.withValues(alpha: 0.12) : Colors.transparent,
+                  color: isActive ? context.appColors.primary.withValues(alpha: 0.12) : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   isActive ? activeIcon : icon,
                   size: 24,
-                  color: isActive ? AppColors.primaryDark : const Color(0xFF9E9E9E),
+                  color: isActive ? context.appColors.primaryLight : const Color(0xFF9E9E9E),
                 ),
               ),
               const SizedBox(height: 2),
@@ -138,7 +139,7 @@ class _NavItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color: isActive ? AppColors.primaryDark : const Color(0xFF9E9E9E),
+                  color: isActive ? context.appColors.primaryLight : const Color(0xFF9E9E9E),
                 ),
               ),
             ],

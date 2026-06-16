@@ -102,13 +102,13 @@ class _DuaScreenState extends State<DuaScreen> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
         title: const Text('الأدعية'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: AppColors.textPrimary,
+        foregroundColor: context.appColors.textPrimary,
       ),
       body: Column(
         children: [
@@ -130,7 +130,7 @@ class _DuaScreenState extends State<DuaScreen> with SingleTickerProviderStateMix
                       )
                     : null,
                 filled: true,
-                fillColor: AppColors.surface,
+                fillColor: context.appColors.surface,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.08))),
                 enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: AppColors.primary.withValues(alpha: 0.08))),
@@ -179,9 +179,9 @@ class _DuaScreenState extends State<DuaScreen> with SingleTickerProviderStateMix
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.search_off_rounded, size: 48, color: AppColors.textSecondary.withValues(alpha: 0.4)),
+            Icon(Icons.search_off_rounded, size: 48, color: context.appColors.textSecondary.withValues(alpha: 0.4)),
             const SizedBox(height: 12),
-            Text('لا توجد نتائج لـ "$_query"', style: TextStyle(fontSize: 15, color: AppColors.textSecondary)),
+            Text('لا توجد نتائج لـ "$_query"', style: TextStyle(fontSize: 15, color: context.appColors.textSecondary)),
           ],
         ),
       );
@@ -225,9 +225,9 @@ class _HisnSectionHeader extends StatelessWidget {
               child: const Icon(Icons.menu_book_rounded, color: AppColors.gold, size: 18),
             ),
             const SizedBox(width: 8),
-            const Text('حصن المسلم', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+            Text('حصن المسلم', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: context.appColors.textPrimary)),
             const Spacer(),
-            Text('الأذكار والأدعية المأثورة', style: TextStyle(fontSize: 10, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
+            Text('الأذكار والأدعية المأثورة', style: TextStyle(fontSize: 10, color: context.appColors.textSecondary, fontWeight: FontWeight.w500)),
           ],
         ),
         const SizedBox(height: 8),
@@ -304,7 +304,7 @@ class _LegacyCategoryCardState extends State<_LegacyCategoryCard> with SingleTic
         child: Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: cat.color.withValues(alpha: 0.15)),
             boxShadow: [
@@ -328,8 +328,8 @@ class _LegacyCategoryCardState extends State<_LegacyCategoryCard> with SingleTic
                         child: Icon(cat.icon, color: cat.color, size: 20),
                       ),
                       const SizedBox(width: 10),
-                      Expanded(child: Text(cat.name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.textPrimary))),
-                      AnimatedRotation(turns: _expanded ? 0.5 : 0, duration: const Duration(milliseconds: 200), child: Icon(Icons.expand_more_rounded, color: AppColors.textSecondary, size: 20)),
+                      Expanded(child: Text(cat.name, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: context.appColors.textPrimary))),
+                      AnimatedRotation(turns: _expanded ? 0.5 : 0, duration: const Duration(milliseconds: 200), child: Icon(Icons.expand_more_rounded, color: context.appColors.textSecondary, size: 20)),
                     ],
                   ),
                 ),
@@ -363,14 +363,14 @@ class _LegacyDuaCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: AppColors.background,
+          color: context.appColors.background,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: color.withValues(alpha: 0.06)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(dua.text, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.textPrimary, height: 1.8)),
+            Text(dua.text, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: context.appColors.textPrimary, height: 1.8)),
             const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -428,7 +428,7 @@ class _CategoryCardState extends State<_CategoryCard> {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: c.withValues(alpha: 0.2)),
         boxShadow: [BoxShadow(color: c.withValues(alpha: 0.06), blurRadius: 8, offset: const Offset(0, 3))],
@@ -451,14 +451,14 @@ class _CategoryCardState extends State<_CategoryCard> {
                     child: Icon(cat.icon, color: c, size: 18),
                   ),
                   const SizedBox(width: 10),
-                  Expanded(child: Text(cat.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary))),
+                  Expanded(child: Text(cat.name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: context.appColors.textPrimary))),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                     decoration: BoxDecoration(color: c.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(8)),
                     child: Text('${cat.duas.length}', style: TextStyle(fontSize: 10, color: c, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(width: 6),
-                  AnimatedRotation(turns: _expanded ? 0.5 : 0, duration: const Duration(milliseconds: 200), child: Icon(Icons.expand_more_rounded, color: AppColors.textSecondary, size: 20)),
+                  AnimatedRotation(turns: _expanded ? 0.5 : 0, duration: const Duration(milliseconds: 200), child: Icon(Icons.expand_more_rounded, color: context.appColors.textSecondary, size: 20)),
                 ],
               ),
             ),
@@ -504,7 +504,7 @@ class _HisnDuaCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(dua.text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary, height: 1.7)),
+            Text(dua.text, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.appColors.textPrimary, height: 1.7)),
             const SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

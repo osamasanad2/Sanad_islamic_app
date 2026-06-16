@@ -12,6 +12,13 @@ import 'features/hisn/data/models/hisn_model.dart';
 import 'features/qibla/presentation/screens/qibla_screen.dart';
 import 'features/dua/presentation/screens/dua_screen.dart';
 import 'features/seerah/presentation/screens/seerah_screen.dart';
+import 'features/profile/presentation/screens/about_screen.dart';
+import 'features/profile/presentation/screens/notifications_screen.dart';
+import 'features/explore/presentation/screens/library_screen.dart';
+import 'features/explore/presentation/screens/book_detail_screen.dart';
+import 'features/explore/presentation/screens/zakat_screen.dart';
+import 'features/explore/data/book_model.dart';
+import 'features/profile/presentation/screens/font_settings_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/login',
@@ -24,6 +31,18 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/qibla', builder: (context, state) => const QiblaScreen()),
     GoRoute(path: '/dua', builder: (context, state) => const DuaScreen()),
     GoRoute(path: '/seerah', builder: (context, state) => const SeerahScreen()),
+    GoRoute(path: '/about', builder: (context, state) => const AboutScreen()),
+    GoRoute(path: '/library', builder: (context, state) => const LibraryScreen()),
+    GoRoute(path: '/zakat', builder: (context, state) => const ZakatScreen()),
+    GoRoute(
+      path: '/library/book',
+      builder: (context, state) {
+        final book = state.extra as Book;
+        return BookDetailScreen(book: book);
+      },
+    ),
+    GoRoute(path: '/fonts', builder: (context, state) => const FontSettingsScreen()),
+    GoRoute(path: '/notifications', builder: (context, state) => const NotificationsScreen()),
     GoRoute(path: '/hisn', builder: (context, state) => const HisnScreen()),
     GoRoute(
       path: '/monthly-prayers',

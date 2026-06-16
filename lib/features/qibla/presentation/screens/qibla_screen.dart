@@ -73,13 +73,13 @@ class _QiblaScreenState extends State<QiblaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
         title: const Text('اتجاه القبلة'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: AppColors.textPrimary,
+        foregroundColor: context.appColors.textPrimary,
       ),
       body: Center(
         child: Column(
@@ -90,7 +90,7 @@ class _QiblaScreenState extends State<QiblaScreen> {
               height: 260,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.surface,
+                color: context.appColors.surface,
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.primary.withValues(alpha: 0.1),
@@ -102,34 +102,34 @@ class _QiblaScreenState extends State<QiblaScreen> {
               child: _qiblaDirection != null
                   ? Transform.rotate(
                       angle: (_qiblaDirection! * math.pi / 180),
-                      child: const Icon(
-                        Icons.near_me_rounded,
-                        color: AppColors.primary,
-                        size: 120,
-                      ),
-                    )
-                  : const Icon(
+                    child: Icon(
                       Icons.explore_rounded,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
+                      size: 100,
+                    ),
+                    )
+                  : Icon(
+                      Icons.explore_rounded,
+                      color: context.appColors.textSecondary,
                       size: 100,
                     ),
             ),
             const SizedBox(height: 30),
             Text(
               _status,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
             if (_qiblaDirection != null)
               Text(
                 'الاتجاه: ${_qiblaDirection!.toStringAsFixed(1)}°',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             const SizedBox(height: 24),
@@ -137,18 +137,18 @@ class _QiblaScreenState extends State<QiblaScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 40),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: context.appColors.surface,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: AppColors.primary.withValues(alpha: 0.1),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'قم بتوجيه الهاتف باتجاه القبلة الموضح.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                   height: 1.5,
                 ),
               ),

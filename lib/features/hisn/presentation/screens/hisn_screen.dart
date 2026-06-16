@@ -27,7 +27,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
     final hisnAsync = ref.watch(hisnProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: hisnAsync.when(
         loading: () => _buildLoadingState(),
         error: (err, _) => Center(child: Text('حدث خطأ: $err')),
@@ -71,7 +71,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                       Text(
                         'أقسام الأذكار والأدعية',
                         style: TextStyle(
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                           fontSize: 13,
                         ),
                       ),
@@ -114,9 +114,9 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
+          Text(
             'جارٍ تحميل حصن المسلم...',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 15),
+            style: TextStyle(color: context.appColors.textSecondary, fontSize: 15),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -138,7 +138,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
       floating: false,
       pinned: true,
       elevation: 0,
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       leading: IconButton(
         icon: Container(
           padding: const EdgeInsets.all(6),
@@ -152,9 +152,9 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
               ),
             ],
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
             size: 20,
           ),
         ),
@@ -269,7 +269,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
           onChanged: (value) => setState(() => _searchQuery = value),
           decoration: InputDecoration(
             hintText: 'ابحث عن ذكر أو دعاء...',
-            hintStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+            hintStyle: TextStyle(color: context.appColors.textSecondary, fontSize: 14),
             prefixIcon: Icon(
               Icons.search_rounded,
               color: Colors.purple.shade300,
@@ -284,7 +284,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                   )
                 : null,
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: context.appColors.surface,
             contentPadding: const EdgeInsets.symmetric(vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -345,7 +345,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: context.appColors.surface,
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(
                     color: color.withValues(alpha: 0.12),
@@ -379,8 +379,8 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                         children: [
                           Text(
                             cat.name,
-                            style: const TextStyle(
-                              color: AppColors.textPrimary,
+                            style: TextStyle(
+                              color: context.appColors.textPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),

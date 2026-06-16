@@ -132,7 +132,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -184,7 +184,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         decoration: InputDecoration(
           hintText: 'ابحث في القرآن الكريم...',
           hintStyle: TextStyle(
-            color: AppColors.textSecondary.withValues(alpha: 0.5),
+            color: context.appColors.textSecondary.withValues(alpha: 0.5),
           ),
           prefixIcon: const Icon(Icons.search, color: AppColors.primary),
           suffixIcon: _searchController.text.isNotEmpty
@@ -197,7 +197,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 )
               : null,
           filled: true,
-          fillColor: AppColors.surface,
+          fillColor: context.appColors.surface,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 14,
@@ -231,14 +231,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             Icon(
               Icons.search_off,
               size: 64,
-              color: AppColors.textSecondary.withValues(alpha: 0.3),
+              color: context.appColors.textSecondary.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 16),
             Text(
               'لا توجد نتائج للبحث',
               style: TextStyle(
                 fontSize: 18,
-                color: AppColors.textSecondary.withValues(alpha: 0.6),
+                color: context.appColors.textSecondary.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -256,9 +256,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               color: AppColors.primary.withValues(alpha: 0.15),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'ابحث عن آية في القرآن الكريم',
-              style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+              style: TextStyle(fontSize: 16, color: context.appColors.textSecondary),
             ),
           ],
         ),
@@ -309,7 +309,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         return Container(
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: AppColors.primary.withValues(alpha: 0.08),
@@ -351,7 +351,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           'صفحة ${verse.page}',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary.withValues(
+                            color: context.appColors.textSecondary.withValues(
                               alpha: 0.6,
                             ),
                           ),
@@ -364,10 +364,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       child: Text(
                         verse.arabic,
                         textAlign: TextAlign.justify,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'quran',
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                           height: 1.6,
                         ),
                       ),
@@ -377,7 +377,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       verse.english,
                       style: TextStyle(
                         fontSize: 13,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                         fontStyle: FontStyle.italic,
                       ),
                     ),

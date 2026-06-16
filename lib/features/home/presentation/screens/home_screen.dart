@@ -1,3 +1,4 @@
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
@@ -125,7 +126,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -176,10 +177,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               children: [
                 Text(
                   '${_greetingEmoji()} ${_timeBasedGreeting()}، أحمد',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     height: 1.2,
                   ),
                 ),
@@ -193,16 +194,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         ref.watch(prayerProvider).hijriDate.isNotEmpty
                             ? ref.watch(prayerProvider).hijriDate
                             : 'جاري الحساب...',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Icon(
+                      Icon(
                         Icons.calendar_month,
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                         size: 14,
                       ),
                     ],
@@ -230,7 +231,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {},
-                child: const Center(
+                child: Center(
                   child: Icon(
                     Icons.notifications_outlined,
                     color: AppColors.textPrimary,
@@ -267,8 +268,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          Positioned.fill(
-            child: CustomPaint(painter: _MosqueSilhouettePainter()),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+              child: Opacity(
+                opacity: 0.12,
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    AppColors.primary,
+                    BlendMode.softLight,
+                  ),
+                  child: Image.asset(
+                    'assets/images/7.jpg',
+                    width: double.infinity,
+                    height: 130,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -577,7 +598,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       onTap: () => _openQuran(context),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
@@ -600,20 +621,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'أكمل قراءتك',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
+                  Text(
                     'سورة الكهف\nالآية 42',
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       height: 1.4,
                     ),
                   ),
@@ -655,7 +676,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       onTap: () {},
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
@@ -684,12 +705,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Text(
+                Text(
                   'حديث اليوم',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                   ),
                 ),
               ],
@@ -699,10 +720,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               child: Text(
                 hadith,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                   height: 1.5,
                 ),
               ),
@@ -746,7 +767,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       child: Container(
         height: 90,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(22),
           boxShadow: [
             BoxShadow(
@@ -764,18 +785,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text(
                         'وردك اليوم',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                         ),
                       ),
-                      SizedBox(width: 6),
-                      Text(
+                      const SizedBox(width: 6),
+                      const Text(
                         '3 / 10 صفحات',
                         style: TextStyle(
                           fontSize: 13,
@@ -791,7 +812,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     child: LinearProgressIndicator(
                       value: 0.3,
                       minHeight: 8,
-                      backgroundColor: AppColors.background,
+                      backgroundColor: context.appColors.background,
                       valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
                     ),
                   ),
@@ -966,14 +987,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(right: 4),
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
           child: Text(
             'إنجازاتك اليوم',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
         ),
@@ -1000,7 +1021,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     return _ScaleTap(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -1019,10 +1040,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             Text(
               text,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: context.appColors.textPrimary,
                 height: 1.3,
               ),
             ),
@@ -1040,12 +1061,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           '⚡ ',
           style: TextStyle(fontSize: 18),
         ),
-        const Text(
+        Text(
           'الوصول السريع',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
           ),
         ),
         const Spacer(),
@@ -1140,7 +1161,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       child: Container(
         height: height,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appColors.surface,
           borderRadius: BorderRadius.circular(isLarge ? 24 : 22),
           boxShadow: [
             BoxShadow(
@@ -1167,10 +1188,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           const SizedBox(height: 12),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
         ],
@@ -1187,10 +1208,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           const SizedBox(height: 6),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
             ),
           ),
         ],
@@ -1274,72 +1295,11 @@ class _CircleActionButton extends StatelessWidget {
             color: AppColors.primary.withValues(alpha: 0.06),
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, size: size * 0.45, color: AppColors.textSecondary),
+          child: Icon(icon, size: size * 0.45, color: context.appColors.textSecondary),
         ),
       ),
     );
   }
 }
 
-// ─── Mosque Silhouette ───
 
-class _MosqueSilhouettePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.08)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2;
-    final fillPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.04)
-      ..style = PaintingStyle.fill;
-
-    final cx = size.width * 0.7;
-    final baseY = size.height * 0.9;
-    final scale = size.width * 0.004;
-
-    // Main dome
-    final domePath = Path()
-      ..moveTo(cx - 40 * scale, baseY)
-      ..quadraticBezierTo(cx - 50 * scale, baseY - 10 * scale, cx - 35 * scale, baseY - 40 * scale)
-      ..quadraticBezierTo(cx - 5 * scale, baseY - 80 * scale, cx, baseY - 85 * scale)
-      ..quadraticBezierTo(cx + 5 * scale, baseY - 80 * scale, cx + 35 * scale, baseY - 40 * scale)
-      ..quadraticBezierTo(cx + 50 * scale, baseY - 10 * scale, cx + 40 * scale, baseY)
-      ..close();
-    canvas.drawPath(domePath, fillPaint);
-    canvas.drawPath(domePath, paint);
-
-    // Crescent on top
-    canvas.drawCircle(Offset(cx, baseY - 90 * scale), 6 * scale, paint);
-    canvas.drawCircle(Offset(cx + 2 * scale, baseY - 92 * scale), 5 * scale, fillPaint);
-
-    // Left minaret
-    _drawMinaret(canvas, cx - 50 * scale, baseY, scale, paint, fillPaint);
-    // Right minaret
-    _drawMinaret(canvas, cx + 50 * scale, baseY, scale, paint, fillPaint);
-  }
-
-  void _drawMinaret(Canvas canvas, double cx, double baseY, double scale, Paint stroke, Paint fill) {
-    final w = 6 * scale;
-    final h = 60 * scale;
-    final path = Path()
-      ..moveTo(cx - w, baseY)
-      ..lineTo(cx - w, baseY - h)
-      ..lineTo(cx + w, baseY - h)
-      ..lineTo(cx + w, baseY)
-      ..close();
-    canvas.drawPath(path, fill);
-    canvas.drawPath(path, stroke);
-
-    // Spire
-    canvas.drawLine(
-      Offset(cx, baseY - h),
-      Offset(cx, baseY - h - 12 * scale),
-      stroke,
-    );
-    canvas.drawCircle(Offset(cx, baseY - h - 14 * scale), 2 * scale, stroke);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}

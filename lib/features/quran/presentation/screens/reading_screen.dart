@@ -124,10 +124,10 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                   const SizedBox(width: 8),
                   Text(
                     'تفسير الآية $ayahNumber',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: context.appColors.textPrimary,
                     ),
                   ),
                   const Spacer(),
@@ -161,7 +161,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                       style: TextStyle(
                         fontSize: 22,
                         fontFamily: 'quran',
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                         height: 1.8,
                       ),
                     ),
@@ -172,7 +172,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                   verse.english,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -191,9 +191,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                 Text(
                   muyassar,
                   textDirection: TextDirection.rtl,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     height: 1.6,
                   ),
                 ),
@@ -212,9 +212,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                 Text(
                   jalalayn,
                   textDirection: TextDirection.rtl,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     height: 1.6,
                   ),
                 ),
@@ -325,7 +325,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                         'صفحة $_currentPage • الجزء ${_getJuzForPage(_currentPage)}',
                         style: TextStyle(
                           fontSize: 13,
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -432,7 +432,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
           const SizedBox(height: 4),
           Text(
             'الجزء ${pageInfo.juz}',
-            style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
+            style: TextStyle(fontSize: 14, color: context.appColors.textSecondary),
           ),
         ],
       ),
@@ -494,7 +494,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                       style: TextStyle(
                         fontSize: _fontSize,
                         fontFamily: 'quran',
-                        color: AppColors.textPrimary,
+                        color: context.appColors.textPrimary,
                         height: 1.8,
                       ),
                     ),
@@ -538,7 +538,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                   surah?.transliteration ?? '',
                   style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textSecondary,
+                    color: context.appColors.textSecondary,
                   ),
                 ),
                 if (surahNumber != 1 && surahNumber != 9)

@@ -84,7 +84,7 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -145,16 +145,16 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
               color: AppColors.primary.withValues(alpha: 0.2),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'لا توجد علامات مرجعية',
-              style: TextStyle(fontSize: 18, color: AppColors.textSecondary),
+              style: TextStyle(fontSize: 18, color: context.appColors.textSecondary),
             ),
             const SizedBox(height: 8),
             Text(
               'اضغط مطولاً على آية لإضافتها',
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.textSecondary.withValues(alpha: 0.6),
+                color: context.appColors.textSecondary.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -169,7 +169,7 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: AppColors.primary.withValues(alpha: 0.08),
@@ -204,10 +204,10 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                         const SizedBox(width: 8),
                         Text(
                           '${bm['surahName']} - الآية ${bm['ayah']}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
+                            color: context.appColors.textPrimary,
                           ),
                         ),
                         const Spacer(),
@@ -215,7 +215,7 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                           'صفحة ${bm['page']}',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.textSecondary.withValues(
+                            color: context.appColors.textSecondary.withValues(
                               alpha: 0.6,
                             ),
                           ),
@@ -228,10 +228,10 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                       child: Text(
                         bm['arabic'] as String,
                         textAlign: TextAlign.justify,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'quran',
-                          color: AppColors.textPrimary,
+                          color: context.appColors.textPrimary,
                           height: 1.6,
                         ),
                       ),
@@ -244,7 +244,7 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                           icon: const Icon(Icons.copy, size: 18),
                           tooltip: 'نسخ',
                           onPressed: () => _copyAyah(bm['arabic'] as String),
-                          color: AppColors.textSecondary,
+                          color: context.appColors.textSecondary,
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete_outline, size: 18),
@@ -253,7 +253,7 @@ class _BookmarksScreenState extends ConsumerState<BookmarksScreen> {
                             bm['surah'] as int,
                             bm['ayah'] as int,
                           ),
-                          color: AppColors.error.withValues(alpha: 0.7),
+                          color: context.appColors.error.withValues(alpha: 0.7),
                         ),
                       ],
                     ),

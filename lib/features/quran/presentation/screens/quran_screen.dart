@@ -70,7 +70,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -223,11 +223,11 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
         decoration: InputDecoration(
           hintText: 'ابحث عن سورة...',
           hintStyle: TextStyle(
-            color: AppColors.textSecondary.withValues(alpha: 0.6),
+            color: context.appColors.textSecondary.withValues(alpha: 0.6),
           ),
-          prefixIcon: Icon(Icons.search, color: AppColors.textSecondary),
+          prefixIcon: Icon(Icons.search, color: context.appColors.textSecondary),
           filled: true,
-          fillColor: AppColors.surface,
+          fillColor: context.appColors.surface,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 14,
@@ -255,14 +255,14 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
           Icon(
             Icons.menu_book,
             size: 64,
-            color: AppColors.textSecondary.withValues(alpha: 0.3),
+            color: context.appColors.textSecondary.withValues(alpha: 0.3),
           ),
           const SizedBox(height: 16),
           Text(
             'لا توجد نتائج',
             style: TextStyle(
               fontSize: 18,
-              color: AppColors.textSecondary.withValues(alpha: 0.6),
+              color: context.appColors.textSecondary.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -281,7 +281,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
         return Container(
           margin: const EdgeInsets.only(bottom: 8),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: AppColors.primary.withValues(alpha: 0.08),
@@ -326,10 +326,10 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                         children: [
                           Text(
                             surah.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary,
+                              color: context.appColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -337,7 +337,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                             '${surah.transliteration} - ${isMeccan ? "مكية" : "مدنية"} - ${surah.totalVerses} آية',
                             style: TextStyle(
                               fontSize: 12,
-                              color: AppColors.textSecondary.withValues(
+                              color: context.appColors.textSecondary.withValues(
                                 alpha: 0.8,
                               ),
                             ),
@@ -347,7 +347,7 @@ class _QuranScreenState extends ConsumerState<QuranScreen> {
                     ),
                     Icon(
                       Icons.chevron_left,
-                      color: AppColors.textSecondary.withValues(alpha: 0.4),
+                      color: context.appColors.textSecondary.withValues(alpha: 0.4),
                     ),
                   ],
                 ),

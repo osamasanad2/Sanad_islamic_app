@@ -28,14 +28,14 @@ class _GroupsScreenState extends State<GroupsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.appColors.background,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'المجموعات',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: context.appColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -43,7 +43,7 @@ class _GroupsScreenState extends State<GroupsScreen>
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppColors.primary,
-          unselectedLabelColor: AppColors.textSecondary,
+          unselectedLabelColor: context.appColors.textSecondary,
           indicatorColor: AppColors.primary,
           indicatorWeight: 3.0,
           labelStyle: const TextStyle(
@@ -107,10 +107,10 @@ class _GroupsScreenState extends State<GroupsScreen>
   }
 
   Widget _buildDiscoverTab() {
-    return const Center(
+    return Center(
       child: Text(
         'قريباً.. انضم لملايين المسلمين حول العالم!',
-        style: TextStyle(color: AppColors.textSecondary),
+        style: TextStyle(color: context.appColors.textSecondary),
       ),
     );
   }
@@ -151,9 +151,9 @@ class _GroupsScreenState extends State<GroupsScreen>
             ),
           ),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.settings_outlined,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
             onPressed: () {},
           ),
@@ -167,7 +167,7 @@ class _GroupsScreenState extends State<GroupsScreen>
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(20.0),
         border: Border.all(
           color: AppColors.primary.withValues(alpha: 0.1),
@@ -199,20 +199,20 @@ class _GroupsScreenState extends State<GroupsScreen>
                 ),
               ),
               const SizedBox(width: 8.0),
-              const Text(
+              Text(
                 'أحمد شارك حكمة اليوم',
                 style: TextStyle(
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                   fontSize: 12.0,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12.0),
-          const Text(
+          Text(
             '« من لزم الاستغفار جعل الله له من كل هم فرجا »',
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
               fontSize: 14.0,
               fontWeight: FontWeight.w600,
             ),
@@ -251,7 +251,7 @@ class _GroupsScreenState extends State<GroupsScreen>
           Text(
             label,
             style: TextStyle(
-              color: isFilled ? AppColors.primaryDark : AppColors.textSecondary,
+              color: isFilled ? AppColors.primaryDark : context.appColors.textSecondary,
               fontSize: 12.0,
               fontWeight: FontWeight.bold,
             ),
@@ -266,10 +266,10 @@ class _GroupsScreenState extends State<GroupsScreen>
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary,
+          color: context.appColors.textPrimary,
         ),
       ),
     );
@@ -307,7 +307,7 @@ class _GroupsScreenState extends State<GroupsScreen>
                     height: 56.0,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.surface,
+                      color: context.appColors.surface,
                       border: Border.all(
                         color: isDone
                             ? Colors.green.shade400
@@ -332,7 +332,7 @@ class _GroupsScreenState extends State<GroupsScreen>
                           color: Colors.orange.shade400,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.background,
+                            color: context.appColors.background,
                             width: 2.0,
                           ),
                         ),
@@ -351,7 +351,7 @@ class _GroupsScreenState extends State<GroupsScreen>
                 style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: isMe ? FontWeight.bold : FontWeight.w500,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
             ],
@@ -366,7 +366,7 @@ class _GroupsScreenState extends State<GroupsScreen>
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         borderRadius: BorderRadius.circular(20.0),
         border: Border.all(
           color: const Color(0xFFD4AF37).withValues(alpha: 0.3),

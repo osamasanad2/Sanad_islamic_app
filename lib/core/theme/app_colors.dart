@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_colors_theme.dart';
 
 class AppColors {
   AppColors._();
@@ -18,4 +19,12 @@ class AppColors {
 
   static const Color textPrimary = Color(0xFF1A1A1A);
   static const Color textSecondary = Color(0xFF6B6B6B);
+}
+
+extension AppColorsContext on BuildContext {
+  /// Theme-aware colors. Use these instead of [AppColors] for values that
+  /// change between light and dark mode:
+  ///   - [background], [surface], [error]
+  ///   - [textPrimary], [textSecondary]
+  AppColorsTheme get appColors => Theme.of(this).extension<AppColorsTheme>()!;
 }

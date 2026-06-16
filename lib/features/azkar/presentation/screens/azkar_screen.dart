@@ -63,7 +63,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -83,14 +83,14 @@ class _AzkarScreenState extends State<AzkarScreen> {
       child: Row(
         children: [
           IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+            icon: Icon(Icons.arrow_back, color: context.appColors.textPrimary),
             onPressed: () => context.pop(),
           ),
           const Spacer(),
-          const Text(
+          Text(
             'أذكاري',
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.appColors.textPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -151,7 +151,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
               duration: const Duration(milliseconds: 200),
               width: 80,
               decoration: BoxDecoration(
-                color: isSelected ? c : AppColors.surface,
+                color: isSelected ? c : context.appColors.surface,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: isSelected ? c : c.withValues(alpha: 0.2),
@@ -179,7 +179,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
                   Text(
                     cat['name'] as String,
                     style: TextStyle(
-                      color: isSelected ? Colors.white : AppColors.textPrimary,
+                      color: isSelected ? Colors.white : context.appColors.textPrimary,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -239,7 +239,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
                       : 'أذكار ${_currentCat['name']} — $_completedCount من ${_currentAzkar.length}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: context.appColors.textPrimary,
                     fontSize: _progress >= 1.0 ? 14 : 13,
                   ),
                 ),
@@ -247,7 +247,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
                   Text(
                     'اضغط على الذكر للعدّ، اضغط ⓘ لفضل الذكر',
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       fontSize: 11,
                     ),
                   ),
@@ -280,7 +280,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
             decoration: BoxDecoration(
               color: isDone
                   ? _accent.withValues(alpha: 0.08)
-                  : AppColors.surface,
+                  : context.appColors.surface,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isDone
@@ -308,7 +308,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           height: 1.5,
-                          color: isDone ? _accent : AppColors.textPrimary,
+                          color: isDone ? _accent : context.appColors.textPrimary,
                           decoration: isDone
                               ? TextDecoration.lineThrough
                               : null,
@@ -377,7 +377,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
                     Text(
                       '$total',
                       style: TextStyle(
-                        color: AppColors.textSecondary,
+                        color: context.appColors.textSecondary,
                         fontSize: 12,
                       ),
                     ),
@@ -398,8 +398,8 @@ class _AzkarScreenState extends State<AzkarScreen> {
       builder: (ctx) {
         return Container(
           padding: const EdgeInsets.all(24),
-          decoration: const BoxDecoration(
-            color: AppColors.surface,
+          decoration: BoxDecoration(
+            color: context.appColors.surface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
           ),
           child: Column(
@@ -432,17 +432,17 @@ class _AzkarScreenState extends State<AzkarScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.format_quote,
-                      color: AppColors.textSecondary,
+                      color: context.appColors.textSecondary,
                       size: 20,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         zikr['fadl'] as String,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
+                        style: TextStyle(
+                          color: context.appColors.textPrimary,
                           height: 1.6,
                           fontSize: 14,
                         ),
@@ -454,8 +454,8 @@ class _AzkarScreenState extends State<AzkarScreen> {
               const SizedBox(height: 16),
               Text(
                 'العدد المطلوب: ${zikr['total']}',
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: context.appColors.textSecondary,
                   fontSize: 13,
                 ),
               ),

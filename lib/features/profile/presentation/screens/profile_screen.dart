@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/theme_provider.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/providers/font_provider.dart';
 
 // Provider to hold the profile image path
 class ProfileImageNotifier extends Notifier<String?> {
@@ -25,29 +31,30 @@ class ProfileScreen extends ConsumerWidget {
     final profileImagePath = ref.watch(profileImageProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildHeaderAndCover(context, ref, profileImagePath),
             const SizedBox(height: 24.0),
-            _buildSectionTitle('إحصائياتي').animate().fadeIn(delay: 200.ms),
+            _buildSectionTitle(context, 'إحصائياتي').animate().fadeIn(delay: 200.ms),
             const SizedBox(height: 16.0),
             _buildStatisticsGrid(context),
             const SizedBox(height: 32.0),
             _buildSectionTitle(
+              context,
               'الأوسمة والشارات',
             ).animate().fadeIn(delay: 400.ms),
             const SizedBox(height: 16.0),
-            _buildBadgesSection(),
+            _buildBadgesSection(context),
             const SizedBox(height: 32.0),
-            _buildSectionTitle('الإعدادات').animate().fadeIn(delay: 600.ms),
+            _buildSectionTitle(context, 'الإعدادات').animate().fadeIn(delay: 600.ms),
             const SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: _buildSettingsSection(
-                context,
+                context, ref,
               ).animate().fadeIn(delay: 700.ms).slideY(begin: 0.1),
             ),
             const SizedBox(
@@ -59,15 +66,15 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary,
+          color: context.appColors.textPrimary,
         ),
       ),
     );
@@ -131,7 +138,7 @@ class ProfileScreen extends ConsumerWidget {
           margin: const EdgeInsets.only(top: 150, left: 20, right: 20),
           padding: const EdgeInsets.fromLTRB(20, 60, 20, 24),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(24.0),
             boxShadow: [
               BoxShadow(
@@ -143,20 +150,20 @@ class ProfileScreen extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              const Text(
+              Text(
                 'أحمد المسلم',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 8.0),
-              const Text(
+              Text(
                 'اللهم اجعل القرآن ربيع قلوبنا 🌿',
                 style: TextStyle(
                   fontSize: 14.0,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -196,11 +203,11 @@ class ProfileScreen extends ConsumerWidget {
                 ),
               ).animate().slideX(duration: 1.seconds, begin: -1).fadeIn(),
               const SizedBox(height: 8.0),
-              const Text(
+              Text(
                 'باقي 20 نقطة للوصول لمستوى "حافظ"',
                 style: TextStyle(
                   fontSize: 12.0,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ],
@@ -229,7 +236,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 child: CircleAvatar(
                   radius: 46,
-                  backgroundColor: AppColors.surface,
+                  backgroundColor: context.appColors.surface,
                   backgroundImage: imagePath != null
                       ? NetworkImage(imagePath)
                       : null,
@@ -249,7 +256,7 @@ class ProfileScreen extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: AppColors.primary,
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.surface, width: 2),
+                    border: Border.all(color: context.appColors.surface, width: 2),
                   ),
                   child: const Icon(
                     Icons.camera_alt,
@@ -277,12 +284,12 @@ class ProfileScreen extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'تغيير الصورة الشخصية',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 20),
@@ -291,9 +298,9 @@ class ProfileScreen extends ConsumerWidget {
                   Icons.photo_library,
                   color: AppColors.primary,
                 ),
-                title: const Text(
+                title: Text(
                   'اختيار من المعرض',
-                  style: TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: context.appColors.textPrimary),
                 ),
                 onTap: () {
                   ref
@@ -304,9 +311,9 @@ class ProfileScreen extends ConsumerWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt, color: AppColors.primary),
-                title: const Text(
+                title: Text(
                   'التقاط صورة',
-                  style: TextStyle(color: AppColors.textPrimary),
+                  style: TextStyle(color: context.appColors.textPrimary),
                 ),
                 onTap: () {
                   ref
@@ -317,10 +324,10 @@ class ProfileScreen extends ConsumerWidget {
               ),
               if (ref.read(profileImageProvider) != null)
                 ListTile(
-                  leading: const Icon(Icons.delete, color: AppColors.error),
-                  title: const Text(
+                  leading: Icon(Icons.delete, color: context.appColors.error),
+                  title: Text(
                     'حذف الصورة',
-                    style: TextStyle(color: AppColors.error),
+                    style: TextStyle(color: context.appColors.error),
                   ),
                   onTap: () {
                     ref.read(profileImageProvider.notifier).setImage(null);
@@ -408,7 +415,7 @@ class ProfileScreen extends ConsumerWidget {
         child: Container(
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(20.0),
             border: Border.all(
               color: color.withValues(alpha: 0.15),
@@ -436,19 +443,19 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               Text(
                 value,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+                  color: context.appColors.textPrimary,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textSecondary,
+                  color: context.appColors.textSecondary,
                 ),
               ),
             ],
@@ -458,7 +465,7 @@ class ProfileScreen extends ConsumerWidget {
     ).animate().fadeIn(delay: delay.ms).slideY(begin: 0.1);
   }
 
-  Widget _buildBadgesSection() {
+  Widget _buildBadgesSection(BuildContext context) {
     return SizedBox(
       height: 110.0,
       child: ListView(
@@ -467,6 +474,7 @@ class ProfileScreen extends ConsumerWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           _buildBadgeItem(
+            context,
             title: 'الذاكرين',
             icon: Icons.star,
             color: Colors.amber,
@@ -474,6 +482,7 @@ class ProfileScreen extends ConsumerWidget {
             delay: 500,
           ),
           _buildBadgeItem(
+            context,
             title: 'قيام الليل',
             icon: Icons.nights_stay,
             color: Colors.indigo,
@@ -481,6 +490,7 @@ class ProfileScreen extends ConsumerWidget {
             delay: 600,
           ),
           _buildBadgeItem(
+            context,
             title: 'ختمة النور',
             icon: Icons.menu_book,
             color: Colors.green,
@@ -488,6 +498,7 @@ class ProfileScreen extends ConsumerWidget {
             delay: 700,
           ),
           _buildBadgeItem(
+            context,
             title: 'المواظب',
             icon: Icons.local_fire_department,
             color: Colors.orange,
@@ -495,6 +506,7 @@ class ProfileScreen extends ConsumerWidget {
             delay: 800,
           ),
           _buildBadgeItem(
+            context,
             title: 'المبكر',
             icon: Icons.wb_sunny,
             color: Colors.redAccent,
@@ -506,7 +518,8 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildBadgeItem({
+  Widget _buildBadgeItem(
+    BuildContext context, {
     required String title,
     required IconData icon,
     required Color color,
@@ -556,7 +569,7 @@ class ProfileScreen extends ConsumerWidget {
             style: TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.bold,
-              color: isLocked ? Colors.grey.shade500 : AppColors.textPrimary,
+              color: isLocked ? Colors.grey.shade500 : context.appColors.textPrimary,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -566,66 +579,74 @@ class ProfileScreen extends ConsumerWidget {
     ).animate().scale(delay: delay.ms).fadeIn();
   }
 
-  Widget _buildSettingsSection(BuildContext context) {
+  Widget _buildSettingsSection(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+    final locale = ref.watch(localeProvider);
+    final currentFont = ref.watch(fontProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildSettingsGroup(
+          context,
           title: 'التفضيلات',
           children: [
             _buildSettingsTile(
+              context,
               title: 'المظهر',
-              subtitle: 'الوضع النهاري',
+              subtitle: _themeModeSubtitle(themeMode),
               icon: Icons.dark_mode_outlined,
-              onTap: () => _showThemeDialog(context),
+              onTap: () => _showThemeDialog(context, ref),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
+              context,
               title: 'الإشعارات',
               subtitle: 'مفعلة',
               icon: Icons.notifications_active_outlined,
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('تم الانتقال لإعدادات الإشعارات'),
-                    backgroundColor: AppColors.primary,
-                  ),
-                );
-              },
+              onTap: () => context.push('/notifications'),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
+              context,
+              title: 'الخطوط',
+              subtitle: FontOption.options.firstWhere((f) => f.id == currentFont).name,
+              icon: Icons.text_fields,
+              onTap: () => context.push('/fonts'),
+            ),
+            const Divider(height: 1, indent: 56),
+            _buildSettingsTile(
+              context,
               title: 'اللغة',
-              subtitle: 'العربية',
+              subtitle: _localeName(locale),
               icon: Icons.language,
-              onTap: () => _showLanguageDialog(context),
+              onTap: () => _showLanguageDialog(context, ref),
             ),
           ],
         ),
         const SizedBox(height: 24.0),
         _buildSettingsGroup(
+          context,
           title: 'حول التطبيق',
           children: [
             _buildSettingsTile(
+              context,
               title: 'عن تطبيق سند',
               icon: Icons.info_outline,
-              onTap: () => _showAboutAppDialog(context),
+              onTap: () => context.push('/about'),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
+              context,
               title: 'مشاركة التطبيق',
               icon: Icons.share_outlined,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('جاري فتح قائمة المشاركة...'),
-                    backgroundColor: AppColors.primary,
-                  ),
-                );
+                final t = AppLocalizations.of(context);
+                Share.share(t.get('share_text'));
               },
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
+              context,
               title: 'قيّمنا',
               icon: Icons.star_border_outlined,
               onTap: () {
@@ -641,16 +662,19 @@ class ProfileScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 24.0),
         _buildSettingsGroup(
+          context,
           title: 'الحساب',
           children: [
             _buildSettingsTile(
+              context,
               title: 'تسجيل الخروج',
               icon: Icons.logout,
-              color: AppColors.error,
+              color: context.appColors.error,
               onTap: () => _showLogoutDialog(context),
             ),
             const Divider(height: 1, indent: 56),
             _buildSettingsTile(
+              context,
               title: 'حذف الحساب',
               icon: Icons.delete_forever,
               color: Colors.red.shade700,
@@ -662,7 +686,8 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSettingsGroup({
+  Widget _buildSettingsGroup(
+    BuildContext context, {
     required String title,
     required List<Widget> children,
   }) {
@@ -673,16 +698,16 @@ class ProfileScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
-              color: AppColors.textSecondary,
+              color: context.appColors.textSecondary,
             ),
           ),
         ),
         Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
@@ -698,13 +723,15 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSettingsTile({
+  Widget _buildSettingsTile(
+    BuildContext context, {
     required String title,
     String? subtitle,
     required IconData icon,
-    Color color = AppColors.textPrimary,
+    Color? color,
     required VoidCallback onTap,
   }) {
+    final effectiveColor = color ?? context.appColors.textPrimary;
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(
         horizontal: 20.0,
@@ -713,15 +740,15 @@ class ProfileScreen extends ConsumerWidget {
       leading: Container(
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
+          color: effectiveColor.withValues(alpha: 0.1),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: color, size: 24),
+        child: Icon(icon, color: effectiveColor, size: 24),
       ),
       title: Text(
         title,
         style: TextStyle(
-          color: color,
+          color: effectiveColor,
           fontWeight: FontWeight.w600,
           fontSize: 16.0,
         ),
@@ -729,28 +756,53 @@ class ProfileScreen extends ConsumerWidget {
       subtitle: subtitle != null
           ? Text(
               subtitle,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
+              style: TextStyle(
+                color: context.appColors.textSecondary,
                 fontSize: 13,
               ),
             )
           : null,
-      trailing: const Icon(
+      trailing: Icon(
         Icons.arrow_forward_ios,
         size: 16,
-        color: AppColors.textSecondary,
+        color: context.appColors.textSecondary,
       ),
       onTap: onTap,
     );
   }
 
-  void _showThemeDialog(BuildContext context) {
+  String _themeModeSubtitle(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.light:
+        return 'الوضع النهاري';
+      case ThemeMode.dark:
+        return 'الوضع الليلي';
+      case ThemeMode.system:
+        return 'حسب النظام';
+    }
+  }
+
+  String _localeName(Locale locale) {
+    switch (locale.languageCode) {
+      case 'ar':
+        return 'العربية';
+      case 'en':
+        return 'English';
+      case 'fa':
+        return 'فارسی';
+      default:
+        return 'العربية';
+    }
+  }
+
+  void _showThemeDialog(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.read(themeModeProvider);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
+        title: Text(
           'اختيار المظهر',
-          style: TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         content: Column(
@@ -762,7 +814,15 @@ class ProfileScreen extends ConsumerWidget {
                 color: Colors.orange,
               ),
               title: const Text('الوضع النهاري'),
-              onTap: () => Navigator.pop(context),
+              trailing: currentTheme == ThemeMode.light
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref
+                    .read(themeModeProvider.notifier)
+                    .setThemeMode(ThemeMode.light);
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(
@@ -770,7 +830,15 @@ class ProfileScreen extends ConsumerWidget {
                 color: Colors.indigo,
               ),
               title: const Text('الوضع الليلي'),
-              onTap: () => Navigator.pop(context),
+              trailing: currentTheme == ThemeMode.dark
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref
+                    .read(themeModeProvider.notifier)
+                    .setThemeMode(ThemeMode.dark);
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(
@@ -778,7 +846,15 @@ class ProfileScreen extends ConsumerWidget {
                 color: Colors.grey,
               ),
               title: const Text('حسب النظام'),
-              onTap: () => Navigator.pop(context),
+              trailing: currentTheme == ThemeMode.system
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref
+                    .read(themeModeProvider.notifier)
+                    .setThemeMode(ThemeMode.system);
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
@@ -786,13 +862,14 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  void _showLanguageDialog(BuildContext context) {
+  void _showLanguageDialog(BuildContext context, WidgetRef ref) {
+    final currentLocale = ref.read(localeProvider);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
+        title: Text(
           'اختيار اللغة',
-          style: TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         content: Column(
@@ -800,12 +877,33 @@ class ProfileScreen extends ConsumerWidget {
           children: [
             ListTile(
               title: const Text('العربية'),
-              trailing: const Icon(Icons.check, color: AppColors.primary),
-              onTap: () => Navigator.pop(context),
+              trailing: currentLocale.languageCode == 'ar'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('ar');
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               title: const Text('English'),
-              onTap: () => Navigator.pop(context),
+              trailing: currentLocale.languageCode == 'en'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('en');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('فارسی'),
+              trailing: currentLocale.languageCode == 'fa'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('fa');
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
@@ -813,38 +911,13 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  void _showAboutAppDialog(BuildContext context) {
-    showAboutDialog(
-      context: context,
-      applicationName: 'تطبيق سند',
-      applicationVersion: '1.0.0',
-      applicationIcon: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: AppColors.primaryLight.withValues(alpha: 0.2),
-          shape: BoxShape.circle,
-        ),
-        child: const Icon(Icons.mosque, size: 40, color: AppColors.primary),
-      ),
-      applicationLegalese: '© 2026 جميع الحقوق محفوظة',
-      children: [
-        const SizedBox(height: 16),
-        const Text(
-          'تطبيق إسلامي شامل يهدف إلى تقديم محتوى ديني موثوق وأدوات يومية للمسلم كالأذكار والقرآن ومواقيت الصلاة.',
-          textAlign: TextAlign.center,
-          style: TextStyle(height: 1.5),
-        ),
-      ],
-    );
-  }
-
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
+        title: Text(
           'تسجيل الخروج',
-          style: TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
         ),
         content: const Text(
           'هل أنت متأكد من رغبتك في تسجيل الخروج من التطبيق؟',
@@ -853,23 +926,20 @@ class ProfileScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
+            child: Text(
               'إلغاء',
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: context.appColors.error,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
             onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم تسجيل الخروج بنجاح')),
-              );
+              context.go('/login');
             },
             child: const Text(
               'تسجيل الخروج',
@@ -885,9 +955,9 @@ class ProfileScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
+        title: Text(
           'حذف الحساب',
-          style: TextStyle(color: AppColors.error),
+          style: TextStyle(color: context.appColors.error),
         ),
         content: const Text(
           'تحذير: سيتم حذف جميع بياناتك وإحصائياتك بشكل نهائي ولا يمكن التراجع عن هذا الإجراء. هل أنت متأكد؟',
@@ -897,9 +967,9 @@ class ProfileScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
+            child: Text(
               'إلغاء',
-              style: TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: context.appColors.textSecondary),
             ),
           ),
           ElevatedButton(

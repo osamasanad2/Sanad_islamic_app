@@ -7,15 +7,15 @@ class FatawaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'الفتاوى',
-          style: TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.appColors.textPrimary),
         ),
-        backgroundColor: AppColors.background,
+        backgroundColor: context.appColors.background,
         elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
+        iconTheme: IconThemeData(color: context.appColors.textPrimary),
       ),
       body: const Center(child: Text('جاري بناء المكتبة...')),
     );

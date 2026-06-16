@@ -68,7 +68,7 @@ class _QuickActionCardState extends State<QuickActionCard>
         scale: _scaleAnimation,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(24.0), // softer corners
             border: Border.all(
               color: AppColors.primary.withValues(alpha: 0.08),
@@ -112,8 +112,8 @@ class _QuickActionCardState extends State<QuickActionCard>
                 Text(
                   widget.title,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 13.0,
                   ),

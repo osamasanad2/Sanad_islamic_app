@@ -19,15 +19,15 @@ class PrayerTimeItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = isActive ? Colors.white : AppColors.textPrimary;
-    final iconColor = isActive ? Colors.white : AppColors.textPrimary;
-    final timeColor = isActive ? Colors.white70 : AppColors.textSecondary;
+    final textColor = isActive ? Colors.white : context.appColors.textPrimary;
+    final iconColor = isActive ? Colors.white : context.appColors.textPrimary;
+    final timeColor = isActive ? Colors.white70 : context.appColors.textSecondary;
 
     return Container(
       width: 78.0, // Slightly wider for better text fit
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : AppColors.surface,
+        color: isActive ? AppColors.primary : context.appColors.surface,
         borderRadius: BorderRadius.circular(20.0), // softer corners
         border: Border.all(
           color: isActive

@@ -13,7 +13,7 @@ class TafsirRepository {
       'almuyassar': await _parseTafsirXml('assets/data/almuyassar.xml'),
     };
     return _tafsirCache!;
-  }
+  } 
 
   Future<List<TafsirEntry>> _parseTafsirXml(String path) async {
     final xmlString = await rootBundle.loadString(path);

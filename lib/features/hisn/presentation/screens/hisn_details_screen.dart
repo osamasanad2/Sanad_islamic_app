@@ -35,7 +35,7 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
     final azkar = widget.category.azkar;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: Column(
         children: [
           // Header
@@ -176,7 +176,7 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: context.appColors.surface,
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: widget.color.withValues(alpha: 0.1),
@@ -204,8 +204,8 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                     // Zikr text
                     SelectableText(
                       _cleanText(zikr.text),
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
+                      style: TextStyle(
+                        color: context.appColors.textPrimary,
                         fontSize: 20,
                         height: 2.0,
                         fontWeight: FontWeight.w500,
@@ -369,7 +369,7 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
         MediaQuery.of(context).padding.bottom + 12,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
