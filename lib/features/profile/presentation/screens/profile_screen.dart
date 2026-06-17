@@ -905,6 +905,56 @@ class ProfileScreen extends ConsumerWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text('اردو'),
+              trailing: currentLocale.languageCode == 'ur'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('ur');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('বাংলা'),
+              trailing: currentLocale.languageCode == 'bn'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('bn');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Türkçe'),
+              trailing: currentLocale.languageCode == 'tr'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('tr');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Bahasa Indonesia'),
+              trailing: currentLocale.languageCode == 'id'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('id');
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Français'),
+              trailing: currentLocale.languageCode == 'fr'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                ref.read(localeProvider.notifier).setLocale('fr');
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),

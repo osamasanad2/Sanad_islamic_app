@@ -6,8 +6,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
+import 'app_localizations_bn.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_fa.dart';
+import 'app_localizations_fr.dart';
+import 'app_localizations_id.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_ur.dart';
 
 // ignore_for_file: type=lint
 
@@ -96,8 +101,13 @@ abstract class SanadLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
+    Locale('bn'),
     Locale('en'),
     Locale('fa'),
+    Locale('fr'),
+    Locale('id'),
+    Locale('tr'),
+    Locale('ur'),
   ];
 
   /// No description provided for @app_name.
@@ -231,6 +241,36 @@ abstract class SanadLocalizations {
   /// In en, this message translates to:
   /// **'Persian (Farsi)'**
   String get persian;
+
+  /// No description provided for @urdu.
+  ///
+  /// In en, this message translates to:
+  /// **'Urdu'**
+  String get urdu;
+
+  /// No description provided for @bengali.
+  ///
+  /// In en, this message translates to:
+  /// **'Bengali'**
+  String get bengali;
+
+  /// No description provided for @turkish.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get turkish;
+
+  /// No description provided for @indonesian.
+  ///
+  /// In en, this message translates to:
+  /// **'Indonesian'**
+  String get indonesian;
+
+  /// No description provided for @french.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get french;
 
   /// No description provided for @about_app.
   ///
@@ -2507,8 +2547,16 @@ class _SanadLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en', 'fa'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'ar',
+    'bn',
+    'en',
+    'fa',
+    'fr',
+    'id',
+    'tr',
+    'ur',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SanadLocalizationsDelegate old) => false;
@@ -2519,10 +2567,20 @@ SanadLocalizations lookupSanadLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'ar':
       return SanadLocalizationsAr();
+    case 'bn':
+      return SanadLocalizationsBn();
     case 'en':
       return SanadLocalizationsEn();
     case 'fa':
       return SanadLocalizationsFa();
+    case 'fr':
+      return SanadLocalizationsFr();
+    case 'id':
+      return SanadLocalizationsId();
+    case 'tr':
+      return SanadLocalizationsTr();
+    case 'ur':
+      return SanadLocalizationsUr();
   }
 
   throw FlutterError(

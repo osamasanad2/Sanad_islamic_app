@@ -75,6 +75,21 @@ class SanadLocalizationsEn extends SanadLocalizations {
   String get persian => 'Persian (Farsi)';
 
   @override
+  String get urdu => 'Urdu';
+
+  @override
+  String get bengali => 'Bengali';
+
+  @override
+  String get turkish => 'Turkish';
+
+  @override
+  String get indonesian => 'Indonesian';
+
+  @override
+  String get french => 'French';
+
+  @override
   String get about_app => 'About';
 
   @override
