@@ -6,18 +6,39 @@ class IslamicIcons {
   IslamicIcons._();
 
   /// Prayer beads (Tasbeeh) icon
-  static Widget tasbeeh({double size = 28, Color color = const Color(0xFF1B5E20)}) {
-    return SizedBox(width: size, height: size, child: CustomPaint(painter: _TasbeehPainter(color)));
+  static Widget tasbeeh({
+    double size = 28,
+    Color color = const Color(0xFF1B5E20),
+  }) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(painter: _TasbeehPainter(color)),
+    );
   }
 
   /// Open Quran with ornamental bookmark
-  static Widget quran({double size = 28, Color color = const Color(0xFF1B5E20)}) {
-    return SizedBox(width: size, height: size, child: CustomPaint(painter: _QuranPainter(color)));
+  static Widget quran({
+    double size = 28,
+    Color color = const Color(0xFF1B5E20),
+  }) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(painter: _QuranPainter(color)),
+    );
   }
 
   /// Sun with octagonal Islamic frame (Azkar)
-  static Widget azkar({double size = 28, Color color = const Color(0xFF1B5E20)}) {
-    return SizedBox(width: size, height: size, child: CustomPaint(painter: _AzkarPainter(color)));
+  static Widget azkar({
+    double size = 28,
+    Color color = const Color(0xFF1B5E20),
+  }) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(painter: _AzkarPainter(color)),
+    );
   }
 }
 
@@ -29,9 +50,17 @@ class _TasbeehPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final c = Offset(size.width / 2, size.height / 2);
-    final beadPaint = Paint()..color = color..style = PaintingStyle.fill;
-    final strokePaint = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.2;
-    final stringPaint = Paint()..color = color.withValues(alpha: 0.4)..style = PaintingStyle.stroke..strokeWidth = 1.0;
+    final beadPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    final strokePaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+    final stringPaint = Paint()
+      ..color = color.withValues(alpha: 0.4)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
 
     // String circle (the thread)
     final r = size.width * 0.34;
@@ -50,7 +79,14 @@ class _TasbeehPainter extends CustomPainter {
     // Tassel at top
     final tasselTop = Offset(c.dx, c.dy - r - beadR);
     final tasselEnd = Offset(c.dx, c.dy - r - size.width * 0.22);
-    canvas.drawLine(tasselTop, tasselEnd, Paint()..color = color..strokeWidth = 1.5..strokeCap = StrokeCap.round);
+    canvas.drawLine(
+      tasselTop,
+      tasselEnd,
+      Paint()
+        ..color = color
+        ..strokeWidth = 1.5
+        ..strokeCap = StrokeCap.round,
+    );
     // Tassel head (larger ornamental bead)
     canvas.drawCircle(tasselEnd, beadR * 1.5, beadPaint);
     canvas.drawCircle(tasselEnd, beadR * 1.5, strokePaint);
@@ -69,8 +105,15 @@ class _QuranPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final w = size.width;
     final h = size.height;
-    final stroke = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5..strokeCap = StrokeCap.round..strokeJoin = StrokeJoin.round;
-    final goldPaint = Paint()..color = const Color(0xFFD4AF37)..style = PaintingStyle.fill;
+    final stroke = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+    final goldPaint = Paint()
+      ..color = const Color(0xFFD4AF37)
+      ..style = PaintingStyle.fill;
 
     // Left page
     final leftPage = Path()
@@ -93,10 +136,17 @@ class _QuranPainter extends CustomPainter {
     canvas.drawPath(rightPage, stroke);
 
     // Spine line
-    canvas.drawLine(Offset(w * 0.5, h * 0.18), Offset(w * 0.5, h * 0.82), stroke);
+    canvas.drawLine(
+      Offset(w * 0.5, h * 0.18),
+      Offset(w * 0.5, h * 0.82),
+      stroke,
+    );
 
     // Text lines (left page)
-    final linePaint = Paint()..color = color.withValues(alpha: 0.35)..strokeWidth = 0.8..strokeCap = StrokeCap.round;
+    final linePaint = Paint()
+      ..color = color.withValues(alpha: 0.35)
+      ..strokeWidth = 0.8
+      ..strokeCap = StrokeCap.round;
     for (int i = 0; i < 4; i++) {
       final y = h * (0.35 + i * 0.1);
       canvas.drawLine(Offset(w * 0.18, y), Offset(w * 0.44, y), linePaint);
@@ -129,8 +179,13 @@ class _AzkarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final c = Offset(size.width / 2, size.height / 2);
-    final stroke = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5;
-    final goldPaint = Paint()..color = const Color(0xFFD4AF37)..style = PaintingStyle.fill;
+    final stroke = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    final goldPaint = Paint()
+      ..color = const Color(0xFFD4AF37)
+      ..style = PaintingStyle.fill;
 
     // Outer octagonal frame
     final outerR = size.width * 0.42;
@@ -139,7 +194,11 @@ class _AzkarPainter extends CustomPainter {
       final angle = (i * math.pi * 2 / 8) - math.pi / 8;
       final px = c.dx + outerR * math.cos(angle);
       final py = c.dy + outerR * math.sin(angle);
-      if (i == 0) { outerPath.moveTo(px, py); } else { outerPath.lineTo(px, py); }
+      if (i == 0) {
+        outerPath.moveTo(px, py);
+      } else {
+        outerPath.lineTo(px, py);
+      }
     }
     outerPath.close();
     canvas.drawPath(outerPath, Paint()..color = color.withValues(alpha: 0.1));
@@ -154,20 +213,39 @@ class _AzkarPainter extends CustomPainter {
       final r = i.isEven ? innerR : starR;
       final px = c.dx + r * math.cos(angle);
       final py = c.dy + r * math.sin(angle);
-      if (i == 0) { starPath.moveTo(px, py); } else { starPath.lineTo(px, py); }
+      if (i == 0) {
+        starPath.moveTo(px, py);
+      } else {
+        starPath.lineTo(px, py);
+      }
     }
     starPath.close();
     canvas.drawPath(starPath, goldPaint);
 
     // Center sun circle
-    canvas.drawCircle(c, size.width * 0.1, Paint()..color = color..style = PaintingStyle.fill);
+    canvas.drawCircle(
+      c,
+      size.width * 0.1,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.fill,
+    );
 
     // Sun rays (tiny lines poking out)
-    final rayPaint = Paint()..color = color..strokeWidth = 1.2..strokeCap = StrokeCap.round;
+    final rayPaint = Paint()
+      ..color = color
+      ..strokeWidth = 1.2
+      ..strokeCap = StrokeCap.round;
     for (int i = 0; i < 8; i++) {
       final angle = (i * math.pi * 2 / 8);
-      final from = Offset(c.dx + size.width * 0.12 * math.cos(angle), c.dy + size.width * 0.12 * math.sin(angle));
-      final to = Offset(c.dx + size.width * 0.15 * math.cos(angle), c.dy + size.width * 0.15 * math.sin(angle));
+      final from = Offset(
+        c.dx + size.width * 0.12 * math.cos(angle),
+        c.dy + size.width * 0.12 * math.sin(angle),
+      );
+      final to = Offset(
+        c.dx + size.width * 0.15 * math.cos(angle),
+        c.dy + size.width * 0.15 * math.sin(angle),
+      );
       canvas.drawLine(from, to, rayPaint);
     }
   }

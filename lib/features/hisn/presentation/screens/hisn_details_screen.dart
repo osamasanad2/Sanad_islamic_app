@@ -35,7 +35,7 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
     final azkar = widget.category.azkar;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: Column(
         children: [
           // Header
@@ -47,7 +47,8 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                 : PageView.builder(
                     controller: _pageController,
                     itemCount: azkar.length,
-                    onPageChanged: (page) => setState(() => _currentPage = page),
+                    onPageChanged: (page) =>
+                        setState(() => _currentPage = page),
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return _buildZikrCard(azkar[index], index, azkar.length);
@@ -71,9 +72,9 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
           colors: [
             widget.color.withValues(alpha: 0.9),
             widget.color,
-            HSLColor.fromColor(widget.color).withHue(
-              (HSLColor.fromColor(widget.color).hue + 30) % 360
-            ).toColor(),
+            HSLColor.fromColor(widget.color)
+                .withHue((HSLColor.fromColor(widget.color).hue + 30) % 360)
+                .toColor(),
           ],
         ),
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(28)),
@@ -99,7 +100,11 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                       color: Colors.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                   ),
                   onPressed: () => context.pop(),
                 ),
@@ -120,14 +125,21 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                 const Spacer(),
                 // Counter badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     '${_currentPage + 1} / $total',
-                    style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -161,57 +173,62 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
         children: [
           // Main card
           Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: widget.color.withValues(alpha: 0.1)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 20,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                // Decorative top
-                Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: widget.color.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(10),
+                width: double.infinity,
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: context.appColors.surface,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: widget.color.withValues(alpha: 0.1),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
-                // Zikr text
-                SelectableText(
-                  _cleanText(zikr.text),
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 20,
-                    height: 2.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                  textDirection: TextDirection.rtl,
+                child: Column(
+                  children: [
+                    // Decorative top
+                    Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: widget.color.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Zikr text
+                    SelectableText(
+                      _cleanText(zikr.text),
+                      style: TextStyle(
+                        color: context.appColors.textPrimary,
+                        fontSize: 20,
+                        height: 2.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                      textDirection: TextDirection.rtl,
+                    ),
+                    const SizedBox(height: 24),
+                    // Decorative bottom
+                    Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: widget.color.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 24),
-                // Decorative bottom
-                Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: widget.color.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ],
-            ),
-          ).animate().fadeIn(delay: 100.ms).scale(begin: const Offset(0.97, 0.97)),
+              )
+              .animate()
+              .fadeIn(delay: 100.ms)
+              .scale(begin: const Offset(0.97, 0.97)),
           const SizedBox(height: 16),
           // Action buttons
           Row(
@@ -224,10 +241,15 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                   Clipboard.setData(ClipboardData(text: _cleanText(zikr.text)));
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: const Text('تم النسخ ✓', textAlign: TextAlign.center),
+                      content: const Text(
+                        'تم النسخ ✓',
+                        textAlign: TextAlign.center,
+                      ),
                       backgroundColor: widget.color,
                       behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       duration: const Duration(seconds: 1),
                     ),
                   );
@@ -238,13 +260,16 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                 icon: Icons.share_rounded,
                 label: 'مشاركة',
                 onTap: () {
-                  Share.share('${widget.category.name}\n\n${_cleanText(zikr.text)}\n\n— حصن المسلم 📖');
+                  Share.share(
+                    '${widget.category.name}\n\n${_cleanText(zikr.text)}\n\n— حصن المسلم 📖',
+                  );
                 },
               ),
             ],
           ).animate().fadeIn(delay: 200.ms),
           // Footnotes
-          if (widget.category.footnotes.isNotEmpty && index == widget.category.azkar.length - 1) ...[
+          if (widget.category.footnotes.isNotEmpty &&
+              index == widget.category.azkar.length - 1) ...[
             const SizedBox(height: 20),
             Container(
               width: double.infinity,
@@ -259,19 +284,36 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.info_outline, color: Colors.amber.shade700, size: 18),
+                      Icon(
+                        Icons.info_outline,
+                        color: Colors.amber.shade700,
+                        size: 18,
+                      ),
                       const SizedBox(width: 6),
-                      Text('المصادر', style: TextStyle(color: Colors.amber.shade800, fontWeight: FontWeight.bold, fontSize: 13)),
+                      Text(
+                        'المصادر',
+                        style: TextStyle(
+                          color: Colors.amber.shade800,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  ...widget.category.footnotes.map((f) => Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Text(
-                      '• $f',
-                      style: TextStyle(color: Colors.amber.shade900, fontSize: 12, height: 1.6),
+                  ...widget.category.footnotes.map(
+                    (f) => Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        '• $f',
+                        style: TextStyle(
+                          color: Colors.amber.shade900,
+                          fontSize: 12,
+                          height: 1.6,
+                        ),
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
             ).animate().fadeIn(delay: 300.ms),
@@ -281,7 +323,11 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
     );
   }
 
-  Widget _buildActionButton({required IconData icon, required String label, required VoidCallback onTap}) {
+  Widget _buildActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -299,7 +345,14 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
             children: [
               Icon(icon, color: widget.color, size: 18),
               const SizedBox(width: 6),
-              Text(label, style: TextStyle(color: widget.color, fontSize: 13, fontWeight: FontWeight.bold)),
+              Text(
+                label,
+                style: TextStyle(
+                  color: widget.color,
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ),
@@ -309,9 +362,14 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
 
   Widget _buildBottomNav(int total) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 12, 20, MediaQuery.of(context).padding.bottom + 12),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        12,
+        20,
+        MediaQuery.of(context).padding.bottom + 12,
+      ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.appColors.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -353,7 +411,11 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
     ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.2);
   }
 
-  Widget _buildNavButton({required IconData icon, required bool enabled, required VoidCallback onTap}) {
+  Widget _buildNavButton({
+    required IconData icon,
+    required bool enabled,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: enabled ? onTap : null,
       child: AnimatedContainer(
@@ -364,10 +426,20 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
           color: enabled ? widget.color : Colors.grey.shade200,
           borderRadius: BorderRadius.circular(14),
           boxShadow: enabled
-              ? [BoxShadow(color: widget.color.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))]
+              ? [
+                  BoxShadow(
+                    color: widget.color.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ]
               : [],
         ),
-        child: Icon(icon, color: enabled ? Colors.white : Colors.grey.shade400, size: 18),
+        child: Icon(
+          icon,
+          color: enabled ? Colors.white : Colors.grey.shade400,
+          size: 18,
+        ),
       ),
     );
   }
@@ -384,11 +456,13 @@ class _HisnDetailsScreenState extends State<HisnDetailsScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (_currentPage > 1) _dot(false),
-        if (_currentPage > 2) const Text('  ·  ', style: TextStyle(color: Colors.grey)),
+        if (_currentPage > 2)
+          const Text('  ·  ', style: TextStyle(color: Colors.grey)),
         if (_currentPage > 0) _dot(false),
         _dot(true),
         if (_currentPage < total - 1) _dot(false),
-        if (_currentPage < total - 3) const Text('  ·  ', style: TextStyle(color: Colors.grey)),
+        if (_currentPage < total - 3)
+          const Text('  ·  ', style: TextStyle(color: Colors.grey)),
         if (_currentPage < total - 2) _dot(false),
       ],
     );

@@ -1,6 +1,6 @@
 class HisnZikr {
   final String text;
-  
+
   HisnZikr({required this.text});
 }
 
@@ -18,7 +18,7 @@ class HisnCategory {
   factory HisnCategory.fromJson(String name, Map<String, dynamic> json) {
     final List<dynamic> textList = json['text'] ?? [];
     final List<dynamic> footnoteList = json['footnote'] ?? [];
-    
+
     return HisnCategory(
       name: name,
       azkar: textList.map((text) => HisnZikr(text: text.toString())).toList(),

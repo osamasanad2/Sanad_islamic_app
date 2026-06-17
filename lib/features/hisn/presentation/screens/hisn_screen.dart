@@ -27,7 +27,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
     final hisnAsync = ref.watch(hisnProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       body: hisnAsync.when(
         loading: () => _buildLoadingState(),
         error: (err, _) => Center(child: Text('حدث خطأ: $err')),
@@ -50,20 +50,30 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.purple.shade50,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           '${filtered.length} قسم',
-                          style: TextStyle(color: Colors.purple.shade700, fontSize: 12, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.purple.shade700,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         'أقسام الأذكار والأدعية',
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                        style: TextStyle(
+                          color: context.appColors.textSecondary,
+                          fontSize: 13,
+                        ),
                       ),
                     ],
                   ).animate().fadeIn(delay: 200.ms),
@@ -72,14 +82,11 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
                 sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final cat = filtered[index];
-                      final catIndex = categories.indexOf(cat);
-                      return _buildCategoryTile(cat, catIndex, index);
-                    },
-                    childCount: filtered.length,
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final cat = filtered[index];
+                    final catIndex = categories.indexOf(cat);
+                    return _buildCategoryTile(cat, catIndex, index);
+                  }, childCount: filtered.length),
                 ),
               ),
             ],
@@ -100,10 +107,17 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
               color: Colors.purple.shade50,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.shield_rounded, size: 48, color: Colors.purple.shade300),
+            child: Icon(
+              Icons.shield_rounded,
+              size: 48,
+              color: Colors.purple.shade300,
+            ),
           ),
           const SizedBox(height: 20),
-          const Text('جارٍ تحميل حصن المسلم...', style: TextStyle(color: AppColors.textSecondary, fontSize: 15)),
+          Text(
+            'جارٍ تحميل حصن المسلم...',
+            style: TextStyle(color: context.appColors.textSecondary, fontSize: 15),
+          ),
           const SizedBox(height: 16),
           SizedBox(
             width: 120,
@@ -124,16 +138,25 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
       floating: false,
       pinned: true,
       elevation: 0,
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appColors.background,
       leading: IconButton(
         icon: Container(
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.9),
             shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 8)],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 8,
+              ),
+            ],
           ),
-          child: const Icon(Icons.arrow_back, color: AppColors.textPrimary, size: 20),
+          child: Icon(
+            Icons.arrow_back,
+            color: context.appColors.textPrimary,
+            size: 20,
+          ),
         ),
         onPressed: () => context.pop(),
       ),
@@ -156,12 +179,20 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
               Positioned(
                 right: -30,
                 top: -20,
-                child: Icon(Icons.shield_rounded, size: 200, color: Colors.white.withValues(alpha: 0.06)),
+                child: Icon(
+                  Icons.shield_rounded,
+                  size: 200,
+                  color: Colors.white.withValues(alpha: 0.06),
+                ),
               ),
               Positioned(
                 left: -40,
                 bottom: -30,
-                child: Icon(Icons.auto_awesome, size: 120, color: Colors.white.withValues(alpha: 0.05)),
+                child: Icon(
+                  Icons.auto_awesome,
+                  size: 120,
+                  color: Colors.white.withValues(alpha: 0.05),
+                ),
               ),
               // Content
               SafeArea(
@@ -179,7 +210,11 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                               color: Colors.white.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            child: const Icon(Icons.shield_rounded, color: Colors.white, size: 28),
+                            child: const Icon(
+                              Icons.shield_rounded,
+                              color: Colors.white,
+                              size: 28,
+                            ),
                           ),
                           const SizedBox(width: 14),
                           Column(
@@ -196,7 +231,10 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                               const SizedBox(height: 2),
                               Text(
                                 'من أذكار الكتاب والسنة',
-                                style: TextStyle(color: Colors.white.withValues(alpha: 0.75), fontSize: 13),
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.75),
+                                  fontSize: 13,
+                                ),
                               ),
                             ],
                           ),
@@ -231,8 +269,11 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
           onChanged: (value) => setState(() => _searchQuery = value),
           decoration: InputDecoration(
             hintText: 'ابحث عن ذكر أو دعاء...',
-            hintStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14),
-            prefixIcon: Icon(Icons.search_rounded, color: Colors.purple.shade300),
+            hintStyle: TextStyle(color: context.appColors.textSecondary, fontSize: 14),
+            prefixIcon: Icon(
+              Icons.search_rounded,
+              color: Colors.purple.shade300,
+            ),
             suffixIcon: _searchQuery.isNotEmpty
                 ? IconButton(
                     icon: const Icon(Icons.close, size: 20),
@@ -243,7 +284,7 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
                   )
                 : null,
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: context.appColors.surface,
             contentPadding: const EdgeInsets.symmetric(vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -290,78 +331,95 @@ class _HisnScreenState extends ConsumerState<HisnScreen> {
     final icon = icons[animIndex % icons.length];
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            context.push('/hisn/details', extra: {'category': cat, 'color': color});
-          },
-          borderRadius: BorderRadius.circular(18),
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                context.push(
+                  '/hisn/details',
+                  extra: {'category': cat, 'color': color},
+                );
+              },
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: color.withValues(alpha: 0.12), width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.06),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                // Icon
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(14),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: context.appColors.surface,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: color.withValues(alpha: 0.12),
+                    width: 1,
                   ),
-                  child: Icon(icon, color: color, size: 24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.06),
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 14),
-                // Title & count
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cat.name,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                child: Row(
+                  children: [
+                    // Icon
+                    Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${cat.azkar.length} ${cat.azkar.length == 1 ? 'ذكر' : 'أذكار'}',
-                        style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600),
+                      child: Icon(icon, color: color, size: 24),
+                    ),
+                    const SizedBox(width: 14),
+                    // Title & count
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            cat.name,
+                            style: TextStyle(
+                              color: context.appColors.textPrimary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${cat.azkar.length} ${cat.azkar.length == 1 ? 'ذكر' : 'أذكار'}',
+                            style: TextStyle(
+                              color: color,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    // Arrow
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.08),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: color,
+                        size: 14,
+                      ),
+                    ),
+                  ],
                 ),
-                // Arrow
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.08),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.arrow_forward_ios_rounded, color: color, size: 14),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    ).animate().fadeIn(delay: (80 * animIndex).clamp(0, 800).ms).slideX(begin: 0.05);
+        )
+        .animate()
+        .fadeIn(delay: (80 * animIndex).clamp(0, 800).ms)
+        .slideX(begin: 0.05);
   }
 }

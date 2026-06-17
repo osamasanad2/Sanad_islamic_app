@@ -1,30 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:sanad_app/main.dart';
+import 'package:sanad_app/core/services/database_service.dart';
+import 'package:sanad_app/core/services/firebase_service.dart';
+import 'package:sanad_app/features/prayer_times/data/prayer_provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  group('App Core', () {
+    test('DatabaseService is singleton', () {
+      final db1 = DatabaseService();
+      final db2 = DatabaseService();
+      expect(identical(db1, db2), isTrue);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    test('FirebaseService is singleton', () {
+      final fs1 = FirebaseService();
+      final fs2 = FirebaseService();
+      expect(identical(fs1, fs2), isTrue);
+    });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('PrayerState copyWith works correctly', () {
+      final state = PrayerState(
+        isLoading: true,
+        hijriDate: '1 محرم 1446',
+      );
+
+      final updated = state.copyWith(isLoading: false, locationName: 'مكة');
+      expect(updated.isLoading, false);
+      expect(updated.locationName, 'مكة');
+      expect(updated.hijriDate, '1 محرم 1446');
+    });
+
+    test('PrayerState initial values are correct', () {
+      final state = PrayerState();
+      expect(state.isLoading, true);
+      expect(state.error, isNull);
+      expect(state.prayerTimes, isNull);
+      expect(state.nextPrayer, isNull);
+      expect(state.timeUntilNextPrayer, isNull);
+      expect(state.hijriDate, '');
+      expect(state.locationName, 'تحديد الموقع...');
+    });
   });
 }

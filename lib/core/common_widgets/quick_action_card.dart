@@ -19,7 +19,8 @@ class QuickActionCard extends StatefulWidget {
   State<QuickActionCard> createState() => _QuickActionCardState();
 }
 
-class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProviderStateMixin {
+class _QuickActionCardState extends State<QuickActionCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -28,9 +29,12 @@ class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProv
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150), // slightly longer for smoothness
+      duration: const Duration(
+        milliseconds: 150,
+      ), // slightly longer for smoothness
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.92).animate( // more pronounced press
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.92).animate(
+      // more pronounced press
       CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
     );
   }
@@ -64,12 +68,17 @@ class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProv
         scale: _scaleAnimation,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.appColors.surface,
             borderRadius: BorderRadius.circular(24.0), // softer corners
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.08), width: 1.5),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.08),
+              width: 1.5,
+            ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.04), // slightly tinted shadow
+                color: AppColors.primary.withValues(
+                  alpha: 0.04,
+                ), // slightly tinted shadow
                 offset: const Offset(0, 6),
                 blurRadius: 16.0,
                 spreadRadius: 2.0,
@@ -77,7 +86,10 @@ class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProv
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 16.0,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -88,18 +100,20 @@ class _QuickActionCardState extends State<QuickActionCard> with SingleTickerProv
                     color: AppColors.primaryLight.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: widget.customIcon ?? Icon(
-                    widget.icon,
-                    size: 28.0,
-                    color: AppColors.primaryDark,
-                  ),
+                  child:
+                      widget.customIcon ??
+                      Icon(
+                        widget.icon,
+                        size: 28.0,
+                        color: AppColors.primaryDark,
+                      ),
                 ),
                 const SizedBox(height: 12.0),
                 Text(
                   widget.title,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: context.appColors.textPrimary,
                     fontWeight: FontWeight.bold,
                     fontSize: 13.0,
                   ),

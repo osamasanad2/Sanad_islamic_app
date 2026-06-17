@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/widget_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/widget_bg"
+        android:scaleType="centerCrop"
+        android:alpha="0.9" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E6FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="2dp"
+        android:gravity="right">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|right"
+            android:layout_marginBottom="1dp">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تحديث تلقائي"
+                android:textColor="#B0BEC5"
+                android:textSize="9sp"
+                android:layout_marginRight="4dp" />
+
+            <TextView
+                android:id="@+id/widget_overall_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="إجمالي الحفظ من القرآن: 1%"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:textSize="12sp" />
+                      <TextView
+                    android:id="@+id/widget_streak_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔥 3"
+                    android:textColor="#E65100"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="8dp" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/widget_overall_progress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:max="100"
+            android:progress="1"
+            android:progressTint="#4CAF50"
+            android:layout_marginBottom="3dp" />
+
+       <TextView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:text="" />
+
+        <TextView
+            android:id="@+id/widget_wird_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="**الورد التالي:** الورد رقم (**2**) من صفحة **21** إلى صفحة **40** (تقدم الورد: 1%)"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:textSize="11sp"
+            android:gravity="right"
+            android:layout_marginBottom="2dp"/>
+
+        <ProgressBar
+            android:id="@+id/widget_wird_progress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:max="100"
+            android:progress="1"
+            android:progressTint="#8e24aa"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:paddingTop="2dp">
+
+            <LinearLayout
+                android:id="@+id/btn_widget_fav"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="3dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/rounded_box_small">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_widget_fav"
+                    android:scaleType="centerInside" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="مفضلة"
+                    android:textColor="#e65100"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_widget_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="3dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/rounded_box_small">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_widget_search"
+                    android:scaleType="centerInside" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="بحث"
+                    android:textColor="#0d47a1"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_widget_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="3dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/rounded_box_small">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_widget_info"
+                    android:scaleType="centerInside" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="تفاصيل"
+                    android:textColor="#0097a7"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_widget_continue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="3dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/rounded_box_small">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_widget_read"
+                    android:scaleType="centerInside" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="متابعة"
+                    android:textColor="#00796B"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

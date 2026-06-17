@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "quran-kareem",
+    "title": "القرآن الكريم",
+    "author": "الله سبحانه وتعالى",
+    "category": "القرآن وعلومه",
+    "description": "كلام الله المنزل على محمد ﷺ المتعبد بتلاوته، وهو المعجزة الخالدة والهدى للعالمين.",
+    "coverImage": "",
+    "chaptersCount": 114,
+    "pagesCount": 604,
+    "language": "ar",
+    "tags": [
+      "القرآن",
+      "الوحي",
+      "الهدى"
+    ],
+    "source": "الوحي الإلهي",
+    "featured": true
+  },
+  {
+    "id": "tafsir-tabari",
+    "title": "تفسير الطبري (جامع البيان)",
+    "author": "الإمام محمد بن جرير الطبري",
+    "category": "التفسير",
+    "description": "أشهر كتب التفسير وأقدمها، يجمع بين التفسير بالمأثور والرأي مع ذكر الأسانيد والقراءات.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 9000,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "الطبري",
+      "المأثور",
+      "أسانيد"
+    ],
+    "source": "دار المعارف",
+    "featured": true
+  },
+  {
+    "id": "tafsir-ibn-kathir",
+    "title": "تفسير ابن كثير",
+    "author": "الحافظ ابن كثير الدمشقي",
+    "category": "التفسير",
+    "description": "من أشهر كتب التفسير وأكثرها انتشاراً، يعتمد على تفسير القرآن بالقرآن والسنة وأقوال الصحابة.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 4500,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "ابن كثير",
+      "المأثور",
+      "شهرة"
+    ],
+    "source": "دار طيبة",
+    "featured": true
+  },
+  {
+    "id": "tafsir-saadi",
+    "title": "تيسير الكريم الرحمن (تفسير السعدي)",
+    "author": "عبد الرحمن بن ناصر السعدي",
+    "category": "التفسير",
+    "description": "تفسير متميز يجمع بين الأصالة والسهولة، بأسلوب واضح قريب المعنى مع تجنب الإسرائيليات.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 2200,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "السعدي",
+      "سهل",
+      "ميسر"
+    ],
+    "source": "دار السلام",
+    "featured": true
+  },
+  {
+    "id": "tafsir-qurtubi",
+    "title": "الجامع لأحكام القرآن (تفسير القرطبي)",
+    "author": "الإمام القرطبي",
+    "category": "التفسير",
+    "description": "تفسير فريد يجمع بين التفسير والفقه، يركز على استنباط الأحكام الشرعية من الآيات.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 6500,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "القرطبي",
+      "أحكام",
+      "فقه"
+    ],
+    "source": "دار الكتب المصرية",
+    "featured": false
+  },
+  {
+    "id": "tafsir-baghawi",
+    "title": "معالم التنزيل (تفسير البغوي)",
+    "author": "الإمام البغوي",
+    "category": "التفسير",
+    "description": "تفسير مأثور متوسط الحجم، جمع فيه المؤلف بين التفسير والحديث مع ذكر أسباب النزول.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 1600,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "البغوي",
+      "مأثور",
+      "أسباب النزول"
+    ],
+    "source": "دار المعرفة",
+    "featured": false
+  },
+  {
+    "id": "tafsir-jalalayn",
+    "title": "تفسير الجلالين",
+    "author": "جلال الدين المحلي وجلال الدين السيوطي",
+    "category": "التفسير",
+    "description": "تفسير مختصر متميز بأسلوب السهل والعبارة الموجزة، من أشهر كتب التفسير تدريساً.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 800,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "الجلالين",
+      "مختصر",
+      "سهل"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "tafsir-muyassar",
+    "title": "الميسر في التفسير",
+    "author": "مجموعة من العلماء",
+    "category": "التفسير",
+    "description": "تفسير ميسر بأسلوب عصري معاصر، من إعداد مجمع الملك فهد لطباعة المصحف الشريف.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 900,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "ميسر",
+      "معاصر",
+      "مجمع الملك فهد"
+    ],
+    "source": "مجمع الملك فهد",
+    "featured": false
+  },
+  {
+    "id": "tafsir-nasafi",
+    "title": "مدارك التنزيل وحقائق التأويل (تفسير النسفي)",
+    "author": "الإمام النسفي",
+    "category": "التفسير",
+    "description": "تفسير متوسط يجمع بين التفسير بالمأثور والتفسير بالرأي، بأسلوب وجيز مع ذكر الإعراب والبلاغة.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 1400,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "النسفي",
+      "مدارك",
+      "بلاغة"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "tafsir-shawkani",
+    "title": "فتح القدير (تفسير الشوكاني)",
+    "author": "الإمام الشوكاني",
+    "category": "التفسير",
+    "description": "تفسير جامع بين الرواية والدراية، يجمع بين التفسير بالمأثور والتفسير بالرأي مع الترجيح.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 2500,
+    "language": "ar",
+    "tags": [
+      "تفسير",
+      "الشوكاني",
+      "فتح القدير",
+      "ترجيح"
+    ],
+    "source": "دار المعرفة",
+    "featured": false
+  },
+  {
+    "id": "itqan-suyuti",
+    "title": "الإتقان في علوم القرآن",
+    "author": "جلال الدين السيوطي",
+    "category": "القرآن وعلومه",
+    "description": "أشهر كتاب في علوم القرآن، يجمع 80 نوعاً من أنواع العلوم المتعلقة بالقرآن.",
+    "coverImage": "",
+    "chaptersCount": 80,
+    "pagesCount": 1200,
+    "language": "ar",
+    "tags": [
+      "علوم القرآن",
+      "السيوطي",
+      "الإتقان",
+      "موسوعة"
+    ],
+    "source": "دار الفكر",
+    "featured": true
+  },
+  {
+    "id": "burhan-zarkashi",
+    "title": "البرهان في علوم القرآن",
+    "author": "بدر الدين الزركشي",
+    "category": "القرآن وعلومه",
+    "description": "من أهم الكتب في علوم القرآن، جمع فيه المؤلف 47 نوعاً من علوم القرآن بأسلوب علمي رصين.",
+    "coverImage": "",
+    "chaptersCount": 47,
+    "pagesCount": 1000,
+    "language": "ar",
+    "tags": [
+      "علوم القرآن",
+      "الزركشي",
+      "البرهان",
+      "مرجع"
+    ],
+    "source": "دار المعرفة",
+    "featured": false
+  },
+  {
+    "id": "manahil-irfan",
+    "title": "مناهل العرفان في علوم القرآن",
+    "author": "محمد عبد العظيم الزرقاني",
+    "category": "القرآن وعلومه",
+    "description": "كتاب معاصر في علوم القرآن، يبين أنواع العلوم القرآنية بأسلوب منهجي حديث.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 600,
+    "language": "ar",
+    "tags": [
+      "علوم القرآن",
+      "الزرقاني",
+      "مناهل",
+      "معاصر"
+    ],
+    "source": "دار الفكر",
+    "featured": false
+  },
+  {
+    "id": "mabahith-ulum-quran",
+    "title": "مباحث في علوم القرآن",
+    "author": "مناع القطان",
+    "category": "القرآن وعلومه",
+    "description": "كتاب جامع في علوم القرآن بأسلوب أكاديمي معاصر، من أشهر الكتب المقررة في الجامعات.",
+    "coverImage": "",
+    "chaptersCount": 14,
+    "pagesCount": 400,
+    "language": "ar",
+    "tags": [
+      "علوم القرآن",
+      "القطان",
+      "مباحث",
+      "جامعي"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "naskh-quran",
+    "title": "الناسخ والمنسوخ في القرآن الكريم",
+    "author": "ابن حزم الأندلسي",
+    "category": "القرآن وعلومه",
+    "description": "كتاب في علم الناسخ والمنسوخ من الآيات، يبين الأحكام الشرعية التي نسخت أو بدلت.",
+    "coverImage": "",
+    "chaptersCount": 5,
+    "pagesCount": 200,
+    "language": "ar",
+    "tags": [
+      "علوم القرآن",
+      "ابن حزم",
+      "ناسخ",
+      "منسوخ"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "ajwibat-quran",
+    "title": "أسئلة البيان في إعجاز القرآن",
+    "author": "مصطفى محمود",
+    "category": "القرآن وعلومه",
+    "description": "كتاب في الإعجاز العلمي والبياني للقرآن الكريم، يعرض آيات الله في الكون والقرآن.",
+    "coverImage": "",
+    "chaptersCount": 12,
+    "pagesCount": 350,
+    "language": "ar",
+    "tags": [
+      "إعجاز",
+      "مصطفى محمود",
+      "علمي",
+      "بياني"
+    ],
+    "source": "دار المعرفة",
+    "featured": false
+  },
+  {
+    "id": "sahih-bukhari",
+    "title": "صحيح البخاري",
+    "author": "الإمام محمد بن إسماعيل البخاري",
+    "category": "الحديث",
+    "description": "أصح كتاب بعد كتاب الله، جمع فيه الإمام البخاري 7275 حديثاً منتقاة من 600 ألف حديث.",
+    "coverImage": "",
+    "chaptersCount": 97,
+    "pagesCount": 756,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "البخاري",
+      "صحيح",
+      "الجامع الصحيح"
+    ],
+    "source": "دار طوق النجاة",
+    "featured": true
+  },
+  {
+    "id": "sahih-muslim",
+    "title": "صحيح مسلم",
+    "author": "الإمام مسلم بن الحجاج النيسابوري",
+    "category": "الحديث",
+    "description": "ثاني كتب الحديث صحة بعد البخاري، تميز بحسن الترتيب والتبويب وجودة الاختيار.",
+    "coverImage": "",
+    "chaptersCount": 54,
+    "pagesCount": 650,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "مسلم",
+      "صحيح",
+      "الصحيحان"
+    ],
+    "source": "دار إحياء التراث",
+    "featured": true
+  },
+  {
+    "id": "sunan-abu-dawud",
+    "title": "سنن أبي داود",
+    "author": "الإمام أبو داود السجستاني",
+    "category": "الحديث",
+    "description": "أحد كتب الحديث الستة، اشتهر بجمع الأحاديث التي تدل عليها أحكام الفقهاء.",
+    "coverImage": "",
+    "chaptersCount": 36,
+    "pagesCount": 550,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "أبو داود",
+      "سنن",
+      "الستة"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "sunan-tirmidhi",
+    "title": "سنن الترمذي",
+    "author": "الإمام الترمذي",
+    "category": "الحديث",
+    "description": "أحد الكتب الستة، يتميز بذكر درجة الحديث وبيان مذاهب الفقهاء.",
+    "coverImage": "",
+    "chaptersCount": 46,
+    "pagesCount": 500,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "الترمذي",
+      "سنن",
+      "علل الحديث"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "sunan-nasai",
+    "title": "السنن الصغرى (سنن النسائي)",
+    "author": "الإمام النسائي",
+    "category": "الحديث",
+    "description": "من الكتب الستة، تميز بقلة الأحاديث الضعيفة واهتمامه بالأحكام الفقهية.",
+    "coverImage": "",
+    "chaptersCount": 36,
+    "pagesCount": 450,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "النسائي",
+      "سنن",
+      "الستة"
+    ],
+    "source": "دار الفكر",
+    "featured": false
+  },
+  {
+    "id": "sunan-ibn-maja",
+    "title": "سنن ابن ماجه",
+    "author": "الإمام ابن ماجه القزويني",
+    "category": "الحديث",
+    "description": "الكتاب السادس من كتب الحديث الستة، يحتوي على أحاديث في الأحكام والفضائل.",
+    "coverImage": "",
+    "chaptersCount": 37,
+    "pagesCount": 500,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "ابن ماجه",
+      "سنن",
+      "الستة"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "fath-bari",
+    "title": "فتح الباري شرح صحيح البخاري",
+    "author": "الحافظ ابن حجر العسقلاني",
+    "category": "الحديث",
+    "description": "أعظم شرح لصحيح البخاري، يعد من أهم كتب الإسلام وأكثرها نفعاً في شرح الحديث وبيان مسائله.",
+    "coverImage": "",
+    "chaptersCount": 97,
+    "pagesCount": 15000,
+    "language": "ar",
+    "tags": [
+      "شرح حديث",
+      "ابن حجر",
+      "فتح الباري",
+      "موسوعة"
+    ],
+    "source": "دار المعرفة",
+    "featured": true
+  },
+  {
+    "id": "riyad-saliheen",
+    "title": "رياض الصالحين",
+    "author": "الإمام النووي",
+    "category": "الحديث",
+    "description": "من أنفع كتب الحديث وأكثرها انتشاراً، جمع فيه أحاديث في الآداب والأخلاق والتربية والإيمان.",
+    "coverImage": "",
+    "chaptersCount": 372,
+    "pagesCount": 450,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "النووي",
+      "رياض الصالحين",
+      "آداب"
+    ],
+    "source": "دار الفكر",
+    "featured": true
+  },
+  {
+    "id": "bulugh-maram",
+    "title": "بلوغ المرام من أدلة الأحكام",
+    "author": "الحافظ ابن حجر العسقلاني",
+    "category": "الحديث",
+    "description": "جمع الأحاديث التي تستنبط منها الأحكام الفقهية، من أشهر كتب الحديث في الفقه.",
+    "coverImage": "",
+    "chaptersCount": 16,
+    "pagesCount": 300,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "ابن حجر",
+      "بلوغ المرام",
+      "أحكام"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "arbain-nawawi",
+    "title": "الأربعون النووية",
+    "author": "الإمام النووي",
+    "category": "الحديث",
+    "description": "مجموعة من 42 حديثاً جوامع شاملة لأصول الدين وفروعه، من أشهر كتب الحديث وأكثرها نفعاً.",
+    "coverImage": "",
+    "chaptersCount": 42,
+    "pagesCount": 120,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "النووي",
+      "أربعون",
+      "جوامع الكلم"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "mishkat-masabih",
+    "title": "مشكاة المصابيح",
+    "author": "الإمام التبريزي",
+    "category": "الحديث",
+    "description": "من أشهر كتب الجمع بين الكتب الستة، مرتب على أبواب الفقه والفضائل.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 800,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "التبريزي",
+      "مشكاة",
+      "جمع"
+    ],
+    "source": "دار الفكر",
+    "featured": false
+  },
+  {
+    "id": "muwatta-malik",
+    "title": "الموطأ",
+    "author": "الإمام مالك بن أنس",
+    "category": "الحديث",
+    "description": "أول كتاب حديث وفقه جمع في الإسلام، من أعظم الكتب وأقدمها وأصحها بعد الصحيحين.",
+    "coverImage": "",
+    "chaptersCount": 61,
+    "pagesCount": 400,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "مالك",
+      "الموطأ",
+      "فقه"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "talkhis-habir",
+    "title": "التلخيص الحبير في تخريج أحاديث الرافعي الكبير",
+    "author": "الحافظ ابن حجر العسقلاني",
+    "category": "الحديث",
+    "description": "موسوعة في تخريج الأحاديث الفقهية، يبين درجة الأحاديث التي استدل بها فقهاء الشافعية.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 1200,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "تخريج",
+      "ابن حجر",
+      "فقه"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "ilal-ibn-abi-hatim",
+    "title": "علل الحديث",
+    "author": "ابن أبي حاتم الرازي",
+    "category": "الحديث",
+    "description": "من أهم كتب علل الحديث، يبين الأحاديث المعلة وأسباب العلل عند المحدثين.",
+    "coverImage": "",
+    "chaptersCount": 10,
+    "pagesCount": 600,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "علل",
+      "ابن أبي حاتم",
+      "مصطلح"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "fiqh-sunnah",
+    "title": "فقه السنة",
+    "author": "السيد سابق",
+    "category": "الفقه",
+    "description": "كتاب فقهي معاصر جامع بأسلوب ميسر يشمل جميع أبواب الفقه الإسلامي بدليله.",
+    "coverImage": "",
+    "chaptersCount": 50,
+    "pagesCount": 1200,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "السيد سابق",
+      "فقه السنة",
+      "أدلة"
+    ],
+    "source": "دار الفتح",
+    "featured": true
+  },
+  {
+    "id": "majmu-fatawa",
+    "title": "مجموع الفتاوى",
+    "author": "شيخ الإسلام ابن تيمية",
+    "category": "الفقه",
+    "description": "موسوعة فقهية كبرى تجمع فتاوى شيخ الإسلام ابن تيمية في جميع أبواب الفقه والعقيدة والتفسير.",
+    "coverImage": "",
+    "chaptersCount": 37,
+    "pagesCount": 8000,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "ابن تيمية",
+      "فتاوى",
+      "موسوعة"
+    ],
+    "source": "دار الوفاء",
+    "featured": true
+  },
+  {
+    "id": "mughni",
+    "title": "المغني",
+    "author": "ابن قدامة المقدسي",
+    "category": "الفقه",
+    "description": "أكبر كتب الفقه الحنبلي وأشهرها، موسوعة فقهية مقارنة تعرض آراء المذاهب وأدلتها.",
+    "coverImage": "",
+    "chaptersCount": 15,
+    "pagesCount": 5000,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "ابن قدامة",
+      "المغني",
+      "مقارن"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": true
+  },
+  {
+    "id": "bidayat-mujtahid",
+    "title": "بداية المجتهد ونهاية المقتصد",
+    "author": "ابن رشد الحفيد",
+    "category": "الفقه",
+    "description": "من أعظم كتب الفقه المقارن، يعرض آراء المذاهب في المسائل الفقهية مع أدلتها ومناقشاتها.",
+    "coverImage": "",
+    "chaptersCount": 60,
+    "pagesCount": 900,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "ابن رشد",
+      "مقارن",
+      "مذاهب"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "fiqh-islami-zuhayli",
+    "title": "الفقه الإسلامي وأدلته",
+    "author": "الدكتور وهبة الزحيلي",
+    "category": "الفقه",
+    "description": "موسوعة فقهية معاصرة شاملة، تضم جميع أبواب الفقه بأدلتها من الكتاب والسنة والإجماع والقياس.",
+    "coverImage": "",
+    "chaptersCount": 90,
+    "pagesCount": 6000,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "الزحيلي",
+      "موسوعة",
+      "معاصر"
+    ],
+    "source": "دار الفكر",
+    "featured": true
+  },
+  {
+    "id": "sharh-zad-mustaqni",
+    "title": "الروض المربع شرح زاد المستقنع",
+    "author": "منصور البهوتي",
+    "category": "الفقه",
+    "description": "أشهر شروح زاد المستقنع في الفقه الحنبلي، يتميز بوضوح العبارة وجودة التحقيق.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 1100,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "حنبلي",
+      "البهوتي",
+      "الروض المربع"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "rawdat-talibin",
+    "title": "روضة الطالبين",
+    "author": "الإمام النووي",
+    "category": "الفقه",
+    "description": "موسوعة فقهية شاملة على المذهب الشافعي، تعرض المسائل الفقهية بأدلتها وتفصيلاتها.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 3800,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "شافعي",
+      "النووي",
+      "روضة"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "hashiyat-ibn-abidin",
+    "title": "رد المحتار على الدر المختار (حاشية ابن عابدين)",
+    "author": "ابن عابدين",
+    "category": "الفقه",
+    "description": "أشهر كتب الفقه الحنفي وأكثرها اعتماداً، يشرح الدر المختار مع تحقيق المسائل الفقهية.",
+    "coverImage": "",
+    "chaptersCount": 15,
+    "pagesCount": 4000,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "حنفي",
+      "ابن عابدين",
+      "حاشية"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "mukhtasar-khalil",
+    "title": "مختصر خليل",
+    "author": "خليل بن إسحاق المالكي",
+    "category": "الفقه",
+    "description": "أشهر متن في الفقه المالكي، اعتمده الفقهاء في المذهب قروناً طويلة.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 400,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "مالكي",
+      "خليل",
+      "مختصر"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "zad-mustaqni",
+    "title": "زاد المستقنع",
+    "author": "الحجاوي",
+    "category": "الفقه",
+    "description": "متن مختصر في الفقه الحنبلي، من أشهر المتون الفقهية المعتمدة في المذهب.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 250,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "حنبلي",
+      "مختصر",
+      "زاد المستقنع"
+    ],
+    "source": "دار الصميعي",
+    "featured": false
+  },
+  {
+    "id": "minhaj-talibin",
+    "title": "منهاج الطالبين",
+    "author": "الإمام النووي",
+    "category": "الفقه",
+    "description": "متن معتمد في الفقه الشافعي، مختصر جمع فيه أهم المسائل الفقهية في المذهب.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 300,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "شافعي",
+      "النووي",
+      "منهاج"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "hidaya-marghinani",
+    "title": "الهداية شرح بداية المبتدي",
+    "author": "برهان الدين المرغيناني",
+    "category": "الفقه",
+    "description": "أشهر كتب الفقه الحنفي، يشرح متن بداية المبتدي ويعد مرجعاً أساسياً في المذهب.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 3000,
+    "language": "ar",
+    "tags": [
+      "فقه",
+      "حنفي",
+      "الهداية",
+      "المرغيناني"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "sirat-ibn-hisham",
+    "title": "السيرة النبوية لابن هشام",
+    "author": "ابن هشام الحميري",
+    "category": "السيرة والشمائل",
+    "description": "أشهر كتب السيرة النبوية وأقدمها، اعتمد على سيرة ابن إسحاق وهذبها وزاد عليها.",
+    "coverImage": "",
+    "chaptersCount": 4,
+    "pagesCount": 800,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "ابن هشام",
+      "النبي",
+      "السيرة النبوية"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "shamail-tirmidhi",
+    "title": "الشمائل المحمدية",
+    "author": "الإمام الترمذي",
+    "category": "السيرة والشمائل",
+    "description": "مجموعة من الأحاديث في صفات النبي ﷺ الخلقية والخلقية وأخلاقه وآدابه.",
+    "coverImage": "",
+    "chaptersCount": 56,
+    "pagesCount": 250,
+    "language": "ar",
+    "tags": [
+      "شمائل",
+      "الترمذي",
+      "النبي",
+      "الصفات"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "rawd-unf",
+    "title": "الروض الأنف",
+    "author": "السهيلي",
+    "category": "السيرة والشمائل",
+    "description": "شرح السيرة النبوية لابن هشام، من أشهر شروح السيرة وأكثرها تحقيقاً.",
+    "coverImage": "",
+    "chaptersCount": 4,
+    "pagesCount": 1200,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "السهيلي",
+      "شرح",
+      "الروض الأنف"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "nur-al-yaqin",
+    "title": "نور اليقين في سيرة سيد المرسلين",
+    "author": "محمد الخضري",
+    "category": "السيرة والشمائل",
+    "description": "كتاب مختصر في السيرة النبوية بأسلوب أدبي جذاب، من أشهر كتب السيرة المعاصرة.",
+    "coverImage": "",
+    "chaptersCount": 10,
+    "pagesCount": 250,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "الخضري",
+      "نور اليقين",
+      "مختصر"
+    ],
+    "source": "دار الفكر",
+    "featured": false
+  },
+  {
+    "id": "fiqh-sirah-ghazali",
+    "title": "فقه السيرة",
+    "author": "محمد الغزالي",
+    "category": "السيرة والشمائل",
+    "description": "دراسة فقهية تحليلية للسيرة النبوية تستنبط الدروس والعبر من أحداثها.",
+    "coverImage": "",
+    "chaptersCount": 14,
+    "pagesCount": 350,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "الغزالي",
+      "فقه السيرة",
+      "تحليل"
+    ],
+    "source": "دار القلم",
+    "featured": true
+  },
+  {
+    "id": "sirat-ibn-kathir",
+    "title": "البداية والنهاية (السيرة)",
+    "author": "الحافظ ابن كثير",
+    "category": "السيرة والشمائل",
+    "description": "موسوعة تاريخية تبدأ من بدء الخلق وتنتهي بأحداث القرن الثامن الهجري، اشتهرت بقسم السيرة.",
+    "coverImage": "",
+    "chaptersCount": 21,
+    "pagesCount": 5000,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "ابن كثير",
+      "تاريخ",
+      "البداية والنهاية"
+    ],
+    "source": "دار المعرفة",
+    "featured": true
+  },
+  {
+    "id": "mukhtasar-sirat",
+    "title": "مختصر سيرة الرسول ﷺ",
+    "author": "محمد بن عبد الوهاب",
+    "category": "السيرة والشمائل",
+    "description": "مختصر في سيرة النبي ﷺ يشمل أبرز الأحداث والغزوات والدروس المستفادة.",
+    "coverImage": "",
+    "chaptersCount": 15,
+    "pagesCount": 150,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "ابن عبد الوهاب",
+      "مختصر",
+      "دروس"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "kitab-tawhid",
+    "title": "كتاب التوحيد",
+    "author": "شيخ الإسلام محمد بن عبد الوهاب",
+    "category": "العقيدة",
+    "description": "من أهم كتب العقيدة، يبين التوحيد وأقسامه والشرك وما يتعلق به، مع الأدلة من الكتاب والسنة.",
+    "coverImage": "",
+    "chaptersCount": 67,
+    "pagesCount": 200,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "توحيد",
+      "ابن عبد الوهاب",
+      "شرك"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "wasitiyya",
+    "title": "العقيدة الواسطية",
+    "author": "شيخ الإسلام ابن تيمية",
+    "category": "العقيدة",
+    "description": "رسالة مختصرة في عقيدة أهل السنة والجماعة، جمعها ابن تيمية بأسلوب واضح يعتمد على الكتاب والسنة.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 80,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "ابن تيمية",
+      "الواسطية",
+      "أهل السنة"
+    ],
+    "source": "دار ابن الجوزي",
+    "featured": true
+  },
+  {
+    "id": "sharh-tahawiyya",
+    "title": "شرح العقيدة الطحاوية",
+    "author": "ابن أبي العز الحنفي",
+    "category": "العقيدة",
+    "description": "أشهر شرح لعقيدة الإمام الطحاوي، يتميز بالتحقيق العلمي والعرض الواسع لعقيدة السلف.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 600,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "طحاوية",
+      "ابن أبي العز",
+      "سلف"
+    ],
+    "source": "دار السلام",
+    "featured": true
+  },
+  {
+    "id": "aqida-tahawiyya",
+    "title": "العقيدة الطحاوية",
+    "author": "الإمام الطحاوي",
+    "category": "العقيدة",
+    "description": "متن مختصر في عقيدة أهل السنة والجماعة، من أشهر المتون المعتمدة في العقيدة.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 50,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "الطحاوي",
+      "متن",
+      "أهل السنة"
+    ],
+    "source": "دار المعرفة",
+    "featured": true
+  },
+  {
+    "id": "tadmuriyya",
+    "title": "الرسالة التدمرية",
+    "author": "شيخ الإسلام ابن تيمية",
+    "category": "العقيدة",
+    "description": "رسالة في توحيد الأسماء والصفات، تبين منهج السلف في إثبات الصفات مع نفي التمثيل والتكييف.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 120,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "ابن تيمية",
+      "التدمرية",
+      "الصفات"
+    ],
+    "source": "دار الفضيلة",
+    "featured": false
+  },
+  {
+    "id": "hamawiyya",
+    "title": "الفتوى الحموية",
+    "author": "شيخ الإسلام ابن تيمية",
+    "category": "العقيدة",
+    "description": "رسالة في الصفات الإلهية رداً على أهل التأويل، مبنية على الكتاب والسنة.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 100,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "ابن تيمية",
+      "الحموية",
+      "الصفات"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "lumahat-iqtisad",
+    "title": "لمعة الاعتقاد",
+    "author": "ابن قدامة المقدسي",
+    "category": "العقيدة",
+    "description": "مختصر جامع في عقيدة السلف، يبين معتقد أهل الحديث والأثر في أبواب الإيمان والصفات والقدر.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 60,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "ابن قدامة",
+      "لمعة",
+      "سلف"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "sharh-sunnah-baghawi",
+    "title": "شرح السنة",
+    "author": "الإمام البغوي",
+    "category": "العقيدة",
+    "description": "كتاب جامع في العقيدة والحديث، يشرح معتقد السلف ويدافع عنه بالأدلة الشرعية.",
+    "coverImage": "",
+    "chaptersCount": 16,
+    "pagesCount": 500,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "البغوي",
+      "شرح السنة",
+      "سلف"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "iqtida-sirat",
+    "title": "اقتضاء الصراط المستقيم",
+    "author": "شيخ الإسلام ابن تيمية",
+    "category": "العقيدة",
+    "description": "كتاب في مخالفة أهل الملل والبدع، يبين وجوب التمييز بين شعائر الإسلام وشعائر الكفار.",
+    "coverImage": "",
+    "chaptersCount": 10,
+    "pagesCount": 400,
+    "language": "ar",
+    "tags": [
+      "عقيدة",
+      "ابن تيمية",
+      "اقتضاء",
+      "موالاة"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "ihya-ulum",
+    "title": "إحياء علوم الدين",
+    "author": "الإمام أبو حامد الغزالي",
+    "category": "الرقائق والتزكية",
+    "description": "موسوعة في التزكية والأخلاق والتصوف، من أعظم كتب الإسلام في تهذيب النفوس.",
+    "coverImage": "",
+    "chaptersCount": 40,
+    "pagesCount": 2000,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "الغزالي",
+      "إحياء",
+      "أخلاق"
+    ],
+    "source": "دار المعرفة",
+    "featured": true
+  },
+  {
+    "id": "madarij-salikin",
+    "title": "مدارج السالكين",
+    "author": "ابن قيم الجوزية",
+    "category": "الرقائق والتزكية",
+    "description": "شرح منازل السائرين، يبين مراتب السير إلى الله ومقامات الدين من التوبة إلى التوحيد.",
+    "coverImage": "",
+    "chaptersCount": 100,
+    "pagesCount": 1200,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "ابن القيم",
+      "مدارج",
+      "سير"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "zad-miad",
+    "title": "زاد المعاد في هدي خير العباد",
+    "author": "ابن قيم الجوزية",
+    "category": "السيرة والشمائل",
+    "description": "موسوعة في الهدي النبوي الشامل، يجمع فقه السيرة والعبادات والمعاملات والطب النبوي.",
+    "coverImage": "",
+    "chaptersCount": 30,
+    "pagesCount": 1500,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "ابن القيم",
+      "زاد المعاد",
+      "هدي نبوي"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "rawdat-muhibbin",
+    "title": "روضة المحبين ونزهة المشتاقين",
+    "author": "ابن قيم الجوزية",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب في الحب الإلهي وأحكامه ودرجاته وآثاره في تزكية القلوب.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 400,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "ابن القيم",
+      "روضة",
+      "محبة"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "jawab-kafi",
+    "title": "الجواب الكافي لمن سأل عن الدواء الشافي",
+    "author": "ابن قيم الجوزية",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب في تزكية النفس وعلاج الذنوب والمعاصي، يعرف أيضاً بـ'الداء والدواء'.",
+    "coverImage": "",
+    "chaptersCount": 15,
+    "pagesCount": 300,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "ابن القيم",
+      "الداء والدواء",
+      "ذنوب"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "hilyat-awliya",
+    "title": "حلية الأولياء وطبقات الأصفياء",
+    "author": "أبو نعيم الأصبهاني",
+    "category": "الرقائق والتزكية",
+    "description": "موسوعة في مناقب الصحابة والتابعين والصالحين، جمع فيها أخبارهم وعباداتهم وأخلاقهم.",
+    "coverImage": "",
+    "chaptersCount": 10,
+    "pagesCount": 3000,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "أبو نعيم",
+      "حلية",
+      "مناقب"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "sifat-safwa",
+    "title": "صفة الصفوة",
+    "author": "ابن الجوزي",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب في سير الصالحين والزهاد والعباد، اختصره ابن الجوزي من حلية الأولياء.",
+    "coverImage": "",
+    "chaptersCount": 4,
+    "pagesCount": 800,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "ابن الجوزي",
+      "صفوة",
+      "زهد"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "tazkiyat-nufus",
+    "title": "تزكية النفوس",
+    "author": "أحمد فريد",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب معاصر في تزكية النفس وتهذيب الأخلاق، يجمع بين الأصالة والمعاصرة.",
+    "coverImage": "",
+    "chaptersCount": 12,
+    "pagesCount": 350,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "أحمد فريد",
+      "معاصر",
+      "أخلاق"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "la-tahzan",
+    "title": "لا تحزن",
+    "author": "عائض القرني",
+    "category": "الرقائق والتزكية",
+    "description": "من أشهر كتب التزكية المعاصرة، يبث الطمأنينة في القلوب ويخفف الهموم.",
+    "coverImage": "",
+    "chaptersCount": 80,
+    "pagesCount": 450,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "القرني",
+      "لا تحزن",
+      "طمأنينة"
+    ],
+    "source": "دار العصر",
+    "featured": true
+  },
+  {
+    "id": "mukhtasar-minhaj",
+    "title": "مختصر منهاج القاصدين",
+    "author": "ابن قدامة المقدسي",
+    "category": "الرقائق والتزكية",
+    "description": "مختصر لكتاب منهاج القاصدين في تزكية النفس وتهذيب الأخلاق.",
+    "coverImage": "",
+    "chaptersCount": 8,
+    "pagesCount": 200,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "ابن قدامة",
+      "منهاج",
+      "مختصر"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "qawaid-tazkiya",
+    "title": "قواعد التزكية",
+    "author": "عبد الرحمن حبنكة الميداني",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب منهجي في قواعد وأصول تزكية النفس مع الأدلة من الكتاب والسنة.",
+    "coverImage": "",
+    "chaptersCount": 15,
+    "pagesCount": 400,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "الميداني",
+      "قواعد",
+      "منهجي"
+    ],
+    "source": "دار القلم",
+    "featured": false
+  },
+  {
+    "id": "hayat-sahaba",
+    "title": "حياة الصحابة",
+    "author": "محمد يوسف الكاندهلوي",
+    "category": "السيرة والشمائل",
+    "description": "موسوعة في حياة الصحابة وأخلاقهم وجهادهم ودورهم في نشر الإسلام.",
+    "coverImage": "",
+    "chaptersCount": 5,
+    "pagesCount": 1500,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "صحابة",
+      "الكاندهلوي",
+      "موسوعة"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "usd-ghaba",
+    "title": "أسد الغابة في معرفة الصحابة",
+    "author": "ابن الأثير الجزري",
+    "category": "السيرة والشمائل",
+    "description": "موسوعة شاملة في تراجم الصحابة رضي الله عنهم، مرتبة على حروف المعجم.",
+    "coverImage": "",
+    "chaptersCount": 5,
+    "pagesCount": 2500,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "ابن الأثير",
+      "صحابة",
+      "أسد الغابة"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "tabaqat-ibn-sad",
+    "title": "الطبقات الكبرى",
+    "author": "ابن سعد البصري",
+    "category": "السيرة والشمائل",
+    "description": "أقدم وأهم كتاب في طبقات الرواة والصحابة والتابعين، مرجع أساسي في التراجم.",
+    "coverImage": "",
+    "chaptersCount": 8,
+    "pagesCount": 4000,
+    "language": "ar",
+    "tags": [
+      "سيرة",
+      "ابن سعد",
+      "طبقات",
+      "تراجم"
+    ],
+    "source": "دار الكتب العلمية",
+    "featured": false
+  },
+  {
+    "id": "sharh-sadr",
+    "title": "شرح الصدور بشرح حال الموتى والقبور",
+    "author": "جلال الدين السيوطي",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب في تذكرة الموت وأحوال القبور والآخرة، من أعظم كتب الرقائق.",
+    "coverImage": "",
+    "chaptersCount": 10,
+    "pagesCount": 300,
+    "language": "ar",
+    "tags": [
+      "رقائق",
+      "السيوطي",
+      "موت",
+      "آخرة"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "tadhkira-qurtubi",
+    "title": "التذكرة في أحوال الموتى وأمور الآخرة",
+    "author": "الإمام القرطبي",
+    "category": "الرقائق والتزكية",
+    "description": "موسوعة في أحوال الآخرة والجنة والنار والبعث والحساب، من أشهر كتب الرقائق.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 900,
+    "language": "ar",
+    "tags": [
+      "رقائق",
+      "القرطبي",
+      "التذكرة",
+      "آخرة"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "al-fawaid",
+    "title": "الفوائد",
+    "author": "ابن قيم الجوزية",
+    "category": "الرقائق والتزكية",
+    "description": "مجموعة من الفوائد واللطائف الإيمانية والقلبية، من أنفع كتب ابن القيم.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 200,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "ابن القيم",
+      "الفوائد",
+      "قلوب"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "bustan-arifin",
+    "title": "بستان العارفين",
+    "author": "الإمام النووي",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب في التزكية والرقائق والأذكار، جمع فيه النووي نفائس العلوم القلبية.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 150,
+    "language": "ar",
+    "tags": [
+      "تزكية",
+      "النووي",
+      "بستان",
+      "أذكار"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "kitab-zuhd",
+    "title": "الزهد",
+    "author": "أحمد بن حنبل",
+    "category": "الرقائق والتزكية",
+    "description": "مجموعة من الآثار والأخبار في الزهد والورع عن النبي ﷺ والصحابة والتابعين.",
+    "coverImage": "",
+    "chaptersCount": 1,
+    "pagesCount": 350,
+    "language": "ar",
+    "tags": [
+      "زهد",
+      "أحمد بن حنبل",
+      "رقائق",
+      "ورع"
+    ],
+    "source": "دار الحديث",
+    "featured": false
+  },
+  {
+    "id": "jami-ulum-wa-hikam",
+    "title": "جامع العلوم والحكم",
+    "author": "ابن رجب الحنبلي",
+    "category": "الحديث",
+    "description": "شرح الخمسين حديثاً جوامع الكلم، من أنفع كتب الحديث وأكثرها تحقيقاً.",
+    "coverImage": "",
+    "chaptersCount": 50,
+    "pagesCount": 600,
+    "language": "ar",
+    "tags": [
+      "حديث",
+      "ابن رجب",
+      "جوامع",
+      "حكم"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  },
+  {
+    "id": "lataif-maarif",
+    "title": "لطائف المعارف",
+    "author": "ابن رجب الحنبلي",
+    "category": "الرقائق والتزكية",
+    "description": "كتاب في فضائل الشهور والأيام والمواسم الإسلامية، وما يتعلق بها من أحكام وعبادات.",
+    "coverImage": "",
+    "chaptersCount": 20,
+    "pagesCount": 500,
+    "language": "ar",
+    "tags": [
+      "رقائق",
+      "ابن رجب",
+      "لطائف",
+      "مواسم"
+    ],
+    "source": "دار الحديث",
+    "featured": true
+  }
+]
