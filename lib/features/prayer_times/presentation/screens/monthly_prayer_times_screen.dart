@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:adhan/adhan.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../data/prayer_provider.dart';
 
-class MonthlyPrayerTimesScreen extends StatefulWidget {
+class MonthlyPrayerTimesScreen extends ConsumerStatefulWidget {
   const MonthlyPrayerTimesScreen({super.key});
   @override
-  State<MonthlyPrayerTimesScreen> createState() =>
+  ConsumerState<MonthlyPrayerTimesScreen> createState() =>
       _MonthlyPrayerTimesScreenState();
 }
 
-class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
-  int _currentMonth = 5; // May
-  int _currentYear = 2026;
-  final int _todayDay = 1;
+class _MonthlyPrayerTimesScreenState
+    extends ConsumerState<MonthlyPrayerTimesScreen> {
+  int _currentMonth = DateTime.now().month;
+  int _currentYear = DateTime.now().year;
+
+  double? _lat;
+  double? _lng;
 
   final _months = [
     'يناير',
@@ -29,6 +35,7 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
     'نوفمبر',
     'ديسمبر',
   ];
+
   final _headers = [
     'اليوم',
     'الفجر',
@@ -39,21 +46,60 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
     'العشاء',
   ];
 
-  // Mock data generator
-  List<Map<String, String>> get _monthData {
-    final daysInMonth = DateUtils.getDaysInMonth(_currentYear, _currentMonth);
+  List<Map<String, String>>? _cachedMonthData;
+  int _cachedMonth = -1;
+  int _cachedYear = -1;
+  double? _cachedLat;
+  double? _cachedLng;
+
+  String _formatTime(DateTime time) {
+    final h = time.hour > 12 ? time.hour - 12 : time.hour;
+    final hour = h == 0 ? 12 : h;
+    return '${hour.toString()}:${time.minute.toString().padLeft(2, '0')}';
+  }
+
+  List<Map<String, String>> _computeMonthData(
+      int year, int month, double lat, double lng) {
+    final daysInMonth = DateUtils.getDaysInMonth(year, month);
+    final coords = Coordinates(lat, lng);
+    final params = CalculationMethod.umm_al_qura.getParameters();
+    params.madhab = Madhab.shafi;
+
     return List.generate(daysInMonth, (i) {
       final d = i + 1;
+      final pt = PrayerTimes(
+        coords,
+        DateComponents.from(DateTime(year, month, d)),
+        params,
+      );
       return {
         'day': '$d',
-        'fajr': '4:${(28 + (d % 5)).toString().padLeft(2, '0')}',
-        'sunrise': '5:${(50 + (d % 4)).toString().padLeft(2, '0')}',
-        'dhuhr': '12:0${3 + (d % 3)}',
-        'asr': '3:${(28 + (d % 4)).toString().padLeft(2, '0')}',
-        'maghrib': '6:${(12 + (d % 5)).toString().padLeft(2, '0')}',
-        'isha': '7:${(40 + (d % 6)).toString().padLeft(2, '0')}',
+        'fajr': _formatTime(pt.fajr),
+        'sunrise': _formatTime(pt.sunrise),
+        'dhuhr': _formatTime(pt.dhuhr),
+        'asr': _formatTime(pt.asr),
+        'maghrib': _formatTime(pt.maghrib),
+        'isha': _formatTime(pt.isha),
       };
     });
+  }
+
+  List<Map<String, String>>? get _monthData {
+    if (_lat == null || _lng == null) return null;
+    if (_cachedMonth == _currentMonth &&
+        _cachedYear == _currentYear &&
+        _cachedLat == _lat &&
+        _cachedLng == _lng &&
+        _cachedMonthData != null) {
+      return _cachedMonthData;
+    }
+    _cachedMonthData =
+        _computeMonthData(_currentYear, _currentMonth, _lat!, _lng!);
+    _cachedMonth = _currentMonth;
+    _cachedYear = _currentYear;
+    _cachedLat = _lat;
+    _cachedLng = _lng;
+    return _cachedMonthData;
   }
 
   void _changeMonth(int delta) {
@@ -72,6 +118,18 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final prayerState = ref.watch(prayerProvider);
+
+    if (prayerState.prayerTimes != null) {
+      final coords = prayerState.prayerTimes!.coordinates;
+      if (_lat != coords.latitude || _lng != coords.longitude) {
+        _lat = coords.latitude;
+        _lng = coords.longitude;
+      }
+    }
+
+    final data = _monthData;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -87,7 +145,9 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
               _buildHeader(),
               _buildMonthSelector().animate().fadeIn(delay: 100.ms),
               Expanded(
-                child: _buildPrayerTable().animate().fadeIn(delay: 200.ms),
+                child: _buildBody(prayerState, data)
+                    .animate()
+                    .fadeIn(delay: 200.ms),
               ),
               _buildActionButtons()
                   .animate()
@@ -99,6 +159,38 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildBody(
+      PrayerState prayerState, List<Map<String, String>>? data) {
+    if (prayerState.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (prayerState.error != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Text(
+            prayerState.error!,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.red),
+          ),
+        ),
+      );
+    }
+    if (data == null) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: Text(
+            'لم يتم تحديد الموقع بعد. يرجى العودة إلى الشاشة الرئيسية.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Color(0xFF757575), fontSize: 16),
+          ),
+        ),
+      );
+    }
+    return _buildPrayerTable(data);
   }
 
   Widget _buildHeader() {
@@ -187,8 +279,8 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
     );
   }
 
-  Widget _buildPrayerTable() {
-    final data = _monthData;
+  Widget _buildPrayerTable(List<Map<String, String>> data) {
+    final today = DateTime.now();
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: BoxDecoration(
@@ -235,10 +327,9 @@ class _MonthlyPrayerTimesScreenState extends State<MonthlyPrayerTimesScreen> {
                 itemCount: data.length,
                 itemBuilder: (ctx, i) {
                   final row = data[i];
-                  final isToday =
-                      _currentMonth == 5 &&
-                      _currentYear == 2026 &&
-                      (i + 1) == _todayDay;
+                  final isToday = _currentMonth == today.month &&
+                      _currentYear == today.year &&
+                      (i + 1) == today.day;
                   return Container(
                     color: isToday
                         ? const Color(0xFFE8F5E9)

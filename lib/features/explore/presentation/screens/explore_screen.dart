@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/explore_data.dart';
 import '../../data/explore_notifier.dart';
@@ -607,11 +609,11 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildActionButton(Icons.content_copy, 'نسخ'),
+                  _buildActionButton(Icons.content_copy, 'نسخ', contentText: content.text),
                   const SizedBox(width: 32),
-                  _buildActionButton(Icons.favorite_border, 'حفظ'),
+                  _buildActionButton(Icons.favorite_border, 'حفظ', contentText: content.text),
                   const SizedBox(width: 32),
-                  _buildActionButton(Icons.share, 'مشاركة'),
+                  _buildActionButton(Icons.share, 'مشاركة', contentText: content.text),
                 ],
               ),
             ],
@@ -621,9 +623,38 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label) {
+  Widget _buildActionButton(IconData icon, String label, {String? contentText}) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        switch (label) {
+          case 'نسخ':
+            if (contentText != null) {
+              Clipboard.setData(ClipboardData(text: contentText));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('تم النسخ'),
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            }
+            break;
+          case 'حفظ':
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('تم الحفظ'),
+                behavior: SnackBarBehavior.floating,
+                duration: Duration(seconds: 2),
+              ),
+            );
+            break;
+          case 'مشاركة':
+            if (contentText != null) {
+              Share.share(contentText);
+            }
+            break;
+        }
+      },
       borderRadius: BorderRadius.circular(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -1382,15 +1413,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
 
   Widget _buildSanadAICard(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('قريبًا إن شاء الله'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: const Color(0xFF0F5A3A),
-          ),
-        );
-      },
+      onTap: () => _showSanadAIBottomSheet(context),
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
@@ -1457,23 +1480,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 3),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Text(
-                              'قريبًا',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
+
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -1498,10 +1505,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                         child: const Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.explore, color: Colors.white, size: 16),
+                            Icon(Icons.auto_awesome, color: Colors.white, size: 16),
                             SizedBox(width: 6),
                             Text(
-                              'استكشف قريبًا',
+                              'اسأل سند',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -1524,6 +1531,373 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showSanadAIBottomSheet(BuildContext context) {
+    final suggestions = [
+      {
+        'title': 'ما هي أحكام الصلاة؟',
+        'icon': Icons.mosque_rounded,
+        'color': const Color(0xFF2196F3),
+        'hadithIndices': [2, 14, 16],
+        'duaIndices': [8],
+        'explanation': 'الصلاة هي عمود الدين، وهي الركن الثاني من أركان الإسلام. فرضت على كل مسلم بالغ عاقل، وهي أول ما يحاسب عليه العبد يوم القيامة.',
+      },
+      {
+        'title': 'أخبرني عن فضل الصدقة',
+        'icon': Icons.volunteer_activism,
+        'color': const Color(0xFF4DB6AC),
+        'hadithIndices': [3, 18],
+        'wisdomIndices': [18],
+        'explanation': 'الصدقة تطفئ الخطيئة كما يطفئ الماء النار، وهي تزيد في المال ولا تنقصه. قال النبي ﷺ: "ما نقص مال من صدقة".',
+      },
+      {
+        'title': 'ما هو حكم الربا؟',
+        'icon': Icons.gavel,
+        'color': const Color(0xFFF44336),
+        'hadithIndices': [14],
+        'explanation': 'الربا من كبائر الذنوب في الإسلام. قال الله تعالى: "وَأَحَلَّ اللَّهُ الْبَيْعَ وَحَرَّمَ الرِّبَا". لعن النبي ﷺ آكل الربا وموكله وكاتبه وشاهديه.',
+      },
+      {
+        'title': 'حدثني عن الصبر',
+        'icon': Icons.hourglass_empty,
+        'color': const Color(0xFF4CAF50),
+        'hadithIndices': [8, 11],
+        'wisdomIndices': [13],
+        'explanation': 'الصبر نصف الإيمان، وهو من أعظم أبواب الخير. قال النبي ﷺ: "عجباً لأمر المؤمن إن أمره كله خير، وإن أصابته سراء شكر فكان خيراً له، وإن أصابته ضراء صبر فكان خيراً له".',
+      },
+      {
+        'title': 'ما هو فضل بر الوالدين؟',
+        'icon': Icons.favorite,
+        'color': const Color(0xFFE91E63),
+        'hadithIndices': [7, 9],
+        'wisdomIndices': [6],
+        'explanation': 'بر الوالدين من أحب الأعمال إلى الله بعد الصلاة على وقتها. قال النبي ﷺ: "الوالد أوسط أبواب الجنة، فاحفظ ذلك الباب أو ضيع".',
+      },
+      {
+        'title': 'أخبرني عن الاستغفار',
+        'icon': Icons.replay,
+        'color': const Color(0xFF795548),
+        'hadithIndices': [5, 10],
+        'duaIndices': [6],
+        'explanation': 'الاستغفار سبب للمغفرة والرزق والبركة. قال النبي ﷺ: "من لزم الاستغفار جعل الله له من كل هم فرجاً ومن كل ضيق مخرجاً ورزقه من حيث لا يحتسب".',
+      },
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (ctx) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.75,
+          minChildSize: 0.3,
+          maxChildSize: 0.95,
+          expand: false,
+          builder: (_, scrollCtrl) {
+            return Container(
+              padding: const EdgeInsets.all(24),
+              child: ListView(
+                controller: scrollCtrl,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF6B46C1).withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: const Icon(
+                          Icons.smart_toy_rounded,
+                          color: Color(0xFF6B46C1),
+                          size: 32,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        'سند الذكي',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: context.appColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'اختر موضوعاً لأساعدك في فهمه',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.appColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ...suggestions.map(
+                    (suggestion) => _buildAISuggestionItem(context, suggestion),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildAISuggestionItem(
+    BuildContext context,
+    Map<String, dynamic> suggestion,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: (suggestion['color'] as Color).withValues(alpha: 0.15),
+          ),
+        ),
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: (suggestion['color'] as Color).withValues(alpha: 0.15),
+          ),
+        ),
+        backgroundColor: context.appColors.surface,
+        collapsedBackgroundColor: context.appColors.surface,
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: (suggestion['color'] as Color).withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            suggestion['icon'] as IconData,
+            color: suggestion['color'] as Color,
+            size: 22,
+          ),
+        ),
+        title: Text(
+          suggestion['title'] as String,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: context.appColors.textPrimary,
+          ),
+        ),
+        children: [
+          if (suggestion['explanation'] != null)
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF6B46C1).withValues(alpha: 0.06),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFF6B46C1).withValues(alpha: 0.1),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.auto_awesome,
+                        color: Color(0xFF6B46C1),
+                        size: 16,
+                      ),
+                      SizedBox(width: 6),
+                      const Text(
+                        'الإجابة',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: Color(0xFF6B46C1),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    suggestion['explanation'] as String,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: context.appColors.textPrimary,
+                      height: 1.6,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if ((suggestion['hadithIndices'] as List).isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Text(
+              'أحاديث متعلقة',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+                color: context.appColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...(suggestion['hadithIndices'] as List).map((i) {
+              final idx = int.tryParse(i.toString()) ?? 0;
+              final h = hadithData[idx % hadithData.length];
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.blue.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.blue.withValues(alpha: 0.1),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      h.text,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: context.appColors.textPrimary,
+                        height: 1.4,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      h.source,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.appColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ],
+          if ((suggestion['wisdomIndices'] as List?)?.isNotEmpty == true) ...[
+            const SizedBox(height: 12),
+            Text(
+              'حكم ومواعظ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+                color: context.appColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...(suggestion['wisdomIndices'] as List).map((i) {
+              final idx = int.tryParse(i.toString()) ?? 0;
+              final w = wisdomData[idx % wisdomData.length];
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.deepOrange.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.deepOrange.withValues(alpha: 0.1),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      w.text,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: context.appColors.textPrimary,
+                        height: 1.4,
+                      ),
+                    ),
+                    if (w.source != null) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        w.source!,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: context.appColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            }),
+          ],
+          if ((suggestion['duaIndices'] as List?)?.isNotEmpty == true) ...[
+            const SizedBox(height: 12),
+            Text(
+              'أدعية متعلقة',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+                color: context.appColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...(suggestion['duaIndices'] as List).map((i) {
+              final idx = int.tryParse(i.toString()) ?? 0;
+              final d = duasData[idx % duasData.length];
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.purple.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.purple.withValues(alpha: 0.1),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      d.text,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: context.appColors.textPrimary,
+                        height: 1.4,
+                      ),
+                    ),
+                    if (d.source != null) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        d.source!,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: context.appColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              );
+            }),
+          ],
+        ],
       ),
     );
   }

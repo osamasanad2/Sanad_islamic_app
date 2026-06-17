@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/localization/app_localizations.dart';
 
@@ -91,26 +92,14 @@ class AboutScreen extends ConsumerWidget {
                     context,
                     icon: Icons.privacy_tip_outlined,
                     title: t.get('privacy_policy'),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('سياسة الخصوصية - قريباً'),
-                        ),
-                      );
-                    },
+                    onTap: () => context.push('/privacy-policy'),
                   ),
                   const Divider(height: 1, indent: 56),
                   _buildAboutTile(
                     context,
                     icon: Icons.description_outlined,
                     title: t.get('terms_of_service'),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('شروط الاستخدام - قريباً'),
-                        ),
-                      );
-                    },
+                    onTap: () => context.push('/terms'),
                   ),
                 ],
               ),

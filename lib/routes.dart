@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/auth/presentation/screens/signup_screen.dart';
 import 'features/main/presentation/main_scaffold.dart';
 import 'features/tasbeeh/presentation/screens/tasbeeh_screen.dart';
@@ -13,6 +12,8 @@ import 'features/qibla/presentation/screens/qibla_screen.dart';
 import 'features/dua/presentation/screens/dua_screen.dart';
 import 'features/seerah/presentation/screens/seerah_screen.dart';
 import 'features/profile/presentation/screens/about_screen.dart';
+import 'features/profile/presentation/screens/privacy_policy_screen.dart';
+import 'features/profile/presentation/screens/terms_screen.dart';
 import 'features/profile/presentation/screens/notifications_screen.dart';
 import 'features/explore/presentation/screens/library_screen.dart';
 import 'features/explore/presentation/screens/book_detail_screen.dart';
@@ -26,11 +27,12 @@ import 'features/explore/presentation/screens/fiqh_screen.dart';
 import 'features/explore/data/book_model.dart';
 import 'features/explore/data/islamic_event_model.dart';
 import 'features/profile/presentation/screens/font_settings_screen.dart';
+import 'features/quran/presentation/screens/quran_audio_screen.dart';
+import 'features/profile/presentation/screens/adhan_settings_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/',
   routes: [
-    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(path: '/signup', builder: (context, state) => const SignupScreen()),
     GoRoute(path: '/', builder: (context, state) => const MainScaffold()),
     GoRoute(path: '/tasbeeh', builder: (context, state) => const TasbeehScreen()),
@@ -66,7 +68,11 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(path: '/fonts', builder: (context, state) => const FontSettingsScreen()),
+    GoRoute(path: '/privacy-policy', builder: (context, state) => const PrivacyPolicyScreen()),
+    GoRoute(path: '/terms', builder: (context, state) => const TermsScreen()),
     GoRoute(path: '/notifications', builder: (context, state) => const NotificationsScreen()),
+    GoRoute(path: '/quran-audio', builder: (context, state) => const QuranAudioScreen()),
+    GoRoute(path: '/adhan-settings', builder: (context, state) => const AdhanSettingsScreen()),
     GoRoute(path: '/hisn', builder: (context, state) => const HisnScreen()),
     GoRoute(
       path: '/monthly-prayers',

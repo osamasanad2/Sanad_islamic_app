@@ -939,7 +939,7 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
             onPressed: () {
-              context.go('/login');
+              context.go('/');
             },
             child: const Text(
               'تسجيل الخروج',

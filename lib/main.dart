@@ -8,15 +8,26 @@ import 'core/theme/theme_provider.dart';
 import 'core/localization/locale_provider.dart';
 import 'core/localization/generated/app_localizations.dart';
 import 'core/providers/font_provider.dart';
+import 'core/services/firebase_service.dart';
+import 'core/services/notification_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
+
+  final firebaseService = FirebaseService();
+  await firebaseService.initialize();
+
+  final notificationService = NotificationService();
+  await notificationService.initialize();
+
   runApp(
     ProviderScope(
-      overrides: [sharedPrefsProvider.overrideWithValue(prefs)],
+      overrides: [
+        sharedPrefsProvider.overrideWithValue(prefs),
+      ],
       child: const MyApp(),
     ),
   );
