@@ -1,0 +1,231 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.katma1.Quran1"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:3:2-64
+11-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:3:19-61
+12    <uses-permission android:name="android.permission.WAKE_LOCK" />
+12-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:4:2-65
+12-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:4:19-62
+13    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+13-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:5:2-76
+13-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:5:19-73
+14    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+14-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:6:2-74
+14-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:6:19-71
+15    <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
+15-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:7:2-78
+15-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:7:19-75
+16    <uses-permission android:name="android.permission.ACCESS_NETWORK_CONDITIONS" />
+16-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:8:2-81
+16-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:8:19-78
+17
+18    <permission
+18-->[androidx.core:core:1.13.0] /home/sam/.gradle/caches/8.9/transforms/82aeb5259ed354b240d3904e6820d485/transformed/core-1.13.0/AndroidManifest.xml:22:5-24:47
+19        android:name="com.katma1.Quran1.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+19-->[androidx.core:core:1.13.0] /home/sam/.gradle/caches/8.9/transforms/82aeb5259ed354b240d3904e6820d485/transformed/core-1.13.0/AndroidManifest.xml:23:9-81
+20        android:protectionLevel="signature" />
+20-->[androidx.core:core:1.13.0] /home/sam/.gradle/caches/8.9/transforms/82aeb5259ed354b240d3904e6820d485/transformed/core-1.13.0/AndroidManifest.xml:24:9-44
+21
+22    <uses-permission android:name="com.katma1.Quran1.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+22-->[androidx.core:core:1.13.0] /home/sam/.gradle/caches/8.9/transforms/82aeb5259ed354b240d3904e6820d485/transformed/core-1.13.0/AndroidManifest.xml:26:5-97
+22-->[androidx.core:core:1.13.0] /home/sam/.gradle/caches/8.9/transforms/82aeb5259ed354b240d3904e6820d485/transformed/core-1.13.0/AndroidManifest.xml:26:22-94
+23
+24    <application
+24-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:9:2-80:16
+25        android:allowBackup="true"
+25-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:10:3-29
+26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+26-->[androidx.core:core:1.13.0] /home/sam/.gradle/caches/8.9/transforms/82aeb5259ed354b240d3904e6820d485/transformed/core-1.13.0/AndroidManifest.xml:28:18-86
+27        android:debuggable="true"
+28        android:extractNativeLibs="true"
+29        android:icon="@mipmap/ic_launcher"
+29-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:11:3-37
+30        android:label="@string/app_name"
+30-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:12:3-35
+31        android:requestLegacyExternalStorage="true"
+31-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:13:3-46
+32        android:theme="@style/AppTheme"
+32-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:15:3-34
+33        android:usesCleartextTraffic="true" >
+33-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:14:3-38
+34        <activity
+34-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:16:3-27:14
+35            android:name="com.katma1.Quran1.MainActivity"
+35-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:17:4-32
+36            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+36-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:18:4-97
+37            android:exported="true"
+37-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:22:4-27
+38            android:hardwareAccelerated="true"
+38-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:19:4-38
+39            android:screenOrientation="portrait"
+39-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:21:4-40
+40            android:supportsPictureInPicture="true" >
+40-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:20:4-43
+41            <intent-filter>
+41-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:23:4-26:20
+42                <action android:name="android.intent.action.MAIN" />
+42-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:24:5-57
+42-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:24:13-54
+43
+44                <category android:name="android.intent.category.LAUNCHER" />
+44-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:25:5-65
+44-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:25:15-62
+45            </intent-filter>
+46        </activity>
+47        <activity
+47-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:28:3-32:46
+48            android:name="com.katma1.Quran1.ReadingActivity"
+48-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:29:4-35
+49            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+49-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:30:4-97
+50            android:hardwareAccelerated="true"
+50-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:31:4-38
+51            android:supportsPictureInPicture="true" />
+51-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:32:4-43
+52        <activity
+52-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:33:3-37:46
+53            android:name="com.katma1.Quran1.StatsActivity"
+53-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:34:4-33
+54            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+54-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:35:4-97
+55            android:hardwareAccelerated="true"
+55-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:36:4-38
+56            android:supportsPictureInPicture="true" />
+56-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:37:4-43
+57        <activity
+57-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:38:3-42:46
+58            android:name="com.katma1.Quran1.BookmarksActivity"
+58-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:39:4-37
+59            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+59-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:40:4-97
+60            android:hardwareAccelerated="true"
+60-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:41:4-38
+61            android:supportsPictureInPicture="true" />
+61-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:42:4-43
+62        <activity
+62-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:43:3-47:46
+63            android:name="com.katma1.Quran1.SearchActivity"
+63-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:44:4-34
+64            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
+64-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:45:4-97
+65            android:hardwareAccelerated="true"
+65-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:46:4-38
+66            android:supportsPictureInPicture="true" />
+66-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:47:4-43
+67        <activity
+67-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:48:3-50:43
+68            android:name="com.katma1.Quran1.DebugActivity"
+68-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:49:4-33
+69            android:screenOrientation="portrait" />
+69-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:50:4-40
+70
+71        <provider
+71-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:51:3-61:14
+72            android:name="androidx.startup.InitializationProvider"
+72-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:52:4-58
+73            android:authorities="com.katma1.Quran1.androidx-startup"
+73-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:53:4-60
+74            android:exported="false" >
+74-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:54:4-28
+75            <meta-data
+75-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:55:4-57:40
+76                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+76-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:56:5-66
+77                android:value="androidx.startup" />
+77-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:57:5-37
+78            <meta-data
+78-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:58:4-60:40
+79                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+79-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:59:5-63
+80                android:value="androidx.startup" />
+80-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:60:5-37
+81            <meta-data
+81-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+82                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+82-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+83                android:value="androidx.startup" />
+83-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+84        </provider>
+85
+86        <uses-library
+86-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:62:3-64:31
+87            android:name="org.apache.http.legacy"
+87-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:63:4-41
+88            android:required="false" />
+88-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:64:4-28
+89
+90        <receiver
+90-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:66:1-75:12
+91            android:name="com.katma1.Quran1.KhatmaWidgetProvider"
+91-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:67:5-41
+92            android:exported="true" >
+92-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:68:5-28
+93            <intent-filter>
+93-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:69:5-71:21
+94                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+94-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:70:9-76
+94-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:70:17-73
+95            </intent-filter>
+96
+97            <meta-data
+97-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:72:5-74:54
+98                android:name="android.appwidget.provider"
+98-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:73:9-50
+99                android:resource="@xml/khatma_widget_info" />
+99-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:74:9-51
+100        </receiver>
+101        <receiver
+101-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:76:1-78:32
+102            android:name="com.katma1.Quran1.MainActivity$AlarmReceiver"
+102-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:77:5-47
+103            android:exported="false" />
+103-->/home/sam/Documents/programming_projects/Katma1_Quran1/app/src/main/AndroidManifest.xml:78:5-29
+104        <receiver
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+105            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+106            android:directBootAware="false"
+106-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+107            android:enabled="true"
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+108            android:exported="true"
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+109            android:permission="android.permission.DUMP" >
+109-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+111                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+112            </intent-filter>
+113            <intent-filter>
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+114                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+115            </intent-filter>
+116            <intent-filter>
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+117                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+118            </intent-filter>
+119            <intent-filter>
+119-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+120                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/sam/.gradle/caches/8.9/transforms/e4a1fda7a6829208013488234d8172d7/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+121            </intent-filter>
+122        </receiver>
+123    </application>
+124
+125</manifest>
