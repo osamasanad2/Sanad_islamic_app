@@ -3,10 +3,13 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+<<<<<<< Updated upstream
   audioplayers_windows
   cloud_firestore
   firebase_auth
   firebase_core
+=======
+>>>>>>> Stashed changes
   geolocator_windows
   share_plus
   url_launcher_windows

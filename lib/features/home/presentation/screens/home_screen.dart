@@ -1136,9 +1136,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             )),
             const SizedBox(width: 12),
             Expanded(child: _buildQuickAccessCard(
-              title: 'المزيد',
-              icon: Icons.grid_view_rounded,
-              onTap: () {},
+              title: 'المجتمع',
+              icon: Icons.diversity_3_rounded,
+              onTap: () => context.push('/social'),
             )),
             const SizedBox(width: 12),
             const Spacer(),

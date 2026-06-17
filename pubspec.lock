@@ -185,6 +185,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+<<<<<<< Updated upstream
   checked_yaml:
     dependency: transitive
     description:
@@ -193,6 +194,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
+=======
+>>>>>>> Stashed changes
   cli_config:
     dependency: transitive
     description:
@@ -781,6 +784,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+<<<<<<< Updated upstream
   json_annotation:
     dependency: transitive
     description:
@@ -813,6 +817,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
+=======
+>>>>>>> Stashed changes
   leak_tracker:
     dependency: transitive
     description:
@@ -1346,6 +1352,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.16"
+<<<<<<< Updated upstream
   timezone:
     dependency: transitive
     description:
@@ -1354,6 +1361,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.11.0"
+=======
+>>>>>>> Stashed changes
   typed_data:
     dependency: transitive
     description:

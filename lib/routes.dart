@@ -8,6 +8,7 @@ import 'features/prayer_times/presentation/screens/monthly_prayer_times_screen.d
 import 'features/hisn/presentation/screens/hisn_screen.dart';
 import 'features/hisn/presentation/screens/hisn_details_screen.dart';
 import 'features/hisn/data/models/hisn_model.dart';
+import 'features/premium/presentation/screens/paywall_screen.dart';
 import 'features/qibla/presentation/screens/qibla_screen.dart';
 import 'features/dua/presentation/screens/dua_screen.dart';
 import 'features/seerah/presentation/screens/seerah_screen.dart';
@@ -30,6 +31,7 @@ import 'features/profile/presentation/screens/font_settings_screen.dart';
 import 'features/quran/presentation/screens/quran_screen.dart';
 import 'features/quran/presentation/screens/quran_audio_screen.dart';
 import 'features/profile/presentation/screens/adhan_settings_screen.dart';
+import 'features/social/presentation/screens/social_hub_screen.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
@@ -75,6 +77,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/quran', builder: (context, state) => const QuranScreen()),
     GoRoute(path: '/quran-audio', builder: (context, state) => const QuranAudioScreen()),
     GoRoute(path: '/adhan-settings', builder: (context, state) => const AdhanSettingsScreen()),
+    GoRoute(path: '/social', builder: (context, state) => const SocialHubScreen()),
+    GoRoute(path: '/premium', builder: (context, state) => const PaywallScreen()),
     GoRoute(path: '/hisn', builder: (context, state) => const HisnScreen()),
     GoRoute(
       path: '/monthly-prayers',
