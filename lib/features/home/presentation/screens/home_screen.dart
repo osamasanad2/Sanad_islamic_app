@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/common_widgets/islamic_icons.dart';
-import '../../../../core/services/quran_native_service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:adhan/adhan.dart';
@@ -85,7 +84,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   void _openQuran(BuildContext context) {
-    QuranNativeService.openQuran();
+    context.push('/quran');
   }
 
   void _copyHadith(String text) {

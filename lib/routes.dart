@@ -27,6 +27,7 @@ import 'features/explore/presentation/screens/fiqh_screen.dart';
 import 'features/explore/data/book_model.dart';
 import 'features/explore/data/islamic_event_model.dart';
 import 'features/profile/presentation/screens/font_settings_screen.dart';
+import 'features/quran/presentation/screens/quran_screen.dart';
 import 'features/quran/presentation/screens/quran_audio_screen.dart';
 import 'features/profile/presentation/screens/adhan_settings_screen.dart';
 
@@ -71,6 +72,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/privacy-policy', builder: (context, state) => const PrivacyPolicyScreen()),
     GoRoute(path: '/terms', builder: (context, state) => const TermsScreen()),
     GoRoute(path: '/notifications', builder: (context, state) => const NotificationsScreen()),
+    GoRoute(path: '/quran', builder: (context, state) => const QuranScreen()),
     GoRoute(path: '/quran-audio', builder: (context, state) => const QuranAudioScreen()),
     GoRoute(path: '/adhan-settings', builder: (context, state) => const AdhanSettingsScreen()),
     GoRoute(path: '/hisn', builder: (context, state) => const HisnScreen()),

@@ -27,32 +27,33 @@ void main() {
       expect(database, isNotNull);
     });
 
-    test('insert and retrieve user', () async {
+    test('insert, retrieve, login, and delete user lifecycle', () async {
+      final email = 'lifecycle_test@example.com';
       final user = UserModel(
-        name: 'test_user',
-        email: 'test@example.com',
+        name: 'Lifecycle User',
+        email: email,
         phone: '1234567890',
         password: 'password123',
       );
 
       await db.insertUser(user);
-      final retrieved = await db.getUserByEmail('test@example.com');
+
+      final retrieved = await db.getUserByEmail(email);
       expect(retrieved, isNotNull);
-      expect(retrieved!.name, 'test_user');
-      expect(retrieved.email, 'test@example.com');
+      expect(retrieved!.name, 'Lifecycle User');
+      expect(retrieved.email, email);
+
+      final loginSuccess = await db.login(email, 'password123');
+      expect(loginSuccess, isNotNull);
+      expect(loginSuccess!.email, email);
+
+      final loginFail = await db.login(email, 'wrongpassword');
+      expect(loginFail, isNull);
 
       await db.deleteUser(retrieved.id!);
-    });
 
-    test('login with correct credentials', () async {
-      final user = await db.login('test@example.com', 'password123');
-      expect(user, isNotNull);
-      expect(user!.email, 'test@example.com');
-    });
-
-    test('login with wrong password returns null', () async {
-      final user = await db.login('test@example.com', 'wrongpassword');
-      expect(user, isNull);
+      final deleted = await db.getUserByEmail(email);
+      expect(deleted, isNull);
     });
 
     test('getUserByEmail returns null for non-existent email', () async {

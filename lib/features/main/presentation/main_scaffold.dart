@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../core/services/quran_native_service.dart';
 import '../../home/presentation/screens/home_screen.dart';
+import '../../quran/presentation/screens/quran_screen.dart';
 import '../../explore/presentation/screens/explore_screen.dart';
 import '../../groups/presentation/screens/groups_screen.dart';
 import '../../activities/presentation/screens/activities_screen.dart';
@@ -21,7 +21,7 @@ class MainScaffold extends ConsumerWidget {
         index: currentIndex,
         children: const [
           HomeScreen(),          // 0 = الرئيسية
-          SizedBox.shrink(),     // 1 = القرآن (external app)
+          QuranScreen(),         // 1 = القرآن
           ExploreScreen(),       // 2 = الاستكشاف
           GroupsScreen(),        // 3 = المجتمع
           ActivitiesScreen(),    // 4 = الأنشطة
@@ -52,7 +52,7 @@ class MainScaffold extends ConsumerWidget {
               label: 'القرآن',
               index: 1,
               currentIndex: currentIndex,
-              onTap: () => QuranNativeService.openQuran(),
+              onTap: () => ref.read(navigationProvider.notifier).setIndex(1),
             ),
             _NavItem(
               icon: Icons.explore_outlined,
