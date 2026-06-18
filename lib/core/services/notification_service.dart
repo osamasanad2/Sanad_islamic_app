@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:io' show Platform;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final FlutterLocalNotificationsPlugin _localNotifications =
@@ -22,10 +23,14 @@ class NotificationService {
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
+    final linuxSettings = LinuxInitializationSettings(
+      defaultActionName: 'Open',
+    );
 
     final initSettings = InitializationSettings(
       android: androidSettings,
       iOS: iosSettings,
+      linux: linuxSettings,
     );
 
     await _localNotifications.initialize(
@@ -37,15 +42,20 @@ class NotificationService {
       },
     );
 
-    _setupFirebaseMessaging();
+    if (!Platform.isLinux) {
+      _setupFirebaseMessaging();
+    }
 
     _initialized = true;
   }
 
   void _setupFirebaseMessaging() {
-    FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
-    FirebaseMessaging.instance.getInitialMessage().then(_handleInitialMessage);
+    try {
+      final messaging = FirebaseMessaging.instance;
+      FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
+      messaging.getInitialMessage().then(_handleInitialMessage);
+    } catch (_) {}
   }
 
   Future<void> requestPermission() async {
@@ -112,9 +122,14 @@ class NotificationService {
       presentSound: true,
     );
 
+    final linuxDetails = LinuxNotificationDetails(
+      urgency: LinuxNotificationUrgency.normal,
+    );
+
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
+      linux: linuxDetails,
     );
 
     await _localNotifications.show(

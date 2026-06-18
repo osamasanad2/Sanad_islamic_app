@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,14 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
   Color _bgColor = const Color(0xFFF5F0E8);
   List<Map<String, dynamic>> _bookmarks = [];
 
+  bool _testMode = false;
+  Set<String> _revealedAyahs = {};
+
+  bool _autoScroll = false;
+  double _autoScrollSpeed = 1.0;
+  Timer? _autoScrollTimer;
+  final Map<int, ScrollController> _scrollControllers = {};
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +45,42 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    _autoScrollTimer?.cancel();
+    for (final c in _scrollControllers.values) {
+      c.dispose();
+    }
     super.dispose();
+  }
+
+  void _startAutoScroll(int pageIndex) {
+    _autoScrollTimer?.cancel();
+    if (!_autoScroll) return;
+    _autoScrollTimer = Timer.periodic(
+      Duration(milliseconds: (200 / _autoScrollSpeed).round().clamp(50, 500)),
+      (_) {
+        if (!mounted || !_autoScroll) return;
+        final controller = _scrollControllers[_currentPage];
+        if (controller == null || !controller.hasClients) return;
+        final max = controller.position.maxScrollExtent;
+        final current = controller.offset;
+        if (current >= max - 10) {
+          final idx = _sortedPages.indexOf(_currentPage);
+          if (idx < _sortedPages.length - 1) {
+            _pageController.animateToPage(
+              idx + 1,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+            );
+          }
+        } else {
+          controller.animateTo(
+            current + 2,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.linear,
+          );
+        }
+      },
+    );
   }
 
   Future<void> _loadInitialData() async {
@@ -247,6 +291,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
               itemCount: _sortedPages.length,
               onPageChanged: (index) {
                 setState(() => _currentPage = _sortedPages[index]);
+                if (_autoScroll) _startAutoScroll(index);
               },
               itemBuilder: (context, index) {
                 final pageNum = _sortedPages[index];
@@ -290,6 +335,37 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                       ),
                       const Spacer(),
                       IconButton(
+                        icon: Icon(
+                          _testMode ? Icons.visibility_off : Icons.visibility,
+                          color: _testMode ? AppColors.gold : null,
+                        ),
+                        tooltip: 'وضع الحفظ',
+                        onPressed: () {
+                          setState(() {
+                            _testMode = !_testMode;
+                            if (!_testMode) _revealedAyahs.clear();
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          _autoScroll ? Icons.swap_vert : Icons.swap_vert_outlined,
+                          color: _autoScroll ? AppColors.gold : null,
+                        ),
+                        tooltip: 'تمرير تلقائي',
+                        onPressed: () {
+                          setState(() {
+                            _autoScroll = !_autoScroll;
+                            if (_autoScroll) {
+                              final idx = _sortedPages.indexOf(_currentPage);
+                              _startAutoScroll(idx);
+                            } else {
+                              _autoScrollTimer?.cancel();
+                            }
+                          });
+                        },
+                      ),
+                      IconButton(
                         icon: const Icon(Icons.text_fields),
                         onPressed: _showFontSizeDialog,
                       ),
@@ -321,6 +397,33 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      if (_autoScroll)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            children: [
+                              const Text('سرعة التمرير', style: TextStyle(fontSize: 12)),
+                              Expanded(
+                                child: Slider(
+                                  value: _autoScrollSpeed,
+                                  min: 0.5,
+                                  max: 5.0,
+                                  divisions: 9,
+                                  label: '${_autoScrollSpeed.toStringAsFixed(1)}x',
+                                  onChanged: (v) {
+                                    setState(() => _autoScrollSpeed = v);
+                                    final idx = _sortedPages.indexOf(_currentPage);
+                                    _startAutoScroll(idx);
+                                  },
+                                ),
+                              ),
+                              Text(
+                                '${_autoScrollSpeed.toStringAsFixed(1)}x',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
                       Text(
                         'صفحة $_currentPage • الجزء ${_getJuzForPage(_currentPage)}',
                         style: TextStyle(
@@ -391,8 +494,17 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
   }
 
   Widget _buildPageContent(PageInfo pageInfo) {
+    _scrollControllers.putIfAbsent(
+      pageInfo.pageNumber,
+      () => ScrollController(),
+    );
+    final scrollCtrl = _scrollControllers[pageInfo.pageNumber]!;
+
     return GestureDetector(
-      onTap: () => setState(() => _showControls = !_showControls),
+      onTap: () {
+        if (_testMode) return;
+        setState(() => _showControls = !_showControls);
+      },
       child: Padding(
         padding: EdgeInsets.fromLTRB(
           20,
@@ -401,6 +513,7 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
           _showControls ? 100 : 20,
         ),
         child: SingleChildScrollView(
+          controller: scrollCtrl,
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: Column(
@@ -448,6 +561,8 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
         );
 
     final isStartOfSurah = verse.number == 1;
+    final ayahKey = '$surahForVerse:${verse.number}';
+    final isRevealed = !_testMode || _revealedAyahs.contains(ayahKey);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -456,7 +571,18 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
           if (isStartOfSurah) _buildSurahHeader(surahForVerse),
           const SizedBox(height: 8),
           GestureDetector(
-            onLongPress: () => _showTafsir(surahForVerse, verse.number),
+            onLongPress: () {
+              if (_testMode) {
+                setState(() => _revealedAyahs.add(ayahKey));
+              } else {
+                _showTafsir(surahForVerse, verse.number);
+              }
+            },
+            onTap: () {
+              if (_testMode && !isRevealed) {
+                setState(() => _revealedAyahs.add(ayahKey));
+              }
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
               decoration: BoxDecoration(
@@ -473,7 +599,9 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: _testMode && !isRevealed
+                          ? AppColors.gold.withValues(alpha: 0.3)
+                          : AppColors.primary.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -482,22 +610,41 @@ class _ReadingScreenState extends ConsumerState<ReadingScreen> {
                       style: TextStyle(
                         fontSize: 11,
                         fontFamily: 'surah_number',
-                        color: AppColors.primary,
+                        color: _testMode && !isRevealed
+                            ? AppColors.gold
+                            : AppColors.primary,
                       ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: Text(
-                      verse.arabic,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        fontSize: _fontSize,
-                        fontFamily: 'quran',
-                        color: context.appColors.textPrimary,
-                        height: 1.8,
-                      ),
-                    ),
+                    child: isRevealed
+                        ? Text(
+                            verse.arabic,
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              fontSize: _fontSize,
+                              fontFamily: 'quran',
+                              color: context.appColors.textPrimary,
+                              height: 1.8,
+                            ),
+                          )
+                        : Container(
+                            height: _fontSize * 1.8,
+                            decoration: BoxDecoration(
+                              color: AppColors.gold.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'اضغط لإظهار الآية',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.gold,
+                                ),
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),

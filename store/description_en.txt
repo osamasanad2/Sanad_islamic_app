@@ -1,0 +1,26 @@
+Sanad is your complete Islamic companion app designed to enrich your spiritual journey. Featuring a beautiful, intuitive interface in both English and Arabic, Sanad brings together everything you need for your daily Islamic practice.
+
+★ Quran Reader
+Read the Holy Quran with a clear, elegant Mushaf-style display. Browse by surah or juz, bookmark verses, track your reading progress, and search the Quran with ease.
+
+★ Accurate Prayer Times
+Get precise prayer times based on your location using multiple calculation methods. Sanad automatically adjusts for your city and displays the remaining time until the next prayer with beautiful notifications.
+
+★ Qibla Compass
+Find the direction of the Kaaba from anywhere in the world with our accurate digital compass. The visual interface makes it simple to orient yourself for prayer.
+
+★ AI-Powered Islamic Assistant
+Ask questions about Islamic topics, get explanations of Quranic verses, learn about hadith, and explore the rich tradition of Islamic scholarship through our integrated AI assistant.
+
+★ Adhkar & Daily Supplications
+Access a comprehensive collection of morning, evening, and occasion-based remembrances with audio recitations and translations.
+
+★ Audio Recitations
+Listen to beautiful Quran recitations from renowned qaris. Download for offline listening and create your own playlists.
+
+★ Islamic Calendar
+View the Hijri calendar alongside the Gregorian date. Track important Islamic events and special days.
+
+Sanad is completely free with no ads. We respect your privacy - your location data is used only for prayer time calculation and never shared with third parties.
+
+Download Sanad today and enrich your daily spiritual practice.

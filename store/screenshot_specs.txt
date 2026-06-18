@@ -1,0 +1,59 @@
+APP SCREENSHOT SPECIFICATIONS
+
+Each screenshot should have a clean device frame (no bezels), with the app content centered.
+Use a subtle green gradient background (#0E6B3A to #07592F) on the outside of the device frame.
+Text overlay: Minimal — feature title in English (top) and Arabic (bottom) in white, using a clean sans-serif font.
+
+DEVICE FRAMES (3 required):
+
+1. iPhone 6.5" Display (iPhone 14 Pro Max / 15 Plus)
+   - Resolution: 1290 x 2796 px (portrait)
+   - File naming: screenshot_en_1.png through screenshot_en_5.png
+   - Arabic variants: screenshot_ar_1.png through screenshot_ar_5.png
+
+2. iPad 12.9" Display (iPad Pro 12.9")
+   - Resolution: 2048 x 2732 px (portrait)
+   - File naming: screenshot_ipad_en_1.png, screenshot_ipad_en_2.png
+   - Arabic: screenshot_ipad_ar_1.png, screenshot_ipad_ar_2.png
+
+3. Android 6.2" Display (Google Pixel 7 / similar)
+   - Resolution: 1080 x 2400 px (portrait)
+   - File naming: screenshot_android_en_1.png through screenshot_android_en_4.png
+   - Arabic: screenshot_android_ar_1.png through screenshot_android_ar_4.png
+
+SCREEN CONTENT FOR EACH FRAME:
+
+Screenshot 1 — Home Screen
+- Show the main dashboard with date (Hijri + Gregorian), next prayer countdown, concise adhkār row, and quick-action cards (Quran, Prayer Times, Qibla, AI Assistant)
+- Top section showing the greeting "Assalamu Alaykum" with user name
+
+Screenshot 2 — Quran Reader
+- Show the Quran mushaf page view with elegant Arabic text, verse markers, and surah name at top
+- Toolbar with search, bookmark, and settings icons
+- Page number and juz indicator at bottom
+
+Screenshot 3 — Prayer Times
+- Full prayer times list showing Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha
+- Current/next prayer highlighted with the app's gold accent (#D8B25A)
+- Time remaining indicator prominently displayed
+- Date selector at top (today / tomorrow / custom)
+
+Screenshot 4 — Qibla Compass
+- The compass visualization showing the Kaaba direction
+- A stylized compass rose with the Kaaba icon at the correct bearing
+- Degree reading and direction label (e.g., "45° NE")
+- City name displayed to confirm location detection
+
+Screenshot 5 — Explore / AI Section
+- AI chat interface showing a sample question and answer
+- Example: user asks "Explain Surah Al-Fatiha" and AI gives a concise explanation
+- Clean chat UI with user bubbles (green) and AI bubbles (white/grey)
+- Quick-suggestion chips at bottom
+
+DESIGN GUIDELINES:
+- Use the app's actual UI content in the screenshots
+- Ensure text is legible at actual screenshot resolution
+- Status bar should show appropriate time and battery (not the actual device state)
+- No sensitive personal information visible
+- Consistent green accent throughout all screenshots
+- Arabic screenshots should use proper right-to-left layout

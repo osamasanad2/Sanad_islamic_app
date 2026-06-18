@@ -4,7 +4,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../home/presentation/screens/home_screen.dart';
 import '../../quran/presentation/screens/quran_screen.dart';
 import '../../explore/presentation/screens/explore_screen.dart';
-import '../../groups/presentation/screens/groups_screen.dart';
+import '../../social/presentation/screens/social_hub_screen.dart';
 import '../../activities/presentation/screens/activities_screen.dart';
 import '../../profile/presentation/screens/profile_screen.dart';
 import '../logic/navigation_provider.dart';
@@ -23,7 +23,7 @@ class MainScaffold extends ConsumerWidget {
           HomeScreen(),          // 0 = الرئيسية
           QuranScreen(),         // 1 = القرآن
           ExploreScreen(),       // 2 = الاستكشاف
-          GroupsScreen(),        // 3 = المجتمع
+          SocialHubScreen(),     // 3 = المجتمع
           ActivitiesScreen(),    // 4 = الأنشطة
           ProfileScreen(),       // 5 = الملف الشخصي
         ],

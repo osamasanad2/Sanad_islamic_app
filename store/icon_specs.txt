@@ -1,0 +1,31 @@
+APP ICON DESIGN SPECIFICATIONS
+
+Theme: Islamic spiritual elegance with modern minimalism
+
+Design Concept:
+- An abstract compass rose / Qibla indicator integrated with an open book (Quran) silhouette
+- Alternatively: A crescent moon with a subtle compass needle
+
+Color Palette:
+- Primary gradient: #0E6B3A (deep green) to #4CAF50 (light green) — matching the app's premium green palette
+- Accent: #D8B25A (warm gold) for subtle highlights
+- Background: Clean white or transparent for adaptive icon support
+
+Style:
+- Flat design with subtle gradient
+- Clean vector lines, no heavy details
+- Rounded square shape (standard mobile icon mask)
+- Suitable for both light and dark mode home screens
+
+Technical Requirements:
+- 1024x1024 px master image
+- Android: Adaptive icon format (foreground + background layers)
+- iOS: Single 1024x1024 px asset for App Store, all smaller sizes auto-generated
+- Ensure legibility at all sizes (down to 29x29 px on iOS)
+- No text in the icon design
+- Use the app's brand green as primary color for consistency
+
+Files to generate:
+- store/icon_master.png (1024x1024, transparent PNG)
+- store/icon_foreground.png (adaptive icon foreground, 1024x1024)
+- store/icon_background.png (adaptive icon background, solid #FFFFFF or #07592F)

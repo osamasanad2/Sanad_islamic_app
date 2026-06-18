@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.sanad_app"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.sanad.app"
+    compileSdk = 34
     ndkVersion ="28.2.13676358"
 
     compileOptions {
@@ -21,13 +21,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.sanad_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        applicationId = "com.sanad.app"
+        minSdk = 23
+        targetSdk = 34
+        versionCode = 2
+        versionName = "1.1.0"
     }
 
     buildTypes {

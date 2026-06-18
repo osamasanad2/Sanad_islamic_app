@@ -4,4 +4,5 @@
 	<color name="colorAccent">#FAF4F2</color>
 	<color name="colorControlHighlight">#F5F5DC</color>
 	<color name="colorControlNormal">#FAF4F2</color>
+	<color name="notification_color">#0E6B3A</color>
 </resources>

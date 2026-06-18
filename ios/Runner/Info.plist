@@ -24,6 +24,17 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>تطبيق سند يحتاج إلى موقعك لحساب أوقات الصلاة بدقة بناءً على مدينتك.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>تطبيق سند يحتاج إلى موقعك في الخلفية لتحديث أوقات الصلاة وإتجاه القبلة تلقائياً.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>تطبيق سند يحتاج إلى موقعك في الخلفية لتحديث أوقات الصلاة وإتجاه القبلة تلقائياً.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>fetch</string>
+		<string>remote-notification</string>
+		<string>location</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
