@@ -240,7 +240,7 @@ class SocialNotifier extends Notifier<SocialState> {
       'الخاشع', 'القائم', 'الصائم', 'الدّاعي', 'الساعي',
     ];
 
-    return List.generate(20, (i) {
+    final entries = List.generate(20, (i) {
       final points = rng.nextInt(5000) + 500;
       return LeaderboardEntry(
         id: 'user_$i',
@@ -253,16 +253,9 @@ class SocialNotifier extends Notifier<SocialState> {
         streakDays: rng.nextInt(30) + 1,
         isCurrentUser: i == 3,
       );
-    })
-      ..sort((a, b) => b.points.compareTo(a.points))
-      ..asMap().forEach((i, e) {
-        state = state.copyWith(
-          leaderboard: [
-            for (final entry in state.leaderboard)
-              if (entry.id == e.id) entry.copyWith(rank: i + 1) else entry,
-          ],
-        );
-      });
+    });
+    entries.sort((a, b) => b.points.compareTo(a.points));
+    return [for (var i = 0; i < entries.length; i++) entries[i].copyWith(rank: i + 1)];
   }
 
   List<DailyChallenge> _generateDailyChallenges() {

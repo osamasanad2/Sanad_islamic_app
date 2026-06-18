@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:adhan/adhan.dart';
 import '../../../prayer_times/data/prayer_provider.dart';
+import '../../../quran/presentation/providers/khatmah_providers.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -593,6 +594,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   Widget _buildReadingCard() {
+    final progressAsync = ref.watch(khatmahProgressProvider);
+
     return _ScaleTap(
       onTap: () => _openQuran(context),
       child: Container(
@@ -629,12 +632,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     ),
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    'سورة الكهف\nالآية 42',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: context.appColors.textSecondary,
-                      height: 1.4,
+                  progressAsync.when(
+                    data: (progress) {
+                      if (progress.completedAyahs == 0) {
+                        return Text(
+                          'لم تبدأ القراءة بعد\nابدأ رحلتك مع القرآن',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.appColors.textSecondary,
+                            height: 1.4,
+                          ),
+                        );
+                      }
+                      return Text(
+                        'سورة ${progress.currentSurah}\nالآية ${progress.currentAyah}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appColors.textSecondary,
+                          height: 1.4,
+                        ),
+                      );
+                    },
+                    loading: () => Text(
+                      'جارٍ التحميل...',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.textSecondary,
+                      ),
+                    ),
+                    error: (_, __) => Text(
+                      'سورة الكهف\nالآية 1',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.appColors.textSecondary,
+                        height: 1.4,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -761,8 +793,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   // ─── Section 4: Daily Goal Card ───
   Widget _buildDailyGoalCard() {
+    final entriesAsync = ref.watch(khatmahEntriesProvider);
+    final today = DateTime.now();
+
     return _ScaleTap(
-      onTap: () => context.push('/azkar'),
+      onTap: () => _openQuran(context),
       child: Container(
         height: 90,
         decoration: BoxDecoration(
@@ -795,24 +830,71 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         ),
                       ),
                       const SizedBox(width: 6),
-                      const Text(
-                        '3 / 10 صفحات',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
+                      entriesAsync.when(
+                        data: (entries) {
+                          final todayEntries = entries.where((e) =>
+                            e.date.year == today.year &&
+                            e.date.month == today.month &&
+                            e.date.day == today.day &&
+                            e.completed,
+                          );
+                          final todayCount = todayEntries.fold<int>(0, (sum, e) => sum + e.ayahCount);
+                          return Text(
+                            '$todayCount صفحة',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          );
+                        },
+                        loading: () => const SizedBox.shrink(),
+                        error: (_, __) => const Text(
+                          '0 صفحة',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(999),
-                    child: LinearProgressIndicator(
-                      value: 0.3,
-                      minHeight: 8,
-                      backgroundColor: context.appColors.background,
-                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                  entriesAsync.when(
+                    data: (entries) {
+                      final todayEntries = entries.where((e) =>
+                        e.date.year == today.year &&
+                        e.date.month == today.month &&
+                        e.date.day == today.day &&
+                        e.completed,
+                      );
+                      final todayCount = todayEntries.fold<int>(0, (sum, e) => sum + e.ayahCount);
+                      const dailyGoal = 10;
+                      final progress = (todayCount / dailyGoal).clamp(0.0, 1.0);
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(999),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 8,
+                          backgroundColor: context.appColors.background,
+                          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                        ),
+                      );
+                    },
+                    loading: () => ClipRRect(
+                      borderRadius: BorderRadius.circular(999),
+                      child: const LinearProgressIndicator(
+                        value: 0.0,
+                        minHeight: 8,
+                      ),
+                    ),
+                    error: (_, __) => ClipRRect(
+                      borderRadius: BorderRadius.circular(999),
+                      child: const LinearProgressIndicator(
+                        value: 0.0,
+                        minHeight: 8,
+                      ),
                     ),
                   ),
                 ],
